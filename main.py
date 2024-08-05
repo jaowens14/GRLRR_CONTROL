@@ -1,8 +1,4 @@
-from grlrr import GRLRR
+import communications
 
-grlrr = GRLRR()
-
-
-
-
-
+if __name__ == "__main__":
+    communications.main()
