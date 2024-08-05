@@ -1,0 +1,8 @@
+
+1. Run on startup
+    Cron tab is used to start the main program
+    Use crontab -e to edit
+    add "@reboot /path/to/script
+
+    for this project:
+    @reboot ./Documents/Projects/grlrr/run.sh

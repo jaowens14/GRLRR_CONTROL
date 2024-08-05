@@ -9,7 +9,7 @@ import json
 
 
 
-async def main():
+async def start_tasks():
     await asyncio.gather(websocket_server(), serial_server())
 
 
@@ -110,6 +110,6 @@ grlrr_log.info("=============================================================")
 command_queue = [{"device":"?", "motorSpeed":0}] 
 result_queue = []
 
-asyncio.run(main())
-
-# {"wheelDiameter":"0.05","motorDirection":2,"motorSpeed":"0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+def main():
+    # start the tasks
+    asyncio.run(start_tasks())
