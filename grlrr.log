@@ -1,0 +1,14 @@
+2024-08-05 14:59:55 INFO     =============================================================
+2024-08-05 14:59:55 INFO     GRLRR STARTED
+2024-08-05 14:59:55 INFO     =============================================================
+2024-08-05 14:59:55 DEBUG    Using selector: EpollSelector
+2024-08-05 14:59:55 INFO     serial connected to /dev/ttyACM0
+2024-08-05 14:59:55 INFO     h7 connected
+2024-08-05 14:59:55 INFO     wrote to h7: 
+2024-08-05 14:59:55 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-05 14:59:55 INFO     recv from h7: 
+2024-08-05 14:59:55 INFO     {"device":"h7","motorSpeed":0,"calculatedErefs":0,"M1_SET_EREFS":"[048020A8] (4) : 00000000","M2_SET_EREFS":"[048040A8] (4) : 00000000","M3_SET_EREFS":"[048060A8] (4) : 00000000","M4_SET_EREFS":"[048060A8] (4) : 00000000","M4_CAN_RESULT":0,"M3_CAN_RESULT":0,"M2_CAN_RESULT":0,"M1_CAN_RESULT":0}
+
+2024-08-05 14:59:55 INFO     server listening on 0.0.0.0:8080
+2024-08-05 15:00:16 INFO     server closing
+2024-08-05 15:00:16 INFO     server closed
