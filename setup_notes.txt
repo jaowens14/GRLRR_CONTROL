@@ -5,4 +5,4 @@
     add "@reboot /path/to/script
 
     for this project:
-    @reboot ./Documents/Projects/grlrr/run.sh
+    @reboot ./Documents/Projects/grlrr/run.sh >> grlrr.log
