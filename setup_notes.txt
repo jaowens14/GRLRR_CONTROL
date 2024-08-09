@@ -6,3 +6,7 @@
 
     for this project:
     @reboot ./Documents/Projects/grlrr/run.sh >> grlrr.log
+
+2. In order to use platformio on rpi5 you will need to 
+    install / get the packages from the arduino library for the gcc compiler
+    paste them into the packages for platformio
