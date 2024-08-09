@@ -1,14 +1,699 @@
-2024-08-05 14:59:55 INFO     =============================================================
-2024-08-05 14:59:55 INFO     GRLRR STARTED
-2024-08-05 14:59:55 INFO     =============================================================
-2024-08-05 14:59:55 DEBUG    Using selector: EpollSelector
-2024-08-05 14:59:55 INFO     serial connected to /dev/ttyACM0
-2024-08-05 14:59:55 INFO     h7 connected
-2024-08-05 14:59:55 INFO     wrote to h7: 
-2024-08-05 14:59:55 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-05 14:59:55 INFO     recv from h7: 
-2024-08-05 14:59:55 INFO     {"device":"h7","motorSpeed":0,"calculatedErefs":0,"M1_SET_EREFS":"[048020A8] (4) : 00000000","M2_SET_EREFS":"[048040A8] (4) : 00000000","M3_SET_EREFS":"[048060A8] (4) : 00000000","M4_SET_EREFS":"[048060A8] (4) : 00000000","M4_CAN_RESULT":0,"M3_CAN_RESULT":0,"M2_CAN_RESULT":0,"M1_CAN_RESULT":0}
+2024-08-07 22:20:53 INFO     =============================================================
+2024-08-07 22:20:53 INFO     GRLRR STARTED
+2024-08-07 22:20:53 INFO     =============================================================
+2024-08-07 22:20:53 INFO     serial connected to /dev/ttyACM1
+2024-08-07 22:20:53 INFO     h7 connected
+2024-08-07 22:20:53 INFO     wrote to h7: 
+2024-08-07 22:20:53 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-07 22:20:53 INFO     recv from h7: 
+2024-08-07 22:20:53 INFO     {"device":"?","motorSpeed":0}
 
-2024-08-05 14:59:55 INFO     server listening on 0.0.0.0:8080
-2024-08-05 15:00:16 INFO     server closing
-2024-08-05 15:00:16 INFO     server closed
+2024-08-07 22:20:53 INFO     server listening on 0.0.0.0:8080
+2024-08-07 22:20:53 INFO     server closing
+2024-08-07 22:20:53 INFO     server closed
+2024-08-07 22:21:01 INFO     =============================================================
+2024-08-07 22:21:01 INFO     GRLRR STARTED
+2024-08-07 22:21:01 INFO     =============================================================
+2024-08-07 22:21:01 INFO     serial connected to /dev/ttyACM1
+2024-08-07 22:21:01 INFO     h7 connected
+2024-08-07 22:21:01 INFO     wrote to h7: 
+2024-08-07 22:21:01 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-07 22:21:01 INFO     recv from h7: 
+2024-08-07 22:21:01 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-07 22:21:01 INFO     server listening on 0.0.0.0:8080
+2024-08-07 22:21:12 INFO     connection open
+2024-08-07 22:21:12 INFO     websocket packet: 
+2024-08-07 22:21:12 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-07 22:21:12 INFO     wrote to h7: 
+2024-08-07 22:21:12 INFO     b'{"msgtyp": "set", "motorSpeed0": 0.01}\n'
+2024-08-07 22:21:12 INFO     recv from h7: 
+2024-08-07 22:21:12 INFO     null
+
+2024-08-07 22:22:31 INFO     server closing
+2024-08-07 22:22:31 INFO     connection closed
+2024-08-07 22:23:20 INFO     =============================================================
+2024-08-07 22:23:20 INFO     GRLRR STARTED
+2024-08-07 22:23:20 INFO     =============================================================
+2024-08-07 22:23:20 INFO     serial connected to /dev/ttyACM0
+2024-08-07 22:23:20 INFO     h7 connected
+2024-08-07 22:23:20 INFO     wrote to h7: 
+2024-08-07 22:23:20 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-07 22:23:20 INFO     recv from h7: 
+2024-08-07 22:23:20 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-07 22:23:20 INFO     server listening on 0.0.0.0:8080
+2024-08-07 22:23:27 INFO     connection open
+2024-08-07 22:23:28 INFO     websocket packet: 
+2024-08-07 22:23:28 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-07 22:23:28 INFO     wrote to h7: 
+2024-08-07 22:23:28 INFO     b'{"msgtyp": "set", "motorSpeed0": 0.01}\n'
+2024-08-07 22:23:28 INFO     recv from h7: 
+2024-08-07 22:23:28 INFO     null
+
+2024-08-07 22:24:49 INFO     server closing
+2024-08-07 22:24:49 INFO     connection closed
+2024-08-07 22:26:33 INFO     =============================================================
+2024-08-07 22:26:33 INFO     GRLRR STARTED
+2024-08-07 22:26:33 INFO     =============================================================
+2024-08-07 22:26:33 INFO     serial connected to /dev/ttyACM0
+2024-08-07 22:26:33 INFO     h7 connected
+2024-08-07 22:26:33 INFO     wrote to h7: 
+2024-08-07 22:26:33 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-07 22:26:33 INFO     recv from h7: 
+2024-08-07 22:26:33 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-07 22:26:33 INFO     server listening on 0.0.0.0:8080
+2024-08-07 22:26:41 INFO     connection open
+2024-08-07 22:26:42 INFO     websocket packet: 
+2024-08-07 22:26:42 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-07 22:26:42 INFO     wrote to h7: 
+2024-08-07 22:26:42 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.02, "motorSpeed3": 0.02}\n'
+2024-08-07 22:26:42 INFO     recv from h7: 
+2024-08-07 22:26:42 INFO     null
+
+2024-08-07 22:27:16 INFO     server closing
+2024-08-07 22:27:16 INFO     connection closed
+2024-08-08 10:12:41 INFO     =============================================================
+2024-08-08 10:12:41 INFO     GRLRR STARTED
+2024-08-08 10:12:41 INFO     =============================================================
+2024-08-08 10:12:41 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:12:41 INFO     h7 connected
+2024-08-08 10:12:41 INFO     wrote to h7: 
+2024-08-08 10:12:41 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:12:41 INFO     recv from h7: 
+2024-08-08 10:12:41 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:12:41 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:12:56 INFO     server closing
+2024-08-08 10:12:56 INFO     server closed
+2024-08-08 10:17:23 INFO     =============================================================
+2024-08-08 10:17:23 INFO     GRLRR STARTED
+2024-08-08 10:17:23 INFO     =============================================================
+2024-08-08 10:17:23 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:17:23 INFO     h7 connected
+2024-08-08 10:17:23 INFO     wrote to h7: 
+2024-08-08 10:17:23 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:17:23 INFO     recv from h7: 
+2024-08-08 10:17:23 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:17:23 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:17:29 INFO     connection open
+2024-08-08 10:17:38 INFO     websocket packet: 
+2024-08-08 10:17:38 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:17:38 INFO     wrote to h7: 
+2024-08-08 10:17:38 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.001, "motorSpeed1": -0.001, "motorSpeed2": 0.001, "motorSpeed3": 0.001}\n'
+2024-08-08 10:17:38 INFO     recv from h7: 
+2024-08-08 10:17:38 INFO     null
+
+2024-08-08 10:17:49 INFO     websocket packet: 
+2024-08-08 10:17:49 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:17:49 INFO     wrote to h7: 
+2024-08-08 10:17:49 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.01, "motorSpeed3": 0.01}\n'
+2024-08-08 10:17:49 INFO     recv from h7: 
+2024-08-08 10:17:49 INFO     null
+
+2024-08-08 10:17:58 INFO     websocket packet: 
+2024-08-08 10:17:58 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:17:58 INFO     wrote to h7: 
+2024-08-08 10:17:58 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:17:58 INFO     recv from h7: 
+2024-08-08 10:17:58 INFO     null
+
+2024-08-08 10:21:49 INFO     websocket packet: 
+2024-08-08 10:21:49 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:21:49 INFO     wrote to h7: 
+2024-08-08 10:21:49 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.01, "motorSpeed3": 0.01}\n'
+2024-08-08 10:21:49 INFO     recv from h7: 
+2024-08-08 10:21:49 INFO     null
+
+2024-08-08 10:22:21 INFO     websocket packet: 
+2024-08-08 10:22:21 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.05","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:22:21 INFO     wrote to h7: 
+2024-08-08 10:22:21 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.05, "motorSpeed1": -0.05, "motorSpeed2": 0.05, "motorSpeed3": 0.05}\n'
+2024-08-08 10:22:21 INFO     recv from h7: 
+2024-08-08 10:22:21 INFO     null
+
+2024-08-08 10:22:34 INFO     websocket packet: 
+2024-08-08 10:22:34 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:22:34 INFO     wrote to h7: 
+2024-08-08 10:22:34 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:22:34 INFO     recv from h7: 
+2024-08-08 10:22:34 INFO     null
+
+2024-08-08 10:25:15 INFO     websocket packet: 
+2024-08-08 10:25:15 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.05","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:25:15 INFO     wrote to h7: 
+2024-08-08 10:25:15 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.05, "motorSpeed1": -0.05, "motorSpeed2": 0.05, "motorSpeed3": 0.05}\n'
+2024-08-08 10:25:15 INFO     recv from h7: 
+2024-08-08 10:25:15 INFO     null
+
+2024-08-08 10:25:44 INFO     websocket packet: 
+2024-08-08 10:25:44 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:25:44 INFO     wrote to h7: 
+2024-08-08 10:25:44 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:25:44 INFO     recv from h7: 
+2024-08-08 10:25:44 INFO     null
+
+2024-08-08 10:27:35 INFO     websocket packet: 
+2024-08-08 10:27:35 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.05","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:27:35 INFO     wrote to h7: 
+2024-08-08 10:27:35 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.05, "motorSpeed1": -0.05, "motorSpeed2": 0.05, "motorSpeed3": 0.05}\n'
+2024-08-08 10:27:35 INFO     recv from h7: 
+2024-08-08 10:27:35 INFO     null
+
+2024-08-08 10:27:59 INFO     websocket packet: 
+2024-08-08 10:27:59 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:27:59 INFO     wrote to h7: 
+2024-08-08 10:27:59 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:27:59 INFO     recv from h7: 
+2024-08-08 10:27:59 INFO     null
+
+2024-08-08 10:30:17 INFO     websocket packet: 
+2024-08-08 10:30:17 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.1","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:30:17 INFO     wrote to h7: 
+2024-08-08 10:30:17 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.1, "motorSpeed1": -0.1, "motorSpeed2": 0.1, "motorSpeed3": 0.1}\n'
+2024-08-08 10:30:17 INFO     recv from h7: 
+2024-08-08 10:30:17 INFO     null
+
+2024-08-08 10:30:28 INFO     websocket packet: 
+2024-08-08 10:30:28 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.1","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:30:28 INFO     wrote to h7: 
+2024-08-08 10:30:28 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.1, "motorSpeed1": -0.1, "motorSpeed2": 0.1, "motorSpeed3": 0.1}\n'
+2024-08-08 10:30:28 INFO     recv from h7: 
+2024-08-08 10:30:28 INFO     null
+
+2024-08-08 10:30:40 INFO     server closing
+2024-08-08 10:30:40 INFO     connection closed
+2024-08-08 10:30:45 INFO     =============================================================
+2024-08-08 10:30:45 INFO     GRLRR STARTED
+2024-08-08 10:30:45 INFO     =============================================================
+2024-08-08 10:30:45 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:30:47 INFO     Expecting value: line 1 column 1 (char 0)
+2024-08-08 10:30:47 INFO     no valid device / comm issue / no api endpoint
+2024-08-08 10:30:47 INFO     Unable to connect to serial device. Exiting...
+2024-08-08 10:30:47 ERROR    _GatheringFuture exception was never retrieved
+future: <_GatheringFuture finished exception=CancelledError()>
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 1459, in _create_server_getaddrinfo
+    async def _create_server_getaddrinfo(self, host, port, family, flags):
+asyncio.exceptions.CancelledError
+2024-08-08 10:30:47 ERROR    Task exception was never retrieved
+future: <Task finished name='Task-1' coro=<start_tasks() done, defined at /home/vestas/Documents/Projects/grlrr/communications.py:12> exception=SystemExit(None)>
+Traceback (most recent call last):
+  File "/home/vestas/Documents/Projects/grlrr/main.py", line 4, in <module>
+    communications.main()
+  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 122, in main
+    asyncio.run(start_tasks())
+  File "/usr/lib/python3.12/asyncio/runners.py", line 193, in run
+    with Runner(debug=debug, loop_factory=loop_factory) as runner:
+  File "/usr/lib/python3.12/asyncio/runners.py", line 62, in __exit__
+    self.close()
+  File "/usr/lib/python3.12/asyncio/runners.py", line 70, in close
+    _cancel_all_tasks(loop)
+  File "/usr/lib/python3.12/asyncio/runners.py", line 205, in _cancel_all_tasks
+    loop.run_until_complete(tasks.gather(*to_cancel, return_exceptions=True))
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
+    self.run_forever()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
+    self._run_once()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
+    handle._run()
+  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 13, in start_tasks
+    await asyncio.gather(websocket_server(), serial_server())
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
+    self.run_forever()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
+    self._run_once()
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
+    handle._run()
+  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
+    self._context.run(self._c2024-08-08 10:37:26 INFO     =============================================================
+2024-08-08 10:37:26 INFO     GRLRR STARTED
+2024-08-08 10:37:26 INFO     =============================================================
+2024-08-08 10:37:26 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:37:26 INFO     h7 connected
+2024-08-08 10:37:26 INFO     wrote to h7: 
+2024-08-08 10:37:26 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:37:26 INFO     recv from h7: 
+2024-08-08 10:37:26 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:37:26 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:37:27 INFO     connection open
+2024-08-08 10:38:12 INFO     connection closed
+2024-08-08 10:38:12 INFO     connection open
+2024-08-08 10:38:22 INFO     websocket packet: 
+2024-08-08 10:38:22 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:38:22 INFO     wrote to h7: 
+2024-08-08 10:38:22 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.001, "motorSpeed1": -0.001, "motorSpeed2": 0.002, "motorSpeed3": 0.002}\n'
+2024-08-08 10:38:22 INFO     recv from h7: 
+2024-08-08 10:38:22 INFO     null
+
+2024-08-08 10:38:44 INFO     websocket packet: 
+2024-08-08 10:38:44 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:38:44 INFO     wrote to h7: 
+2024-08-08 10:38:44 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.001, "motorSpeed1": -0.001, "motorSpeed2": 0.002, "motorSpeed3": 0.002}\n'
+2024-08-08 10:38:44 INFO     recv from h7: 
+2024-08-08 10:38:44 INFO     null
+
+2024-08-08 10:38:49 INFO     websocket packet: 
+2024-08-08 10:38:49 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:38:49 INFO     wrote to h7: 
+2024-08-08 10:38:49 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.02, "motorSpeed3": 0.02}\n'
+2024-08-08 10:38:49 INFO     recv from h7: 
+2024-08-08 10:38:49 INFO     null
+
+2024-08-08 10:38:53 INFO     websocket packet: 
+2024-08-08 10:38:53 INFO     {"wheelDiameter":"0.05","motorDirection":0,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:38:53 INFO     wrote to h7: 
+2024-08-08 10:38:53 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:38:53 INFO     recv from h7: 
+2024-08-08 10:38:53 INFO     null
+
+2024-08-08 10:38:57 INFO     server closing
+2024-08-08 10:38:57 INFO     connection closed
+2024-08-08 10:39:35 INFO     =============================================================
+2024-08-08 10:39:35 INFO     GRLRR STARTED
+2024-08-08 10:39:35 INFO     =============================================================
+2024-08-08 10:39:35 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:39:35 INFO     h7 connected
+2024-08-08 10:39:35 INFO     wrote to h7: 
+2024-08-08 10:39:35 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:39:35 INFO     recv from h7: 
+2024-08-08 10:39:35 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:39:35 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:39:39 INFO     connection open
+2024-08-08 10:39:46 INFO     websocket packet: 
+2024-08-08 10:39:46 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:39:46 INFO     wrote to h7: 
+2024-08-08 10:39:46 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.002, "motorSpeed1": -0.002, "motorSpeed2": 0.001, "motorSpeed3": 0.001}\n'
+2024-08-08 10:39:46 INFO     recv from h7: 
+2024-08-08 10:39:46 INFO     null
+
+2024-08-08 10:40:07 INFO     websocket packet: 
+2024-08-08 10:40:07 INFO     {"wheelDiameter":"0.05","motorDirection":0,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:40:07 INFO     wrote to h7: 
+2024-08-08 10:40:07 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:40:07 INFO     recv from h7: 
+2024-08-08 10:40:07 INFO     null
+
+2024-08-08 10:42:29 INFO     websocket packet: 
+2024-08-08 10:42:29 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:42:29 INFO     wrote to h7: 
+2024-08-08 10:42:29 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.002, "motorSpeed1": -0.002, "motorSpeed2": 0.001, "motorSpeed3": 0.001}\n'
+2024-08-08 10:42:29 INFO     recv from h7: 
+2024-08-08 10:42:29 INFO     null
+
+2024-08-08 10:42:36 INFO     websocket packet: 
+2024-08-08 10:42:36 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:42:36 INFO     wrote to h7: 
+2024-08-08 10:42:36 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 10:42:36 INFO     recv from h7: 
+2024-08-08 10:42:36 INFO     null
+
+2024-08-08 10:42:54 INFO     websocket packet: 
+2024-08-08 10:42:54 INFO     {"wheelDiameter":"0.05","motorDirection":0,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:42:54 INFO     wrote to h7: 
+2024-08-08 10:42:54 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 10:42:54 INFO     recv from h7: 
+2024-08-08 10:42:54 INFO     null
+
+2024-08-08 10:42:56 INFO     websocket packet: 
+2024-08-08 10:42:56 INFO     {"wheelDiameter":"0.05","motorDirection":0,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:42:56 INFO     wrote to h7: 
+2024-08-08 10:42:56 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:42:56 INFO     recv from h7: 
+2024-08-08 10:42:56 INFO     null
+
+2024-08-08 10:45:18 INFO     server closing
+2024-08-08 10:45:18 INFO     connection closed
+2024-08-08 10:49:28 INFO     =============================================================
+2024-08-08 10:49:28 INFO     GRLRR STARTED
+2024-08-08 10:49:28 INFO     =============================================================
+2024-08-08 10:49:28 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:49:28 INFO     h7 connected
+2024-08-08 10:49:28 INFO     wrote to h7: 
+2024-08-08 10:49:28 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:49:28 INFO     recv from h7: 
+2024-08-08 10:49:28 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:49:28 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:49:32 INFO     connection open
+2024-08-08 10:49:37 INFO     websocket packet: 
+2024-08-08 10:49:37 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:49:37 INFO     wrote to h7: 
+2024-08-08 10:49:37 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.00875, "motorSpeed1": -0.00875, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 10:49:37 INFO     recv from h7: 
+2024-08-08 10:49:37 INFO     null
+
+2024-08-08 10:49:58 INFO     websocket packet: 
+2024-08-08 10:49:58 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:49:58 INFO     wrote to h7: 
+2024-08-08 10:49:58 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:49:58 INFO     recv from h7: 
+2024-08-08 10:49:58 INFO     null
+
+2024-08-08 10:51:13 INFO     server closing
+2024-08-08 10:51:13 INFO     connection closed
+2024-08-08 10:52:01 INFO     =============================================================
+2024-08-08 10:52:01 INFO     GRLRR STARTED
+2024-08-08 10:52:01 INFO     =============================================================
+2024-08-08 10:52:01 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:52:01 INFO     h7 connected
+2024-08-08 10:52:01 INFO     wrote to h7: 
+2024-08-08 10:52:01 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:52:01 INFO     recv from h7: 
+2024-08-08 10:52:01 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:52:01 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:52:04 INFO     connection open
+2024-08-08 10:52:08 INFO     websocket packet: 
+2024-08-08 10:52:08 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:52:08 INFO     wrote to h7: 
+2024-08-08 10:52:08 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0075, "motorSpeed1": -0.0075, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 10:52:08 INFO     recv from h7: 
+2024-08-08 10:52:08 INFO     null
+
+2024-08-08 10:52:34 INFO     websocket packet: 
+2024-08-08 10:52:34 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:52:34 INFO     wrote to h7: 
+2024-08-08 10:52:34 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:52:34 INFO     recv from h7: 
+2024-08-08 10:52:34 INFO     null
+
+2024-08-08 10:52:41 INFO     server closing
+2024-08-08 10:52:41 INFO     connection closed
+2024-08-08 10:55:54 INFO     =============================================================
+2024-08-08 10:55:54 INFO     GRLRR STARTED
+2024-08-08 10:55:54 INFO     =============================================================
+2024-08-08 10:55:54 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:55:54 INFO     h7 connected
+2024-08-08 10:55:54 INFO     wrote to h7: 
+2024-08-08 10:55:54 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:55:54 INFO     recv from h7: 
+2024-08-08 10:55:54 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:55:54 INFO     server listening on 0.0.0.0:8080
+2024-08-08 10:56:37 INFO     connection open
+2024-08-08 10:56:38 INFO     websocket packet: 
+2024-08-08 10:56:38 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:56:38 INFO     wrote to h7: 
+2024-08-08 10:56:38 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0055000000000000005, "motorSpeed1": -0.0055000000000000005, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 10:56:38 INFO     recv from h7: 
+2024-08-08 10:56:38 INFO     null
+
+2024-08-08 10:57:38 INFO     websocket packet: 
+2024-08-08 10:57:38 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.000","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 10:57:38 INFO     wrote to h7: 
+2024-08-08 10:57:38 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 10:57:38 INFO     recv from h7: 
+2024-08-08 10:57:38 INFO     null
+
+2024-08-08 10:58:42 INFO     server closing
+2024-08-08 10:58:42 INFO     connection closed
+2024-08-08 10:59:11 INFO     =============================================================
+2024-08-08 10:59:11 INFO     GRLRR STARTED
+2024-08-08 10:59:11 INFO     =============================================================
+2024-08-08 10:59:11 INFO     serial connected to /dev/ttyACM0
+2024-08-08 10:59:11 INFO     h7 connected
+2024-08-08 10:59:11 INFO     wrote to h7: 
+2024-08-08 10:59:11 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 10:59:11 INFO     recv from h7: 
+2024-08-08 10:59:11 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 10:59:11 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:00:11 INFO     connection open
+2024-08-08 11:00:12 INFO     websocket packet: 
+2024-08-08 11:00:12 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:00:12 INFO     wrote to h7: 
+2024-08-08 11:00:12 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.00525, "motorSpeed1": -0.00525, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 11:00:12 INFO     recv from h7: 
+2024-08-08 11:00:12 INFO     null
+
+2024-08-08 11:01:01 INFO     websocket packet: 
+2024-08-08 11:01:01 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:01:01 INFO     wrote to h7: 
+2024-08-08 11:01:01 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:01:01 INFO     recv from h7: 
+2024-08-08 11:01:01 INFO     null
+
+2024-08-08 11:03:23 INFO     server closing
+2024-08-08 11:03:23 INFO     connection closed
+2024-08-08 11:03:42 INFO     =============================================================
+2024-08-08 11:03:42 INFO     GRLRR STARTED
+2024-08-08 11:03:42 INFO     =============================================================
+2024-08-08 11:03:42 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:03:42 INFO     h7 connected
+2024-08-08 11:03:42 INFO     wrote to h7: 
+2024-08-08 11:03:42 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:03:42 INFO     recv from h7: 
+2024-08-08 11:03:42 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:03:42 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:03:46 INFO     connection open
+2024-08-08 11:03:51 INFO     websocket packet: 
+2024-08-08 11:03:51 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:03:51 INFO     wrote to h7: 
+2024-08-08 11:03:51 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.00505, "motorSpeed1": -0.00505, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 11:03:51 INFO     recv from h7: 
+2024-08-08 11:03:51 INFO     null
+
+2024-08-08 11:06:34 INFO     websocket packet: 
+2024-08-08 11:06:34 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:06:34 INFO     wrote to h7: 
+2024-08-08 11:06:34 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:06:34 INFO     recv from h7: 
+2024-08-08 11:06:34 INFO     null
+
+2024-08-08 11:27:37 INFO     server closing
+2024-08-08 11:27:37 INFO     connection closed
+2024-08-08 11:33:00 INFO     =============================================================
+2024-08-08 11:33:00 INFO     GRLRR STARTED
+2024-08-08 11:33:00 INFO     =============================================================
+2024-08-08 11:33:00 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:33:00 INFO     h7 connected
+2024-08-08 11:33:00 INFO     wrote to h7: 
+2024-08-08 11:33:00 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:33:00 INFO     recv from h7: 
+2024-08-08 11:33:00 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:33:00 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:33:05 INFO     connection open
+2024-08-08 11:33:10 INFO     websocket packet: 
+2024-08-08 11:33:10 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:33:10 INFO     wrote to h7: 
+2024-08-08 11:33:10 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.005, "motorSpeed1": -0.00475, "motorSpeed2": 0.005, "motorSpeed3": 0.005}\n'
+2024-08-08 11:33:10 INFO     recv from h7: 
+2024-08-08 11:33:10 INFO     null
+
+2024-08-08 11:33:22 INFO     websocket packet: 
+2024-08-08 11:33:22 INFO     {"wheelDiameter":"0.05","motorDirection":0,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:33:22 INFO     wrote to h7: 
+2024-08-08 11:33:22 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:33:22 INFO     recv from h7: 
+2024-08-08 11:33:22 INFO     null
+
+2024-08-08 11:33:41 INFO     server closing
+2024-08-08 11:33:41 INFO     connection closed
+2024-08-08 11:34:30 INFO     =============================================================
+2024-08-08 11:34:30 INFO     GRLRR STARTED
+2024-08-08 11:34:30 INFO     =============================================================
+2024-08-08 11:34:30 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:34:30 INFO     h7 connected
+2024-08-08 11:34:30 INFO     wrote to h7: 
+2024-08-08 11:34:30 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:34:30 INFO     recv from h7: 
+2024-08-08 11:34:30 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:34:30 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:34:39 INFO     connection open
+2024-08-08 11:34:44 INFO     websocket packet: 
+2024-08-08 11:34:44 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:34:44 INFO     wrote to h7: 
+2024-08-08 11:34:44 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.005, "motorSpeed1": -0.005, "motorSpeed2": 0.005, "motorSpeed3": 0.00475}\n'
+2024-08-08 11:34:44 INFO     recv from h7: 
+2024-08-08 11:34:44 INFO     null
+
+2024-08-08 11:35:10 INFO     websocket packet: 
+2024-08-08 11:35:10 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.00","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:35:10 INFO     wrote to h7: 
+2024-08-08 11:35:10 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:35:10 INFO     recv from h7: 
+2024-08-08 11:35:10 INFO     null
+
+2024-08-08 11:35:55 INFO     websocket packet: 
+2024-08-08 11:35:55 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:35:55 INFO     wrote to h7: 
+2024-08-08 11:35:55 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.01, "motorSpeed3": 0.0095}\n'
+2024-08-08 11:35:55 INFO     recv from h7: 
+2024-08-08 11:35:55 INFO     null
+
+2024-08-08 11:36:19 INFO     websocket packet: 
+2024-08-08 11:36:19 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:36:19 INFO     wrote to h7: 
+2024-08-08 11:36:19 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:36:19 INFO     recv from h7: 
+2024-08-08 11:36:19 INFO     null
+
+2024-08-08 11:36:22 INFO     server closing
+2024-08-08 11:36:22 INFO     connection closed
+2024-08-08 11:43:00 INFO     =============================================================
+2024-08-08 11:43:00 INFO     GRLRR STARTED
+2024-08-08 11:43:00 INFO     =============================================================
+2024-08-08 11:43:00 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:43:00 INFO     h7 connected
+2024-08-08 11:43:00 INFO     wrote to h7: 
+2024-08-08 11:43:00 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:43:00 INFO     recv from h7: 
+2024-08-08 11:43:00 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:43:00 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:43:03 INFO     connection open
+2024-08-08 11:43:11 INFO     websocket packet: 
+2024-08-08 11:43:11 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:43:11 INFO     wrote to h7: 
+2024-08-08 11:43:11 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.005, "motorSpeed1": -0.005, "motorSpeed2": 0.005, "motorSpeed3": 0.00475}\n'
+2024-08-08 11:43:11 INFO     recv from h7: 
+2024-08-08 11:43:11 INFO     null
+
+2024-08-08 11:44:47 INFO     websocket packet: 
+2024-08-08 11:44:47 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:44:47 INFO     wrote to h7: 
+2024-08-08 11:44:47 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:44:47 INFO     recv from h7: 
+2024-08-08 11:44:47 INFO     null
+
+2024-08-08 11:44:49 INFO     server closing
+2024-08-08 11:44:49 INFO     connection closed
+2024-08-08 11:45:06 INFO     =============================================================
+2024-08-08 11:45:06 INFO     GRLRR STARTED
+2024-08-08 11:45:06 INFO     =============================================================
+2024-08-08 11:45:06 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:45:06 INFO     h7 connected
+2024-08-08 11:45:06 INFO     wrote to h7: 
+2024-08-08 11:45:06 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:45:06 INFO     recv from h7: 
+2024-08-08 11:45:06 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:45:06 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:45:11 INFO     connection open
+2024-08-08 11:45:12 INFO     websocket packet: 
+2024-08-08 11:45:12 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.1","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:45:12 INFO     wrote to h7: 
+2024-08-08 11:45:12 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.1, "motorSpeed1": -0.1, "motorSpeed2": 0.1, "motorSpeed3": 0.010000000000000002}\n'
+2024-08-08 11:45:12 INFO     recv from h7: 
+2024-08-08 11:45:12 INFO     null
+
+2024-08-08 11:45:43 INFO     websocket packet: 
+2024-08-08 11:45:43 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:45:43 INFO     wrote to h7: 
+2024-08-08 11:45:43 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:45:43 INFO     recv from h7: 
+2024-08-08 11:45:43 INFO     null
+
+2024-08-08 11:45:50 INFO     server closing
+2024-08-08 11:45:50 INFO     connection closed
+2024-08-08 11:46:20 INFO     =============================================================
+2024-08-08 11:46:20 INFO     GRLRR STARTED
+2024-08-08 11:46:20 INFO     =============================================================
+2024-08-08 11:46:20 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:46:20 INFO     h7 connected
+2024-08-08 11:46:20 INFO     wrote to h7: 
+2024-08-08 11:46:20 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:46:20 INFO     recv from h7: 
+2024-08-08 11:46:20 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:46:20 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:46:23 INFO     connection open
+2024-08-08 11:46:27 INFO     websocket packet: 
+2024-08-08 11:46:27 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.1","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:46:27 INFO     wrote to h7: 
+2024-08-08 11:46:27 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.1, "motorSpeed1": -0.1, "motorSpeed2": 0.1, "motorSpeed3": 1e-05}\n'
+2024-08-08 11:46:27 INFO     recv from h7: 
+2024-08-08 11:46:27 INFO     null
+
+2024-08-08 11:46:40 INFO     websocket packet: 
+2024-08-08 11:46:40 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:46:40 INFO     wrote to h7: 
+2024-08-08 11:46:40 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.01, "motorSpeed1": -0.01, "motorSpeed2": 0.01, "motorSpeed3": 1.0000000000000002e-06}\n'
+2024-08-08 11:46:40 INFO     recv from h7: 
+2024-08-08 11:46:40 INFO     null
+
+2024-08-08 11:46:50 INFO     websocket packet: 
+2024-08-08 11:46:50 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.5","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:46:50 INFO     wrote to h7: 
+2024-08-08 11:46:50 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.5, "motorSpeed1": -0.5, "motorSpeed2": 0.5, "motorSpeed3": 5e-05}\n'
+2024-08-08 11:46:50 INFO     recv from h7: 
+2024-08-08 11:46:50 INFO     null
+
+2024-08-08 11:46:57 INFO     websocket packet: 
+2024-08-08 11:46:57 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:46:57 INFO     wrote to h7: 
+2024-08-08 11:46:57 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:46:57 INFO     recv from h7: 
+2024-08-08 11:46:57 INFO     null
+
+2024-08-08 11:47:19 INFO     server closing
+2024-08-08 11:47:19 INFO     connection closed
+2024-08-08 11:50:03 INFO     =============================================================
+2024-08-08 11:50:03 INFO     GRLRR STARTED
+2024-08-08 11:50:03 INFO     =============================================================
+2024-08-08 11:50:03 INFO     serial connected to /dev/ttyACM0
+2024-08-08 11:50:03 INFO     h7 connected
+2024-08-08 11:50:03 INFO     wrote to h7: 
+2024-08-08 11:50:03 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 11:50:03 INFO     recv from h7: 
+2024-08-08 11:50:03 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 11:50:03 INFO     server listening on 0.0.0.0:8080
+2024-08-08 11:50:09 INFO     connection open
+2024-08-08 11:50:32 INFO     websocket packet: 
+2024-08-08 11:50:32 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.001","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:50:32 INFO     wrote to h7: 
+2024-08-08 11:50:32 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.005, "motorSpeed1": -0.005, "motorSpeed2": 0.005, "motorSpeed3": 0.001}\n'
+2024-08-08 11:50:32 INFO     recv from h7: 
+2024-08-08 11:50:32 INFO     null
+
+2024-08-08 11:50:43 INFO     websocket packet: 
+2024-08-08 11:50:43 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.005","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:50:43 INFO     wrote to h7: 
+2024-08-08 11:50:43 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.025, "motorSpeed1": -0.025, "motorSpeed2": 0.025, "motorSpeed3": 0.005}\n'
+2024-08-08 11:50:43 INFO     recv from h7: 
+2024-08-08 11:50:43 INFO     null
+
+2024-08-08 11:51:02 INFO     websocket packet: 
+2024-08-08 11:51:02 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.01","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:51:02 INFO     wrote to h7: 
+2024-08-08 11:51:02 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.05, "motorSpeed1": -0.05, "motorSpeed2": 0.05, "motorSpeed3": 0.01}\n'
+2024-08-08 11:51:02 INFO     recv from h7: 
+2024-08-08 11:51:02 INFO     null
+
+2024-08-08 11:51:13 INFO     websocket packet: 
+2024-08-08 11:51:13 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0.0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-08 11:51:13 INFO     wrote to h7: 
+2024-08-08 11:51:13 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-08 11:51:13 INFO     recv from h7: 
+2024-08-08 11:51:13 INFO     null
+
+2024-08-08 13:32:30 INFO     =============================================================
+2024-08-08 13:32:30 INFO     GRLRR STARTED
+2024-08-08 13:32:30 INFO     =============================================================
+2024-08-08 13:32:30 INFO     serial connected to /dev/ttyACM0
+2024-08-08 13:32:30 INFO     h7 connected
+2024-08-08 13:32:30 INFO     wrote to h7: 
+2024-08-08 13:32:30 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-08 13:32:30 INFO     recv from h7: 
+2024-08-08 13:32:30 INFO     {"device":"?","motorSpeed":0}
+
+2024-08-08 13:32:30 INFO     server listening on 0.0.0.0:8080
+2024-08-08 13:32:44 INFO     server closing
+2024-08-08 13:32:44 INFO     server closed

@@ -25,7 +25,10 @@ async def connection_handler(websocket):
         grlrr_log.info("websocket packet: ")
         grlrr_log.info(packet)
         packet = json.loads(packet)
-        motorSpeedPacket = {"device":"?", "motorSpeed":float(packet.get("motorSpeed"))}
+        motorSpeedPacket = {"msgtyp":"set", "motorSpeed0": -1.0 * float(packet.get("motorSpeed")), 
+                            "motorSpeed1": -1.0 * float(packet.get("motorSpeed")),
+                            "motorSpeed2": float(packet.get("motorSpeed")),
+                            "motorSpeed3": float(packet.get("motorSpeed"))}
         command_queue.insert(0, motorSpeedPacket)
 
 
@@ -67,10 +70,10 @@ def connect_serial(available_ports):
 
 def valididate_serial(device):
     try:
-        msg = {"device":"?"}
+        msg = {"msgtyp":"get","device":"?"}
         device.write((json.dumps(msg)+'\n').encode('ascii'))
         new_msg = json.loads(device.read_until(expected=b"\n").decode('ascii'))
-
+        print(new_msg)
         if new_msg["device"] == "h7":
             grlrr_log.info("h7 connected")
             return 1
@@ -87,19 +90,23 @@ async def serial_server():
     if valididate_serial(h7):
         while True:
             try:
-                msg = command_queue.pop()
-                grlrr_log.info("wrote to h7: ")
-                grlrr_log.info((json.dumps(msg)+'\n').encode('ascii'))
-                h7.write((json.dumps(msg)+'\n').encode('ascii'))
-                new_msg = h7.read_until(expected=b"\n").decode('ascii')
-                if new_msg:
-                    grlrr_log.info("recv from h7: ")
-                    grlrr_log.info(new_msg)
-                    result_queue.insert(0, json.loads(new_msg))
+                if len(command_queue):
+                    msg = command_queue.pop()
+                    grlrr_log.info("wrote to h7: ")
+                    grlrr_log.info((json.dumps(msg)+'\n').encode('ascii'))
+                    h7.write((json.dumps(msg)+'\n').encode('ascii'))
+                    new_msg = h7.read_until(expected=b"\n").decode('ascii')
+                    if new_msg:
+                        grlrr_log.info("recv from h7: ")
+                        grlrr_log.info(new_msg)
+                        result_queue.insert(0, json.loads(new_msg))
             except Exception as e:
-                e
+                grlrr_log.info(e)
 
             await asyncio.sleep(0)
+    else:
+        grlrr_log.info("Unable to connect to serial device. Exiting...")
+        quit()
         
 
 
