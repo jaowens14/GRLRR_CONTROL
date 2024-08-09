@@ -1,7 +1,0 @@
-annotated-types==0.7.0
-pydantic==2.8.2
-pydantic_core==2.20.1
-pyserial==3.5
-pyserial-asyncio==0.6
-typing_extensions==4.12.2
-websockets==12.0

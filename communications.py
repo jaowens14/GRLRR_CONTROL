@@ -7,10 +7,10 @@ import fnmatch
 import glob
 import json
 
-
+import log_server
 
 async def start_tasks():
-    await asyncio.gather(websocket_server(), serial_server())
+    await asyncio.gather(websocket_server(), serial_server(), log_server.run_log_server())
 
 
 
