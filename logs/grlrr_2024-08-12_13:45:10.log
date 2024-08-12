@@ -1,0 +1,15 @@
+2024-08-12 13:45:10 INFO     =============================================================
+2024-08-12 13:45:10 INFO     GRLRR STARTED
+2024-08-12 13:45:10 INFO     =============================================================
+2024-08-12 13:45:10 INFO     serial connected to /dev/ttyACM0
+2024-08-12 13:45:10 INFO     {'msgtyp': 'get', 'device': 'h7', 'wroteMotor0': 0, 'wroteMotor1': 0, 'wroteMotor2': 0, 'wroteMotor3': 0, 'erefsMotor0': 0, 'erefsMotor1': 0, 'erefsMotor2': 0, 'erefsMotor3': 0}
+2024-08-12 13:45:10 INFO     h7 connected
+2024-08-12 13:45:10 INFO     wrote to h7: 
+2024-08-12 13:45:10 INFO     b'{"msgtyp": "get", "device": "?", "motorSpeed": 0}\n'
+2024-08-12 13:45:10 INFO     recv from h7: 
+2024-08-12 13:45:10 INFO     {"msgtyp":"get","device":"h7","motorSpeed":0,"wroteMotor0":0,"wroteMotor1":0,"wroteMotor2":0,"wroteMotor3":0,"erefsMotor0":0,"erefsMotor1":0,"erefsMotor2":0,"erefsMotor3":0}
+
+2024-08-12 13:45:10 INFO     log server started
+2024-08-12 13:45:10 INFO     server listening on 0.0.0.0:8080
+2024-08-12 13:45:21 INFO     server closing
+2024-08-12 13:45:21 INFO     server closed
