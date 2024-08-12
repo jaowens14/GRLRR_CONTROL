@@ -1,560 +1,126 @@
-execve("./Documents/Projects/grlrr/grlrr_run.sh", ["./Documents/Projects/grlrr/grlrr"...], 0xffffdabd98c0 /* 64 vars */) = 0
-brk(NULL)                               = 0xaaaac6b10000
-mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffffbe44b000
-faccessat(AT_FDCWD, "/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=62443, ...}) = 0
-mmap(NULL, 62443, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43b000
-close(3)                                = 0
-openat(AT_FDCWD, "/lib/aarch64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
-read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
-fstat(3, {st_mode=S_IFREG|0644, st_size=265416, ...}) = 0
-mmap(NULL, 329928, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_DENYWRITE, -1, 0) = 0xffffbe3c1000
-mmap(0xffffbe3d0000, 264392, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0) = 0xffffbe3d0000
-munmap(0xffffbe3c1000, 61440)           = 0
-munmap(0xffffbe411000, 2248)            = 0
-mprotect(0xffffbe3ff000, 53248, PROT_NONE) = 0
-mmap(0xffffbe40c000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3c000) = 0xffffbe40c000
-close(3)                                = 0
-openat(AT_FDCWD, "/lib/aarch64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
-read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0\360\206\2\0\0\0\0\0"..., 832) = 832
-fstat(3, {st_mode=S_IFREG|0755, st_size=1722920, ...}) = 0
-mmap(NULL, 1892240, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_DENYWRITE, -1, 0) = 0xffffbe202000
-mmap(0xffffbe210000, 1826704, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0) = 0xffffbe210000
-munmap(0xffffbe202000, 57344)           = 0
-munmap(0xffffbe3ce000, 8080)            = 0
-mprotect(0xffffbe3aa000, 77824, PROT_NONE) = 0
-mmap(0xffffbe3bd000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19d000) = 0xffffbe3bd000
-mmap(0xffffbe3c2000, 49040, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xffffbe3c2000
-close(3)                                = 0
-mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xffffbe439000
-set_tid_address(0xffffbe4390f0)         = 13608
-set_robust_list(0xffffbe439100, 24)     = 0
-rseq(0xffffbe439740, 0x20, 0, 0xd428bc00) = 0
-mprotect(0xffffbe3bd000, 12288, PROT_READ) = 0
-mprotect(0xffffbe40c000, 16384, PROT_READ) = 0
-mprotect(0xaaaab26fb000, 20480, PROT_READ) = 0
-mprotect(0xffffbe450000, 8192, PROT_READ) = 0
-prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
-munmap(0xffffbe43b000, 62443)           = 0
-openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = 3
-close(3)                                = 0
-getrandom("\x39\x2c\x59\x7d\xa7\x83\x5e\x31", 8, GRND_NONBLOCK) = 8
-brk(NULL)                               = 0xaaaac6b10000
-brk(0xaaaac6b31000)                     = 0xaaaac6b31000
-openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=5719296, ...}) = 0
-mmap(NULL, 5719296, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbdc00000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=2996, ...}) = 0
-read(3, "# Locale name alias data base.\n#"..., 4096) = 2996
-read(3, "", 4096)                       = 0
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=258, ...}) = 0
-mmap(NULL, 258, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe44a000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/aarch64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=27028, ...}) = 0
-mmap(NULL, 27028, PROT_READ, MAP_SHARED, 3, 0) = 0xffffbe443000
-close(3)                                = 0
-futex(0xffffbe3c166c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=23, ...}) = 0
-mmap(NULL, 23, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe442000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=47, ...}) = 0
-mmap(NULL, 47, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe441000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=127, ...}) = 0
-mmap(NULL, 127, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe440000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=62, ...}) = 0
-mmap(NULL, 62, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43f000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=34, ...}) = 0
-mmap(NULL, 34, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43e000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=48, ...}) = 0
-mmap(NULL, 48, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43d000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=270, ...}) = 0
-mmap(NULL, 270, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43c000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=1406, ...}) = 0
-mmap(NULL, 1406, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe43b000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=3360, ...}) = 0
-mmap(NULL, 3360, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe411000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=50, ...}) = 0
-mmap(NULL, 50, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe3cf000
-close(3)                                = 0
-openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
-openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=360460, ...}) = 0
-mmap(NULL, 360460, PROT_READ, MAP_PRIVATE, 3, 0) = 0xffffbe1b7000
-close(3)                                = 0
-getuid()                                = 1002
-getgid()                                = 1002
-geteuid()                               = 1002
-getegid()                               = 1002
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTART}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTART}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTART}, 8) = 0
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-rt_sigaction(SIGQUIT, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-uname({sysname="Linux", nodename="grlrr", ...}) = 0
-newfstatat(AT_FDCWD, "/home/vestas", {st_mode=S_IFDIR|0750, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0750, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas", {st_mode=S_IFDIR|0750, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr", {st_mode=S_IFDIR|0775, st_size=4096, ...}, 0) = 0
-getpid()                                = 13608
-getppid()                               = 13605
-getpid()                                = 13608
-getppid()                               = 13605
-getpid()                                = 13608
-getppid()                               = 13605
-getpgid(0)                              = 13605
-ioctl(2, TIOCGPGRP, [13605])            = 0
-rt_sigaction(SIGCHLD, {sa_handler=0xaaaab25e7d20, sa_mask=[], sa_flags=SA_RESTART}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTART}, 8) = 0
-prlimit64(0, RLIMIT_NPROC, NULL, {rlim_cur=30246, rlim_max=30246}) = 0
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-openat(AT_FDCWD, "./Documents/Projects/grlrr/grlrr_run.sh", O_RDONLY) = 3
-newfstatat(AT_FDCWD, "./Documents/Projects/grlrr/grlrr_run.sh", {st_mode=S_IFREG|0764, st_size=389, ...}, 0) = 0
-ioctl(3, TCGETS, 0xffffc30ca520)        = -1 ENOTTY (Inappropriate ioctl for device)
-lseek(3, 0, SEEK_CUR)                   = 0
-read(3, "#!/bin/bash\necho \"GRLRR\"\n\n# get "..., 80) = 80
-lseek(3, 0, SEEK_SET)                   = 0
-prlimit64(0, RLIMIT_NOFILE, NULL, {rlim_cur=1024*1024, rlim_max=1024*1024}) = 0
-fcntl(255, F_GETFD)                     = -1 EBADF (Bad file descriptor)
-dup3(3, 255, 0)                         = 255
-close(3)                                = 0
-fcntl(255, F_SETFD, FD_CLOEXEC)         = 0
-fcntl(255, F_GETFL)                     = 0x20000 (flags O_RDONLY|O_LARGEFILE)
-fstat(255, {st_mode=S_IFREG|0764, st_size=389, ...}) = 0
-lseek(255, 0, SEEK_CUR)                 = 0
-read(255, "#!/bin/bash\necho \"GRLRR\"\n\n# get "..., 389) = 389
-fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x5), ...}) = 0
-write(1, "GRLRR\n", 6)                  = 6
-newfstatat(AT_FDCWD, "/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas", {st_mode=S_IFDIR|0750, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects", {st_mode=S_IFDIR|0775, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr", {st_mode=S_IFDIR|0775, st_size=4096, ...}, 0) = 0
-chdir("/home/vestas/Documents/Projects/grlrr") = 0
-newfstatat(AT_FDCWD, ".venv/bin/activate", {st_mode=S_IFREG|0644, st_size=2076, ...}, 0) = 0
-newfstatat(AT_FDCWD, ".venv/bin/activate", {st_mode=S_IFREG|0644, st_size=2076, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, ".venv/bin/activate", X_OK) = -1 EACCES (Permission denied)
-newfstatat(AT_FDCWD, ".venv/bin/activate", {st_mode=S_IFREG|0644, st_size=2076, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, ".venv/bin/activate", R_OK) = 0
-openat(AT_FDCWD, ".venv/bin/activate", O_RDONLY) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=2076, ...}) = 0
-read(3, "# This file must be used with \"s"..., 2076) = 2076
-close(3)                                = 0
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
-fcntl(2, F_GETFD)                       = 0
-fcntl(2, F_DUPFD, 10)                   = 10
-fcntl(2, F_GETFD)                       = 0
-fcntl(10, F_SETFD, FD_CLOEXEC)          = 0
-dup3(3, 2, 0)                           = 2
-close(3)                                = 0
-dup3(10, 2, 0)                          = 2
-fcntl(10, F_GETFD)                      = 0x1 (flags FD_CLOEXEC)
-close(10)                               = 0
-brk(0xaaaac6b52000)                     = 0xaaaac6b52000
-openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
-fcntl(2, F_GETFD)                       = 0
-fcntl(2, F_DUPFD, 10)                   = 10
-fcntl(2, F_GETFD)                       = 0
-fcntl(10, F_SETFD, FD_CLOEXEC)          = 0
-dup3(3, 2, 0)                           = 2
-close(3)                                = 0
-dup3(10, 2, 0)                          = 2
-fcntl(10, F_GETFD)                      = 0x1 (flags FD_CLOEXEC)
-close(10)                               = 0
-write(1, "Setting up Access Point: \n", 26) = 26
-newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0775, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/.vscode/extensions/ms-python.python-2024.12.2-linux-arm64/python_files/deactivate/bash/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/.vscode/extensions/ms-python.python-2024.12.2-linux-arm64/python_files/deactivate/bash/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/.local/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/home/vestas/.local/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/usr/local/sbin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/usr/local/bin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/usr/sbin/nmcli", 0xffffc30c9e98, 0) = -1 ENOENT (No such file or directory)
-newfstatat(AT_FDCWD, "/usr/bin/nmcli", {st_mode=S_IFREG|0755, st_size=1033440, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/usr/bin/nmcli", {st_mode=S_IFREG|0755, st_size=1033440, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, "/usr/bin/nmcli", X_OK) = 0
-newfstatat(AT_FDCWD, "/usr/bin/nmcli", {st_mode=S_IFREG|0755, st_size=1033440, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, "/usr/bin/nmcli", R_OK) = 0
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-rt_sigprocmask(SIG_BLOCK, [INT TERM CHLD], [], 8) = 0
-lseek(255, -128, SEEK_CUR)              = 261
-clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xffffbe4390f0) = 13609
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigaction(SIGINT, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-wait4(-1, [2KDevice 'wlan0' successfully activated with '0add91f2-febc-48f3-ab98-21b695c0f5e4'.
-Hint: "nmcli dev wifi show-password" shows the Wi-Fi name and password.
-[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 13609
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, 8) = 0
-ioctl(2, TIOCGWINSZ, {ws_row=28, ws_col=168, ws_xpixel=0, ws_ypixel=0}) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=13609, si_uid=1002, si_status=0, si_utime=2 /* 0.02 s */, si_stime=2 /* 0.02 s */} ---
-wait4(-1, 0xffffc30c8d70, WNOHANG, NULL) = -1 ECHILD (No child processes)
-rt_sigreturn({mask=[]})                 = 0
-read(255, "\n# store the creditials\nnmcli de"..., 389) = 128
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-rt_sigprocmask(SIG_BLOCK, [INT TERM CHLD], [], 8) = 0
-lseek(255, -62, SEEK_CUR)               = 327
-clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xffffbe4390f0) = 13833
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigaction(SIGINT, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-wait4(-1, SSID: grlrr2024
-Security: WPA
-Password: grlrr2024
+2024-08-09 12:52:42 INFO     =============================================================
+2024-08-09 12:52:42 INFO     GRLRR STARTED
+2024-08-09 12:52:42 INFO     =============================================================
+2024-08-09 12:52:42 INFO     serial connected to /dev/ttyACM0
+2024-08-09 12:52:42 INFO     h7 connected
+2024-08-09 12:52:42 INFO     wrote to h7: 
+2024-08-09 12:52:42 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-09 12:52:42 INFO     recv from h7: 
+2024-08-09 12:52:42 INFO     {"device":"?","motorSpeed":0}
 
-[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 13833
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, 8) = 0
-ioctl(2, TIOCGWINSZ, {ws_row=28, ws_col=168, ws_xpixel=0, ws_ypixel=0}) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=13833, si_uid=1002, si_status=0, si_utime=1 /* 0.01 s */, si_stime=1 /* 0.01 s */} ---
-wait4(-1, 0xffffc30c8d70, WNOHANG, NULL) = -1 ECHILD (No child processes)
-rt_sigreturn({mask=[]})                 = 0
-read(255, "\n# start the main program\npython"..., 389) = 62
-newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0775, st_size=4096, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/python", {st_mode=S_IFREG|0755, st_size=7843560, ...}, 0) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/python", {st_mode=S_IFREG|0755, st_size=7843560, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/python", X_OK) = 0
-newfstatat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/python", {st_mode=S_IFREG|0755, st_size=7843560, ...}, 0) = 0
-geteuid()                               = 1002
-getegid()                               = 1002
-getuid()                                = 1002
-getgid()                                = 1002
-faccessat(AT_FDCWD, "/home/vestas/Documents/Projects/grlrr/.venv/bin/python", R_OK) = 0
-rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
-rt_sigprocmask(SIG_BLOCK, [INT TERM CHLD], [], 8) = 0
-lseek(255, -21, SEEK_CUR)               = 368
-clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xffffbe4390f0) = 13839
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
-rt_sigaction(SIGINT, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-wait4(-1, 2024-08-09 11:34:39 INFO     =============================================================
-2024-08-09 11:34:39 INFO     GRLRR STARTED
-2024-08-09 11:34:39 INFO     =============================================================
-2024-08-09 11:34:39 INFO     serial connected to /dev/ttyACM0
-2024-08-09 11:34:39 INFO     h7 connected
-2024-08-09 11:34:39 INFO     wrote to h7: 
-2024-08-09 11:34:39 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 11:34:39 INFO     recv from h7: 
-2024-08-09 11:34:39 INFO     {"device":"?","motorSpeed":0}
+2024-08-09 12:52:42 INFO     log server started
+2024-08-09 12:52:42 INFO     server listening on 0.0.0.0:8080
+2024-08-09 12:52:47 INFO     192.168.137.1 [09/Aug/2024:11:52:47 -0700] "GET / HTTP/1.1" 200 825 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-09 12:52:52 INFO     server closing
+2024-08-09 12:52:52 INFO     server closed
+2024-08-12 08:47:22 INFO     =============================================================
+2024-08-12 08:47:22 INFO     GRLRR STARTED
+2024-08-12 08:47:22 INFO     =============================================================
+2024-08-12 08:47:22 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:47:22 INFO     h7 connected
+2024-08-12 08:47:22 INFO     wrote to h7: 
+2024-08-12 08:47:22 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:47:22 INFO     recv from h7: 
+2024-08-12 08:47:22 INFO     {"device":"?","motorSpeed":0}
 
-2024-08-09 11:34:39 INFO     server listening on 0.0.0.0:8080
-2024-08-09 11:35:39 INFO     server closing
-2024-08-09 11:35:39 INFO     server closed
-0xffffc30ca0a0, 0, NULL)      = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
---- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
-rt_sigreturn({mask=[CHLD]})             = -1 EINTR (Interrupted system call)
-wait4(-1, [{WIFSIGNALED(s) && WTERMSIG(s) == SIGINT}], 0, NULL) = 13839
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=0xaaaab25ea770, sa_mask=[], sa_flags=0}, 8) = 0
-rt_sigprocmask(SIG_BLOCK, [CHLD], [CHLD], 8) = 0
-rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) = 0
-rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_KILLED, si_pid=13839, si_uid=1002, si_status=SIGINT, si_utime=5422 /* 54.22 s */, si_stime=571 /* 5.71 s */} ---
-rt_sigreturn({mask=[]})                 = 0
-rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
-getpid()                                = 13608
-kill(13608, SIGINT)                     = 0
---- SIGINT {si_signo=SIGINT, si_code=SI_USER, si_pid=13608, si_uid=1002} ---
-+++ killed by SIGINT +++
-[2KDevice 'wlan0' successfully activated with '0add91f2-febc-48f3-ab98-21b695c0f5e4'.
-Hint: "nmcli dev wifi show-password" shows the Wi-Fi name and password.
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=14235, si_uid=1002, si_status=0, si_utime=2 /* 0.02 s */, si_stime=1 /* 0.01 s */} ---
-SSID: grlrr2024
-Security: WPA
-Password: grlrr2024
+2024-08-12 08:47:22 INFO     log server started
+2024-08-12 08:47:22 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:49:01 INFO     connection rejected (400 Bad Request)
+2024-08-12 08:49:01 INFO     connection closed
+2024-08-12 08:49:18 INFO     192.168.137.1 [12/Aug/2024:07:49:18 -0700] "GET / HTTP/1.1" 200 1876 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:49:24 INFO     192.168.137.1 [12/Aug/2024:07:49:24 -0700] "GET / HTTP/1.1" 200 2092 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:54:09 INFO     server closing
+2024-08-12 08:54:09 INFO     server closed
+2024-08-12 08:54:19 INFO     =============================================================
+2024-08-12 08:54:19 INFO     GRLRR STARTED
+2024-08-12 08:54:19 INFO     =============================================================
+2024-08-12 08:54:19 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:54:19 INFO     h7 connected
+2024-08-12 08:54:19 INFO     wrote to h7: 
+2024-08-12 08:54:19 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:54:19 INFO     recv from h7: 
+2024-08-12 08:54:19 INFO     {"device":"?","motorSpeed":0}
 
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=14453, si_uid=1002, si_status=0, si_utime=0, si_stime=1 /* 0.01 s */} ---
-2024-08-09 11:41:32 INFO     =============================================================
-2024-08-09 11:41:32 INFO     GRLRR STARTED
-2024-08-09 11:41:32 INFO     =============================================================
-2024-08-09 11:41:32 INFO     serial connected to /dev/ttyACM0
-2024-08-09 11:41:32 INFO     h7 connected
-2024-08-09 11:41:32 INFO     wrote to h7: 
-2024-08-09 11:41:32 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 11:41:32 INFO     recv from h7: 
-2024-08-09 11:41:32 INFO     {"device":"?","motorSpeed":0}
+2024-08-12 08:54:19 INFO     log server started
+2024-08-12 08:54:19 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:54:25 INFO     192.168.137.1 [12/Aug/2024:07:54:25 -0700] "GET / HTTP/1.1" 200 3116 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:54:42 INFO     server closing
+2024-08-12 08:54:42 INFO     server closed
+2024-08-12 08:54:44 INFO     =============================================================
+2024-08-12 08:54:44 INFO     GRLRR STARTED
+2024-08-12 08:54:44 INFO     =============================================================
+2024-08-12 08:54:44 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:54:44 INFO     h7 connected
+2024-08-12 08:54:44 INFO     wrote to h7: 
+2024-08-12 08:54:44 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:54:44 INFO     recv from h7: 
+2024-08-12 08:54:44 INFO     {"device":"?","motorSpeed":0}
 
-2024-08-09 11:41:32 INFO     server listening on 0.0.0.0:8080
---- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
-2024-08-09 11:41:47 INFO     server closing
-2024-08-09 11:41:47 INFO     server closed
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_KILLED, si_pid=14459, si_uid=1002, si_status=SIGINT, si_utime=1327 /* 13.27 s */, si_stime=145 /* 1.45 s */} ---
-kill(14234, SIGINT)                     = 0
---- SIGINT {si_signo=SIGINT, si_code=SI_USER, si_pid=14234, si_uid=1002} ---
-+++ killed by SIGINT +++
-[2KDevice 'wlan0' successfully activated with '0add91f2-febc-48f3-ab98-21b695c0f5e4'.
-Hint: "nmcli dev wifi show-password" shows the Wi-Fi name and password.
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=14620, si_uid=1002, si_status=0, si_utime=3 /* 0.03 s */, si_stime=1 /* 0.01 s */} ---
-SSID: grlrr2024
-Security: WPA
-Password: grlrr2024
+2024-08-12 08:54:44 INFO     log server started
+2024-08-12 08:54:44 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:54:46 INFO     192.168.137.1 [12/Aug/2024:07:54:46 -0700] "GET / HTTP/1.1" 200 4090 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:54:50 INFO     192.168.137.1 [12/Aug/2024:07:54:50 -0700] "GET / HTTP/1.1" 200 4307 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:54:52 INFO     192.168.137.1 [12/Aug/2024:07:54:52 -0700] "GET / HTTP/1.1" 200 4524 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:55:00 INFO     connection rejected (400 Bad Request)
+2024-08-12 08:55:00 INFO     connection closed
+2024-08-12 08:55:09 INFO     192.168.137.1 [12/Aug/2024:07:55:09 -0700] "GET / HTTP/1.1" 200 4857 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:55:13 INFO     192.168.137.1 [12/Aug/2024:07:55:13 -0700] "GET / HTTP/1.1" 200 5074 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:56:01 INFO     server closing
+2024-08-12 08:56:01 INFO     server closed
+2024-08-12 08:56:05 INFO     =============================================================
+2024-08-12 08:56:05 INFO     GRLRR STARTED
+2024-08-12 08:56:05 INFO     =============================================================
+2024-08-12 08:56:05 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:56:05 INFO     h7 connected
+2024-08-12 08:56:05 INFO     wrote to h7: 
+2024-08-12 08:56:05 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:56:05 INFO     recv from h7: 
+2024-08-12 08:56:05 INFO     {"device":"?","motorSpeed":0}
 
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=14873, si_uid=1002, si_status=0, si_utime=1 /* 0.01 s */, si_stime=1 /* 0.01 s */} ---
-2024-08-09 11:43:03 INFO     =============================================================
-2024-08-09 11:43:03 INFO     GRLRR STARTED
-2024-08-09 11:43:03 INFO     =============================================================
-2024-08-09 11:43:03 INFO     serial connected to /dev/ttyACM0
-2024-08-09 11:43:03 INFO     h7 connected
-2024-08-09 11:43:03 INFO     wrote to h7: 
-2024-08-09 11:43:03 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 11:43:03 INFO     recv from h7: 
-2024-08-09 11:43:03 INFO     {"device":"?","motorSpeed":0}
+2024-08-12 08:56:05 INFO     log server started
+2024-08-12 08:56:05 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:56:21 INFO     192.168.137.1 [12/Aug/2024:07:56:21 -0700] "GET / HTTP/1.1" 200 6049 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:57:18 INFO     server closing
+2024-08-12 08:57:18 INFO     server closed
+2024-08-12 08:57:19 INFO     =============================================================
+2024-08-12 08:57:19 INFO     GRLRR STARTED
+2024-08-12 08:57:19 INFO     =============================================================
+2024-08-12 08:57:19 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:57:19 INFO     h7 connected
+2024-08-12 08:57:19 INFO     wrote to h7: 
+2024-08-12 08:57:19 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:57:19 INFO     recv from h7: 
+2024-08-12 08:57:19 INFO     {"device":"?","motorSpeed":0}
 
-2024-08-09 11:43:03 INFO     server listening on 0.0.0.0:8080
---- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
-2024-08-09 11:43:13 INFO     server closing
-2024-08-09 11:43:13 INFO     server closed
---- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_KILLED, si_pid=14879, si_uid=1002, si_status=SIGINT, si_utime=907 /* 9.07 s */, si_stime=91 /* 0.91 s */} ---
-kill(14619, SIGINT)                     = 0
---- SIGINT {si_signo=SIGINT, si_code=SI_USER, si_pid=14619, si_uid=1002} ---
-+++ killed by SIGINT +++
-2024-08-09 11:53:56 INFO     =============================================================
-2024-08-09 11:53:56 INFO     GRLRR STARTED
-2024-08-09 11:53:56 INFO     =============================================================
-2024-08-09 11:53:56 INFO     serial connected to /dev/ttyACM0
-2024-08-09 11:53:56 INFO     h7 connected
-2024-08-09 11:53:56 INFO     wrote to h7: 
-2024-08-09 11:53:56 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 11:53:56 INFO     recv from h7: 
-2024-08-09 11:53:56 INFO     {"device":"?","motorSpeed":0}
+2024-08-12 08:57:19 INFO     log server started
+2024-08-12 08:57:19 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:57:23 INFO     192.168.137.1 [12/Aug/2024:07:57:23 -0700] "GET / HTTP/1.1" 200 6906 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:57:56 INFO     server closing
+2024-08-12 08:57:56 INFO     server closed
+2024-08-12 08:57:59 INFO     =============================================================
+2024-08-12 08:57:59 INFO     GRLRR STARTED
+2024-08-12 08:57:59 INFO     =============================================================
+2024-08-12 08:57:59 INFO     serial connected to /dev/ttyACM0
+2024-08-12 08:57:59 INFO     h7 connected
+2024-08-12 08:57:59 INFO     wrote to h7: 
+2024-08-12 08:57:59 INFO     b'{"device": "?", "motorSpeed": 0}\n'
+2024-08-12 08:57:59 INFO     recv from h7: 
+2024-08-12 08:57:59 INFO     {"device":"?","motorSpeed":0}
 
-2024-08-09 11:53:56 INFO     server listening on 0.0.0.0:8080
-2024-08-09 11:54:05 INFO     server closing
-2024-08-09 11:54:05 INFO     server closed
-2024-08-09 11:57:13 INFO     =============================================================
-2024-08-09 11:57:13 INFO     GRLRR STARTED
-2024-08-09 11:57:13 INFO     =============================================================
-2024-08-09 11:57:13 INFO     serial connected to /dev/ttyACM0
-2024-08-09 11:57:13 INFO     h7 connected
-2024-08-09 11:57:13 INFO     wrote to h7: 
-2024-08-09 11:57:13 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 11:57:13 INFO     recv from h7: 
-2024-08-09 11:57:13 INFO     {"device":"?","motorSpeed":0}
+2024-08-12 08:57:59 INFO     log server started
+2024-08-12 08:57:59 INFO     server listening on 0.0.0.0:8080
+2024-08-12 08:58:02 INFO     192.168.137.1 [12/Aug/2024:07:58:02 -0700] "GET / HTTP/1.1" 200 7851 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:58:40 INFO     connection open
+2024-08-12 08:58:56 INFO     connection closed
+2024-08-12 08:58:56 INFO     connection open
+2024-08-12 08:59:03 INFO     192.168.137.1 [12/Aug/2024:07:59:03 -0700] "GET / HTTP/1.1" 200 8204 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:59:12 INFO     websocket packet: 
+2024-08-12 08:59:12 INFO     {"wheelDiameter":"0.05","motorDirection":1,"motorSpeed":"0","motorMode":false,"motorEnable":true,"targetGlueHeight":"0","UT_Kp":"0.05","UT_Ki":"0.0","UT_Kd":"0.0","M_Kp":"25.0","M_Ki":"15.0","M_Kd":"0.0","ultrasonicValue":0,"batteryLevel":0,"estop":false,"uptime":0}
+2024-08-12 08:59:12 INFO     wrote to h7: 
+2024-08-12 08:59:12 INFO     b'{"msgtyp": "set", "motorSpeed0": -0.0, "motorSpeed1": -0.0, "motorSpeed2": 0.0, "motorSpeed3": 0.0}\n'
+2024-08-12 08:59:12 INFO     recv from h7: 
+2024-08-12 08:59:12 INFO     null
 
-2024-08-09 11:57:13 INFO     server listening on 0.0.0.0:8080
-2024-08-09 11:57:47 INFO     connection rejected (400 Bad Request)
-2024-08-09 11:57:47 INFO     connection closed
-2024-08-09 11:58:52 INFO     server closing
-2024-08-09 11:58:52 INFO     server closed
-2024-08-09 12:00:31 INFO     =============================================================
-2024-08-09 12:00:31 INFO     GRLRR STARTED
-2024-08-09 12:00:31 INFO     =============================================================
-2024-08-09 12:00:31 INFO     serial connected to /dev/ttyACM0
-2024-08-09 12:00:31 INFO     h7 connected
-2024-08-09 12:00:31 INFO     wrote to h7: 
-2024-08-09 12:00:31 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 12:00:31 INFO     recv from h7: 
-2024-08-09 12:00:31 INFO     {"device":"?","motorSpeed":0}
-
-2024-08-09 12:02:01 ERROR    Task exception was never retrieved
-future: <Task finished name='Task-1' coro=<start_tasks() done, defined at /home/vestas/Documents/Projects/grlrr/communications.py:12> exception=KeyboardInterrupt()>
-Traceback (most recent call last):
-  File "/home/vestas/Documents/Projects/grlrr/main.py", line 10, in <module>
-    communications.main()
-  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 122, in main
-    asyncio.run(start_tasks())
-  File "/usr/lib/python3.12/asyncio/runners.py", line 193, in run
-    with Runner(debug=debug, loop_factory=loop_factory) as runner:
-  File "/usr/lib/python3.12/asyncio/runners.py", line 62, in __exit__
-    self.close()
-  File "/usr/lib/python3.12/asyncio/runners.py", line 70, in close
-    _cancel_all_tasks(loop)
-  File "/usr/lib/python3.12/asyncio/runners.py", line 205, in _cancel_all_tasks
-    loop.run_until_complete(tasks.gather(*to_cancel, return_exceptions=True))
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
-    self.run_forever()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
-    self._run_once()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
-    handle._run()
-  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
-    self._context.run(self._callback, *self._args)
-  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 13, in start_tasks
-    await asyncio.gather(websocket_server(), serial_server(), log_server.main())
-  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
-    self.run_forever()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
-    self._run_once()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
-    handle._run()
-  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
-    self._context.run(self._callback, *self._args)
-  File "/home/vestas/Documents/Projects/grlrr/log_server.py", line 19, in main
-    httpd.serve_forever()
-  File "/usr/lib/python3.12/socketserver.py", line 240, in serve_forever
-    self._handle_request_noblock()
-  File "/usr/lib/python3.12/socketserver.py", line 318, in _handle_request_noblock
-    self.process_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 349, in process_request
-    self.finish_request(request, client_address)
-  File "/usr/lib/python3.12/socketserver.py", line 362, in finish_request
-    self.RequestHandlerClass(request, client_address, self)
-  File "/usr/lib/python3.12/socketserver.py", line 761, in __init__
-    self.handle()
-  File "/usr/lib/python3.12/http/server.py", line 436, in handle
-    self.handle_one_request()
-  File "/usr/lib/python3.12/http/server.py", line 404, in handle_one_request
-    self.raw_requestline = self.rfile.readline(65537)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/socket.py", line 707, in readinto
-    return self._sock.recv_into(b)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/runners.py", line 157, in _on_sigint
-    raise KeyboardInterrupt()
-KeyboardInterrupt
-2024-08-09 12:02:01 ERROR    _GatheringFuture exception was never retrieved
-future: <_GatheringFuture finished exception=CancelledError()>
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1459, in _create_server_getaddrinfo
-    async def _create_server_getaddrinfo(self, host, port, family, flags):
-asyncio.exceptions.CancelledError
-2024-08-09 12:03:09 INFO     =============================================================
-2024-08-09 12:03:09 INFO     GRLRR STARTED
-2024-08-09 12:03:09 INFO     =============================================================
-2024-08-09 12:03:09 INFO     serial connected to /dev/ttyACM0
-2024-08-09 12:03:09 INFO     h7 connected
-2024-08-09 12:03:09 INFO     wrote to h7: 
-2024-08-09 12:03:09 INFO     b'{"device": "?", "motorSpeed": 0}\n'
-2024-08-09 12:03:09 INFO     recv from h7: 
-2024-08-09 12:03:09 INFO     {"device":"?","motorSpeed":0}
-
-2024-08-09 12:05:31 ERROR    Task exception was never retrieved
-future: <Task finished name='Task-1' coro=<start_tasks() done, defined at /home/vestas/Documents/Projects/grlrr/communications.py:12> exception=KeyboardInterrupt()>
-Traceback (most recent call last):
-  File "/home/vestas/Documents/Projects/grlrr/main.py", line 10, in <module>
-    log_server.main()
-  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 122, in main
-  File "/usr/lib/python3.12/asyncio/runners.py", line 193, in run
-    with Runner(debug=debug, loop_factory=loop_factory) as runner:
-  File "/usr/lib/python3.12/asyncio/runners.py", line 62, in __exit__
-    self.close()
-  File "/usr/lib/python3.12/asyncio/runners.py", line 70, in close
-    _cancel_all_tasks(loop)
-  File "/usr/lib/python3.12/asyncio/runners.py", line 205, in _cancel_all_tasks
-    loop.run_until_complete(tasks.gather(*to_cancel, return_exceptions=True))
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
-    self.run_forever()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
-    self._run_once()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
-    handle._run()
-  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
-    self._context.run(self._callback, *self._args)
-  File "/home/vestas/Documents/Projects/grlrr/communications.py", line 13, in start_tasks
-  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 674, in run_until_complete
-    self.run_forever()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 641, in run_forever
-    self._run_once()
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1987, in _run_once
-    handle._run()
-  File "/usr/lib/python3.12/asyncio/events.py", line 88, in _run
-    self._context.run(self._callback, *self._args)
-  File "/home/vestas/Documents/Projects/grlrr/log_server.py", line 19, in main
-    httpd.serve_forever()
-  File "/usr/lib/python3.12/socketserver.py", line 235, in serve_forever
-    ready = selector.select(poll_interval)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/selectors.py", line 415, in select
-    fd_event_list = self._selector.poll(timeout)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/runners.py", line 157, in _on_sigint
-    raise KeyboardInterrupt()
-KeyboardInterrupt
-2024-08-09 12:05:31 ERROR    _GatheringFuture exception was never retrieved
-future: <_GatheringFuture finished exception=CancelledError()>
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 1459, in _create_server_getaddrinfo
-    async def _create_server_getaddrinfo(self, host, port, family, flags):
-asyncio.exceptions.CancelledError
-2024-08-09 12:05:42 INFO     =============================================================
-2024-08-09 12:05:42 INFO     GRLRR STARTED
-2024-08-09 12:05:42 INFO     =============================================================
+2024-08-12 08:59:17 INFO     192.168.137.1 [12/Aug/2024:07:59:17 -0700] "GET / HTTP/1.1" 200 9020 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+2024-08-12 08:59:40 INFO     server closing
+2024-08-12 08:59:40 INFO     connection closed
