@@ -13,6 +13,6 @@ async def run_log_server():
     app.add_routes([web.get('/', handle)])
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', 5555)
+    site = web.TCPSite(runner, '0.0.0.0', 1095)
     await site.start()
 

@@ -1,42 +1,10 @@
-import asyncio
-import serial.threaded
-from websockets.server import serve
 from logger import grlrr_log
-import serial
-import fnmatch
 import glob
+import fnmatch
+import serial
 import json
-
-import log_server
-
-async def start_tasks():
-    await asyncio.gather(websocket_server(), serial_server(), log_server.run_log_server())
-
-
-
-async def websocket_server():
-    async with serve(connection_handler, "0.0.0.0", 8080):
-        await asyncio.Future() # runs server forever
-
-
-
-async def connection_handler(websocket):
-    async for packet in websocket:
-        grlrr_log.info("websocket packet: ")
-        grlrr_log.info(packet)
-        packet = json.loads(packet)
-        motorSpeedPacket = {"msgtyp":"set", "motorSpeed0": -1.0 * float(packet.get("motorSpeed")), 
-                            "motorSpeed1": -1.0 * float(packet.get("motorSpeed")),
-                            "motorSpeed2": float(packet.get("motorSpeed")),
-                            "motorSpeed3": float(packet.get("motorSpeed"))}
-        command_queue.insert(0, motorSpeedPacket)
-
-
-
-
-
-
-
+import asyncio
+from main import command_queue, result_queue
 
 def detect_serial(preferred_list=['*']):
     '''try to auto-detect serial ports on win32'''
@@ -58,7 +26,7 @@ def detect_serial(preferred_list=['*']):
 
 def connect_serial(available_ports):
     try:
-        connected_device = serial.Serial(available_ports[0], 115200,timeout=1)
+        connected_device = serial.Serial(available_ports[0], 115200, timeout=0.01)
         if connected_device.isOpen():
             grlrr_log.info("serial connected to "+str(available_ports[0]))
             return connected_device
@@ -68,23 +36,25 @@ def connect_serial(available_ports):
         # send alert to the tablet
         grlrr_log.info(e)
 
+
 def valididate_serial(device):
     try:
         msg = {"msgtyp":"get","device":"?"}
         device.write((json.dumps(msg)+'\n').encode('ascii'))
         new_msg = json.loads(device.read_until(expected=b"\n").decode('ascii'))
-        print(new_msg)
+        grlrr_log.info(new_msg)
         if new_msg["device"] == "h7":
             grlrr_log.info("h7 connected")
             return 1
         else:
+            grlrr_log.error("NOT CONNECTED")
             return 0
     except Exception as e:
-        grlrr_log.info(e)
-        grlrr_log.info("no valid device / comm issue / no api endpoint")
+        grlrr_log.error(e)
+        grlrr_log.error("no valid device / comm issue / no api endpoint")
 
 
-async def serial_server():
+async def run_serial_server():
 
     h7 = connect_serial(detect_serial())
     if valididate_serial(h7):
@@ -107,16 +77,3 @@ async def serial_server():
     else:
         grlrr_log.info("Unable to connect to serial device. Exiting...")
         quit()
-        
-
-
-grlrr_log.info("=============================================================")
-grlrr_log.info("GRLRR STARTED")
-grlrr_log.info("=============================================================")
-
-command_queue = [{"device":"?", "motorSpeed":0}] 
-result_queue = []
-
-def main():
-    # start the tasks
-    asyncio.run(start_tasks())
