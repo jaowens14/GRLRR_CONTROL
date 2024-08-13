@@ -1,8 +1,9 @@
-from logger import grlrr_log
+from logger import grlrr_log, log_file_name
 from aiohttp import web
 
+
 async def handle(request):
-    f_served = open('grlrr.log','rb')
+    f_served = open(log_file_name,'rb')
     f_content = f_served.read().decode('utf-8')
     f_served.close()
     return web.Response(text=f_content)
