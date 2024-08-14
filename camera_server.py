@@ -3,7 +3,7 @@ import asyncio
 from logger import grlrr_log
 import numpy as np
 import base64
-from queues import image_queue
+from queues import image_queue, left_offset_queue, right_offset_queue, angle_queue
 
 red = (0,0,255)
 green = (0,255,0)
@@ -176,6 +176,9 @@ def process_image(image):
         #print(web_trajectory)
 
         robot_angle = round(np.degrees(np.arccos((np.dot(robot_reference_vector, web_trajectory))/(np.linalg.norm(robot_reference_vector)*np.linalg.norm(web_trajectory)))),2)
+        np.arctan2()
+        # w2​v1​−w1​v2​,w1​v1​+w2​v2​
+        # this line is acos ( R dot W / ||R|| * ||W||)
 
         #print(left_offset_point)
         #print(right_offset_point)
@@ -239,6 +242,7 @@ async def run_camera_server():
 
             data = str(base64.b64encode(encoded))
             await image_queue.put(data[2:len(data)-1])
+            await left_percent_queue
             
 
             #grlrr_log.info(datetime.datetime.now())
