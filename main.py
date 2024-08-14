@@ -10,7 +10,7 @@ import serial_server
 import log_server
 from logger import grlrr_log
 
-
+import camera_server
 
 
 
@@ -20,6 +20,7 @@ async def start_grlrr_tasks():
         websocket_server.run_websocket_server(), 
         serial_server.run_serial_server(), 
         log_server.run_log_server(),
+        camera_server.run_camera_server(),
         )
 
 
