@@ -1,8 +1,6 @@
 import os
 import asyncio
 
-command_queue = [{"msgtyp": "get", "device":"?", "motorSpeed":0}] 
-result_queue = []
 
 # grlrr robot specific
 import websocket_server
@@ -37,7 +35,7 @@ def main():
 
 if __name__ == "__main__":
     PID = str(os.getppid())
-    with open('grlrr.pid', 'w') as file:
+    with open('.grlrr.pid', 'w') as file:
         file.write(PID)
         file.close()
     main()

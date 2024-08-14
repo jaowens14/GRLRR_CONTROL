@@ -2,7 +2,7 @@ import asyncio
 import json
 from websockets.server import serve
 from logger import grlrr_log
-from main import command_queue, result_queue
+from queues import command_queue, result_queue
 from camera_server import image_queue
 
 async def run_websocket_server():
@@ -41,8 +41,8 @@ async def consumer(packet):
                                         "motorSpeed3": float(packet.get("motorSpeed4"))}
     getPacket = {"msgtyp":"get"}
     
-    command_queue.insert(0, getPacket)
-    command_queue.insert(0, motorSpeedPacket)
+    await command_queue.put( getPacket)
+    await command_queue.put( motorSpeedPacket)
     
 
 

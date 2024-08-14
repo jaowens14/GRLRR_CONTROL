@@ -4,7 +4,12 @@ import fnmatch
 import serial
 import json
 import asyncio
-from main import command_queue, result_queue
+
+from queues import command_queue, result_queue
+
+command_queue.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
+
+
 
 def detect_serial(preferred_list=['*']):
     '''try to auto-detect serial ports on win32'''
@@ -60,16 +65,15 @@ async def run_serial_server():
     if valididate_serial(h7):
         while True:
             try:
-                if len(command_queue):
-                    msg = command_queue.pop()
-                    grlrr_log.info("wrote to h7: ")
-                    grlrr_log.info((json.dumps(msg)+'\n').encode('ascii'))
-                    h7.write((json.dumps(msg)+'\n').encode('ascii'))
-                    new_msg = h7.read_until(expected=b"\n").decode('ascii')
-                    if new_msg:
-                        grlrr_log.info("recv from h7: ")
-                        grlrr_log.info(new_msg)
-                        result_queue.insert(0, json.loads(new_msg))
+                msg = await command_queue.get()
+                grlrr_log.info("wrote to h7: ")
+                grlrr_log.info((json.dumps(msg)+'\n').encode('ascii'))
+                h7.write((json.dumps(msg)+'\n').encode('ascii'))
+                new_msg = h7.read_until(expected=b"\n").decode('ascii')
+                grlrr_log.info("recv from h7: ")
+                grlrr_log.info(new_msg)
+                await result_queue.put(json.loads(new_msg))
+
             except Exception as e:
                 grlrr_log.info(e)
 

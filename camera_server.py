@@ -1,12 +1,10 @@
 import cv2
 import asyncio
 from logger import grlrr_log
-import datetime
 import numpy as np
 import base64
-import data
+from queues import image_queue
 
-image_queue = asyncio.Queue(10)
 red = (0,0,255)
 green = (0,255,0)
 blue = (255,0,0)
