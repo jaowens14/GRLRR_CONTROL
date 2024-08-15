@@ -9,7 +9,7 @@ import log_server
 from logger import grlrr_log
 
 import camera_server
-
+import steering
 
 
 async def start_grlrr_tasks():
@@ -19,6 +19,7 @@ async def start_grlrr_tasks():
         serial_server.run_serial_server(), 
         log_server.run_log_server(),
         camera_server.run_camera_server(),
+        steering.run_steering(),
         )
 
 

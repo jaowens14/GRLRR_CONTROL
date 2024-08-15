@@ -66,13 +66,16 @@ async def run_serial_server():
         while True:
             try:
                 msg = await command_queue.get()
+                #print("serial get fired")
                 grlrr_log.info("wrote to h7: ")
                 grlrr_log.info((json.dumps(msg)+'\n').encode('ascii'))
                 h7.write((json.dumps(msg)+'\n').encode('ascii'))
                 new_msg = h7.read_until(expected=b"\n").decode('ascii')
                 grlrr_log.info("recv from h7: ")
                 grlrr_log.info(new_msg)
-                await result_queue.put(json.loads(new_msg))
+                # nothing to consume the results queue yet to this line was blocking
+                #await result_queue.put(json.loads(new_msg))
+                #print("serial put fired")
 
             except Exception as e:
                 grlrr_log.info(e)

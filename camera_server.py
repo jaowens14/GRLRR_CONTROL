@@ -175,8 +175,11 @@ def process_image(image):
         #print("web")
         #print(web_trajectory)
 
-        robot_angle = round(np.degrees(np.arccos((np.dot(robot_reference_vector, web_trajectory))/(np.linalg.norm(robot_reference_vector)*np.linalg.norm(web_trajectory)))),2)
-        np.arctan2()
+        # old method of calculating angle
+        #robot_angle = round(np.degrees(np.arccos((np.dot(robot_reference_vector, web_trajectory))/(np.linalg.norm(robot_reference_vector)*np.linalg.norm(web_trajectory)))),2)
+        
+
+        robot_angle = round(np.degrees(np.arctan2(robot_reference_vector[0]*web_trajectory[1] - robot_reference_vector[1]*web_trajectory[0], np.dot(robot_reference_vector, web_trajectory))), 2)
         # w2​v1​−w1​v2​,w1​v1​+w2​v2​
         # this line is acos ( R dot W / ||R|| * ||W||)
 
@@ -218,7 +221,7 @@ def process_image(image):
     
     except Exception as e:
         #print(e)
-        return gray, np.nan, np.nan, np.nan
+        return gray, np.nan, np.nan, 0.00
 
 
 def setup_camera():
@@ -236,17 +239,21 @@ async def run_camera_server():
     while vid.isOpened():
         try:
             success, image = vid.read()
-            processed_image, left_precent, right_percent, robot_angle = process_image(image)
+            processed_image, left_percent, right_percent, robot_angle = process_image(image)
 
             encoded = cv2.imencode('.jpg', processed_image)[1]
 
             data = str(base64.b64encode(encoded))
             await image_queue.put(data[2:len(data)-1])
-            await left_percent_queue
+            #print("image queue fired")
+            #await left_offset_queue.put(left_percent)
+            #await right_offset_queue.put(right_percent)
+            await angle_queue.put(robot_angle)
+            #print("angle queue fired")
             
 
             #grlrr_log.info(datetime.datetime.now())
-            await asyncio.sleep(0.01) # should run about every 1/10 a second
+            await asyncio.sleep(0.1) # should run about every 1/10 a second
 
         except Exception as e:
             grlrr_log.info(e)
