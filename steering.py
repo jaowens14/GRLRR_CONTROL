@@ -15,22 +15,27 @@ pid.sample_time = 0.1 # seconds
 
 pid.output_limits = (-0.01, 0.01)    # Output value will be between -0.01 and 0.01 m/s
 
+steering = True
+
 async def run_steering():
     while True:
-        current_angle = await angle_queue.get()
+        if steering:
+            current_angle = await angle_queue.get()
 
-        # get control input u from the PID
-        u = pid(current_angle)
+            # get control input u from the PID
+            u = pid(current_angle)
 
-        #
-        # print("left motor: ", round(process_speed - u/2, 4), "right motor: ", )
+            #
+            # print("left motor: ", round(process_speed - u/2, 4), "right motor: ", )
 
-        left_speed = round(process_speed - u/2, 4)
-        right_speed = round(process_speed + u/2, 4)
-        # m1 is the left side right now, m4 is the right side
-        cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
-                               "motorSpeed1": -1.0 * float(process_speed),
-                               "motorSpeed2": float(process_speed),
-                               "motorSpeed3": float(right_speed)}
+            left_speed = round(process_speed - u/2, 4)
+            right_speed = round(process_speed + u/2, 4)
+            # m1 is the left side right now, m4 is the right side
+            cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
+                                   "motorSpeed1": -1.0 * float(process_speed),
+                                   "motorSpeed2": float(process_speed),
+                                   "motorSpeed3": float(right_speed)}
 
-        await command_queue.put(cmd)
+            #await command_queue.put(cmd)
+        else:
+            await asyncio.sleep(0)

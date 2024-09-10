@@ -5,6 +5,9 @@ import numpy as np
 import base64
 from queues import image_queue, left_offset_queue, right_offset_queue, angle_queue
 
+
+# check out gamma filter stuff to try to detect better
+
 red = (0,0,255)
 green = (0,255,0)
 blue = (255,0,0)

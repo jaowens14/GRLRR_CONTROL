@@ -4,7 +4,7 @@ from websockets.server import serve
 from logger import grlrr_log
 from queues import command_queue, result_queue
 from camera_server import image_queue
-
+import datetime
 async def run_websocket_server():
     async with serve(connection_handler, "0.0.0.0", 5000):
         await asyncio.Future() # runs server forever
@@ -28,26 +28,34 @@ async def producer_handler(websocket):
     while True:
         message = await producer()
         await websocket.send(str(message))
+        
 
 
 
 async def consumer(packet):
-    grlrr_log.info("websocket packet: ")
-    grlrr_log.info(packet)
-    packet = json.loads(packet)
-    motorSpeedPacket = {"msgtyp":"set", "motorSpeed0": -1.0 * float(packet.get("motorSpeed1")), 
-                                        "motorSpeed1": -1.0 * float(packet.get("motorSpeed2")),
-                                        "motorSpeed2": float(packet.get("motorSpeed3")),
-                                        "motorSpeed3": float(packet.get("motorSpeed4"))}
+    # get info from the h7
     getPacket = {"msgtyp":"get"}
-    
+    try:
+        grlrr_log.info("websocket packet: ")
+        grlrr_log.info(packet)
+        packet = json.loads(packet)
+        motorSpeedPacket = None
+        motorSpeedPacket = {"msgtyp":"set", "motorSpeed0": -1.0 * float(packet.get("motorSpeed0")), 
+                                            "motorSpeed1": -1.0 * float(packet.get("motorSpeed1")),
+                                            "motorSpeed2": float(packet.get("motorSpeed2")),
+                                            "motorSpeed3": float(packet.get("motorSpeed3"))}
+    except Exception as e:
+        grlrr_log.info("unable to parse command")
     await command_queue.put( getPacket)
-    await command_queue.put( motorSpeedPacket)
+    if motorSpeedPacket:
+        await command_queue.put( motorSpeedPacket)
     
 
 
 async def producer():
-    return await image_queue.get()
+    #return await image_queue.get()
+    return datetime.datetime.now()
+
 
 
 

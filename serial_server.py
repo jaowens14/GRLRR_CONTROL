@@ -9,7 +9,10 @@ from queues import command_queue, result_queue
 
 command_queue.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
 
-
+command_queue.put_nowait({"msgtyp":"set", "motorSpeed0": -1.0 * float(0.0), 
+                                   "motorSpeed1": -1.0 * float(0.0),
+                                   "motorSpeed2": float(0.0),
+                                   "motorSpeed3": float(0.0)})
 
 def detect_serial(preferred_list=['*']):
     '''try to auto-detect serial ports on win32'''
