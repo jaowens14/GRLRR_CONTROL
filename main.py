@@ -19,7 +19,7 @@ async def start_grlrr_tasks():
         serial_server.run_serial_server(), 
         log_server.run_log_server(),
         uptime_server.run_uptime_server(),
-       # camera_server.run_camera_server(),
+        camera_server.run_camera_server(),
        # steering.run_steering(),
         )
 

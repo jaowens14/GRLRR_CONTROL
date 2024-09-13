@@ -14,6 +14,8 @@ green = (0,255,0)
 blue = (255,0,0)
 
 last_robot_angles = []
+image_width = 0
+image_height = 0
 
 def draw_line_with_end_points(image, points, color):
     x1, y1, x2, y2 = points
@@ -24,54 +26,6 @@ def draw_line_with_end_points(image, points, color):
 def draw_a_lot_of_points(image, xs, ys, color):
     for i in range(len(xs)):
         cv2.circle(image, (xs[i], ys[i]), radius=3, color=color, thickness=3)
-
-
-
-#def get_edges(roi_image):
-#    # h = 768/256 = 3
-#    h, w = roi_image.shape
-#    section_height = 2 ** 7 # this happens to be the section height
-#    final_image = np.zeros_like(roi_image) # create zeros mat to add up in the end
-#    for y in range(0, h, section_height):
-#        y1 = y
-#        y2 = y+section_height
-#        x1 = 0
-#        x2 = w
-#
-#        roi_vertices = [(0,   y),
-#                        (w,   y),
-#                        (w,   y+section_height),
-#                        (0,   y+section_height), 
-#                        ]
-#
-#        empty_array = np.zeros_like(roi_image) # full size
-#
-#        section_mask = cv2.fillPoly(empty_array, np.int32([roi_vertices]), 255) # draw section on empty
-#
-#        roi = cv2.bitwise_and(roi_image, section_mask) # get the section from the original image # full
-#
-#        _ , bin = cv2.threshold(roi, 0, 255, cv2.THRESH_BINARY)
-#        contours, _ = cv2.findContours(bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-#        if contours:
-#            # Get the largest contour (ROI)
-#            contour = max(contours, key=cv2.contourArea)
-#
-#            # Or, get the polygon approximation of the contour (for more accurate vertices)
-#            epsilon = 0.01 * cv2.arcLength(contour, True)
-#            approx_verts = cv2.approxPolyDP(contour, epsilon, True)
-#            polygon_vertices = approx_verts.reshape(-1, 2)  # Flatten to get (x, y) pairs
-#
-#
-#
-#        #final_image = cv2.add(final_image, roi)
-#
-#
-#        return roi
-
-
-
-
-
 
 
 def get_image(vidcap):
@@ -248,8 +202,8 @@ def find_vector_intersect(a1, a2, b1, b2):
     x, y, z = np.cross(l1, l2)          # point of intersection
     #print(int(x//z), int(y//z))
     if z == 0:                          # lines are parallel
-        return [512, 0, 512, 768]       # return default
-    return int(x//z), int(y//z), 512, 768
+        return [image_width//2, 0, image_width//2, image_height]       # return default
+    return int(x//z), int(y//z), image_width//2, image_height
 
 
 
@@ -266,8 +220,7 @@ def remove_null_edges(all_edges):
 
 
 def estimate_robot_angle(vector):
-    #robot_reference_vector = [512, 0, 512, 768]       # return default
-    robot_reference_vector = [512-512, 768-0]
+    robot_reference_vector = [0, image_height]
     web_vector = [vector[2] - vector[0], vector[3] - vector[1]]
     # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
     return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
@@ -289,6 +242,11 @@ def setup_camera():
 async def run_camera_server():
 
     vidcap = setup_camera()
+    last_robot_angles = []
+    success, initial_image = get_image(vidcap)
+    gray_image = make_gray_image(initial_image)
+
+    image_height, image_width = gray_image.shape
 
     while vidcap.isOpened():
         try:
@@ -297,6 +255,7 @@ async def run_camera_server():
             success, initial_image = get_image(vidcap)
 
             gray_image = make_gray_image(initial_image)
+
 
             vertices, offsets = define_vertices(gray_image)
 
@@ -316,7 +275,7 @@ async def run_camera_server():
                 draw_line_with_end_points(initial_image, v[0], red)
 
 
-            draw_line_with_end_points(initial_image, [512, 0, 512, 768], green )
+            draw_line_with_end_points(initial_image, [image_width//2, 0, image_width//2, image_height], green )
 
 
 
