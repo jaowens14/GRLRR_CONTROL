@@ -10,17 +10,17 @@ from logger import grlrr_log
 
 import camera_server
 import steering
-import stopping
-import uptime_server
+import quick_stop
 async def start_grlrr_tasks():
 
     await asyncio.gather(
         websocket_server.run_websocket_server(), 
         serial_server.run_serial_server(), 
         log_server.run_log_server(),
-        uptime_server.run_uptime_server(),
+        #uptime_server.run_uptime_server(),
         camera_server.run_camera_server(),
-       # steering.run_steering(),
+        steering.run_steering(),
+        quick_stop.run_quick_stop_service(),
         )
 
 

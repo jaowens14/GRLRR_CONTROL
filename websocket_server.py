@@ -27,9 +27,11 @@ async def consumer_handler(websocket):
 async def producer_handler(websocket):
     while True:
         message = await producer()
-        await websocket.send(str(message))
+        # normal
+        #await websocket.send(str(message))
+        # used for sending images to viewer
+        await websocket.send(message)
         
-
 
 
 async def consumer(packet):
@@ -53,8 +55,9 @@ async def consumer(packet):
 
 
 async def producer():
-    #return await image_queue.get()
-    return datetime.datetime.now()
+    #print("producer fired")
+    return await image_queue.get()
+    #return datetime.datetime.now()
 
 
 

@@ -13,9 +13,14 @@ red = (0,0,255)
 green = (0,255,0)
 blue = (255,0,0)
 
+class Camera:
+    def __init__(self, height, width):
+        self.height = height
+        self.width = width
+c0 = Camera(0,0)
 last_robot_angles = []
-image_width = 0
-image_height = 0
+
+
 
 def draw_line_with_end_points(image, points, color):
     x1, y1, x2, y2 = points
@@ -202,8 +207,8 @@ def find_vector_intersect(a1, a2, b1, b2):
     x, y, z = np.cross(l1, l2)          # point of intersection
     #print(int(x//z), int(y//z))
     if z == 0:                          # lines are parallel
-        return [image_width//2, 0, image_width//2, image_height]       # return default
-    return int(x//z), int(y//z), image_width//2, image_height
+        return [c0.width//2, 0, c0.width//2, c0.height]       # return default
+    return int(x//z), int(y//z), c0.width//2, c0.height
 
 
 
@@ -220,7 +225,7 @@ def remove_null_edges(all_edges):
 
 
 def estimate_robot_angle(vector):
-    robot_reference_vector = [0, image_height]
+    robot_reference_vector = [0, c0.height]
     web_vector = [vector[2] - vector[0], vector[3] - vector[1]]
     # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
     return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
@@ -246,8 +251,11 @@ async def run_camera_server():
     success, initial_image = get_image(vidcap)
     gray_image = make_gray_image(initial_image)
 
-    image_height, image_width = gray_image.shape
+    c0.height, c0.width = gray_image.shape
 
+
+
+    print(c0.height, c0.width)
     while vidcap.isOpened():
         try:
 
@@ -275,13 +283,16 @@ async def run_camera_server():
                 draw_line_with_end_points(initial_image, v[0], red)
 
 
-            draw_line_with_end_points(initial_image, [image_width//2, 0, image_width//2, image_height], green )
+            draw_line_with_end_points(initial_image, [c0.width//2, 0, c0.width//2, c0.height], green )
 
 
 
 
             for i in range(min(len(left_edges), len(right_edges))):
+
                 vector = find_vector_intersect(right_edges[i, :, 0:2], right_edges[i, :, 2:4], left_edges[i, :, 0:2], left_edges[i, :, 2:4])
+                print(vector)
+                # something appears to be wrong with the intersect...
                 draw_line_with_end_points(initial_image, vector, blue)
 
                 robot_angle = estimate_robot_angle(vector)
@@ -293,27 +304,25 @@ async def run_camera_server():
             else:
                 robot_angle = 0.0
 
-
+            #print(last_robot_angles)
 
             cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
                            1, blue, 2, cv2.LINE_AA)
 
-            cv2.imshow("processed_section", initial_image)
-            cv2.waitKey(0)
+            #cv2.imshow("processed_section", initial_image)
+            #cv2.waitKey(0)
     
 
-            #encoded = cv2.imencode('.jpg', processed_image)[1]
-#
-            #data = str(base64.b64encode(encoded))
+            encoded = cv2.imencode('.jpg', initial_image)[1]
+
+            data = str(base64.b64encode(encoded))
+
             #await image_queue.put(data[2:len(data)-1])
-            #print("image queue fired")
-            #await left_offset_queue.put(left_percent)
-            #await right_offset_queue.put(right_percent)
+            #image_queue.put("test")
+            grlrr_log.info("robot angle: "+str(robot_angle))
             await angle_queue.put(robot_angle)
-            #print("angle queue fired")
             
 
-            #grlrr_log.info(datetime.datetime.now())
             await asyncio.sleep(0.1) # should run about every 1/10 a second
 
         except Exception as e:

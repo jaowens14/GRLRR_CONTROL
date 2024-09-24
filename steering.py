@@ -1,7 +1,7 @@
 import asyncio
 from queues import angle_queue, command_queue
 from simple_pid import PID
-import numpy as np
+from logger import grlrr_log
 
 # this is designed to map angles to velocities
 # input angles from say -5 deg to 5 deg.
@@ -13,7 +13,7 @@ pid = PID(0.001, 0.0, 0.0, setpoint=0)
 
 pid.sample_time = 0.1 # seconds
 
-pid.output_limits = (-0.01, 0.01)    # Output value will be between -0.01 and 0.01 m/s
+pid.output_limits = (-0.05, 0.05)    # Output value will be between -0.01 and 0.01 m/s
 
 steering = True
 
@@ -35,7 +35,11 @@ async def run_steering():
                                    "motorSpeed1": -1.0 * float(process_speed),
                                    "motorSpeed2": float(process_speed),
                                    "motorSpeed3": float(right_speed)}
+            
 
+
+            
+            grlrr_log.info(cmd)
             #await command_queue.put(cmd)
         else:
             await asyncio.sleep(0)
