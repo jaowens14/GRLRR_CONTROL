@@ -317,9 +317,9 @@ async def run_camera_server():
 
             data = str(base64.b64encode(encoded))
 
-            await image_queue.put(data[2:len(data)-1])
-            image_queue.put("test")
-            grlrr_log.info("robot angle: "+str(robot_angle))
+            #await image_queue.put(data[2:len(data)-1])
+            #image_queue.put("test")
+            #grlrr_log.info("robot angle: "+str(robot_angle))
             await angle_queue.put(robot_angle)
             
 

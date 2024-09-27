@@ -39,7 +39,7 @@ async def run_steering():
 
 
             
-            grlrr_log.info(cmd)
+            #grlrr_log.info(cmd)
             #await command_queue.put(cmd)
         else:
             await asyncio.sleep(0)
