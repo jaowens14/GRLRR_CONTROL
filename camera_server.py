@@ -3,7 +3,7 @@ import asyncio
 from logger import grlrr_log
 import numpy as np
 import base64
-from queues import image_queue, left_offset_queue, right_offset_queue, angle_queue
+from queues import image_queue, offset_queue, angle_queue
 
 
 import cv2
@@ -12,13 +12,12 @@ import numpy as np
 red = (0,0,255)
 green = (0,255,0)
 blue = (255,0,0)
-
+purple = (160, 32, 240)
 class Camera:
     def __init__(self, height, width):
         self.height = height
         self.width = width
 c0 = Camera(0,0)
-last_robot_angles = []
 
 
 
@@ -224,18 +223,30 @@ def remove_null_edges(all_edges):
     return all_edges[~np.all(all_edges == 0, axis=(1, 2))] # this removes any zero edges
 
 
-def estimate_robot_angle(vector):
+def estimate_robot_angle(left_edge, right_edge):
+    vector = find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], left_edge[ :, 0:2], left_edge[ :, 2:4])
+
     robot_reference_vector = [0, c0.height]
     web_vector = [vector[2] - vector[0], vector[3] - vector[1]]
     # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
     return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
     
+def estimate_offset(left_edge, right_edge):
+    # the intersect between the bottom right edge and the right detected edges
+        right_offset = find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], [c0.width//2, c0.height], [c0.width, c0.height])
+        left_offset = find_vector_intersect(left_edge[:, 0:2], left_edge[ :, 2:4], [c0.width//2, c0.height], [0, c0.height])
+        # this returns an error value that is negative on the left and positive on the right.
+        # the magnitude is the amount from center. So left of center by 50 pixels is -50
+        return (right_offset[0] - c0.width + left_offset[0])/(c0.width) * 100.0 # coverted to percent
 
 
+def estimate_using_mean_of_last_10(l):
+    l = l[-10:]
+    return round(np.mean(l), 2)
 
 def setup_camera():
-    vidcap = cv2.VideoCapture(0)
-    #vidcap = cv2.VideoCapture('VID_20240405_120134.mp4')
+    #vidcap = cv2.VideoCapture(0)
+    vidcap = cv2.VideoCapture('vid.mp4')
     if vidcap.isOpened():
         grlrr_log.info("Video Capture Started")
         return vidcap
@@ -248,6 +259,7 @@ async def run_camera_server():
 
     vidcap = setup_camera()
     last_robot_angles = []
+    last_robot_offsets = []
     success, initial_image = get_image(vidcap)
     gray_image = make_gray_image(initial_image)
 
@@ -286,40 +298,42 @@ async def run_camera_server():
             draw_line_with_end_points(initial_image, [c0.width//2, 0, c0.width//2, c0.height], green )
 
 
-
-
             for i in range(min(len(left_edges), len(right_edges))):
 
-                vector = find_vector_intersect(right_edges[i, :, 0:2], right_edges[i, :, 2:4], left_edges[i, :, 0:2], left_edges[i, :, 2:4])
-                print(vector)
-                # something appears to be wrong with the intersect...
-                draw_line_with_end_points(initial_image, vector, blue)
+                robot_angle = estimate_robot_angle(left_edges[i], right_edges[i])
+                robot_offset = estimate_offset(left_edges[i], right_edges[i])
 
-                robot_angle = estimate_robot_angle(vector)
                 last_robot_angles.append(robot_angle)
+                last_robot_offsets.append(robot_offset)
 
             if len(last_robot_angles) >= 10:
-                last_robot_angles = last_robot_angles[-10:]
-                robot_angle = round(np.mean(last_robot_angles), 2)
+                robot_angle = estimate_using_mean_of_last_10(last_robot_angles)
+                robot_offset = estimate_using_mean_of_last_10(last_robot_offsets)
             else:
                 robot_angle = 0.0
+                robot_offset = 0.0
 
-            #print(last_robot_angles)
 
             cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
                            1, blue, 2, cv2.LINE_AA)
+            
+            cv2.putText(initial_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
+                           1, blue, 2, cv2.LINE_AA)
+            
 
-            #cv2.imshow("processed_section", initial_image)
-            #cv2.waitKey(0)
+            cv2.imshow("processed_section", initial_image)
+            
+            cv2.waitKey(10)
     
 
             encoded = cv2.imencode('.jpg', initial_image)[1]
 
             data = str(base64.b64encode(encoded))
 
-            #await image_queue.put(data[2:len(data)-1])
+            await image_queue.put(data[2:len(data)-1])
             #image_queue.put("test")
             #grlrr_log.info("robot angle: "+str(robot_angle))
+            await offset_queue.put(robot_offset)
             await angle_queue.put(robot_angle)
             
 
