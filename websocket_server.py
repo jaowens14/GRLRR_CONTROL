@@ -1,96 +1,65 @@
 import asyncio
 import json
 from websockets.server import serve
-from logger import grlrr_log
-from queues import command_queue, result_queue, response_queue, state_queue
-from camera_server import image_queue
 import datetime
 
 
+class WebsocketServer():
+    def __init__(self, logger):
+        self.logger = logger
+
+    async def run(self):
+        async with serve(self.connection_handler, "0.0.0.0", 5000):
+            await asyncio.Future() # runs server forever
 
 
-#==============================================================
-# server setup
-#==============================================================
-async def run_websocket_server():
-    await serve(connection_handler, "0.0.0.0", 5000)
-        #await asyncio.Future() # runs server forever
-
-
-async def connection_handler(websocket):
-    await asyncio.gather(
-        consumer(websocket),
-        image_producer(websocket),
-        response_producer(websocket),
-    )
+    async def connection_handler(self, websocket):
+        await asyncio.gather(
+            self.consumer(websocket),
+            self.image_producer(websocket),
+            self.response_producer(websocket),
+        )
 
 
 
-#==============================================================
-# message receiver
-#==============================================================
-# receive the messages / commands from the tablet
-async def consumer(websocket):
-    async for message in websocket:
-        await consumer(message)
+    #==============================================================
+    # message receiver
+    #==============================================================
+    # receive the messages / commands from the tablet
+    async def consumer(self, websocket):
+        async for message in websocket:
+            await self.consumer_handler(message)
 
 
-# route the commands to the proper place
-async def consumer(packet):
-    try:
-        await consumer_handler(json.loads(packet))
 
-    except Exception as e:
-        grlrr_log.info("unable to parse command")
-
-
-# this json api is designed to work like this:
-# the function assumes the type and sender and receiver
-# data is just labled {"image":image_data}
-async def consumer_handler(packet):
-
-    # the server can receive:
-    # 1. motion commands (move_forward, stop, move_backward)
-    # 2. parameter setting commands (set_process_speed, use_steering)
-    # 3. 
-
-    match ''.join(packet.keys()):
-        case 'stop':
-            await response_queue.put("stopped")
-
-        case 'start':
-            await response_queue.put("started")
-
-        case 'go_forward':
-            await response_queue.put("going forward")
-
-        case 'go_backward':
-            await response_queue.put("going backward")
-
-        case 'set_speed':
-            await response_queue.put('set_speed')
-
-        case 'use_steering':
-            await response_queue.put('use_steering')
-            
-        case _:
-            await response_queue.put("no response")
-            await state_queue.put("stop")
+    # this json api is designed to work like this:
+    # the function assumes the type and sender and receiver
+    # data is just labled {"image":image_data}
+    async def consumer_handler(self, packet):
+        packet = json.loads(packet)
+        # the server can receive:
+        # 1. motion commands (move_forward, stop, move_backward)
+        # 2. parameter setting commands (set_process_speed, use_steering)
+        # 3. 
+        cmd = ''.join(packet.keys())
+        parameter =''.join(str(packet.values()))
+        print("cmd", cmd)
+        print("parameter", parameter)
+        await self.grlrr.response_queue.put(cmd)
 
 
-#==============================================================
-# message sender
-#==============================================================
-async def image_producer(websocket):
-    while True:
-        image = await image_queue.get()
-        await websocket.send(json.dumps({"image": image}))
+    async def image_producer(self, websocket):
+        while True:
+            image = await self.grlrr.image_queue.get()
+            await websocket.send(json.dumps({"image": image}))
 
 
-async def response_producer(websocket):
-    while True:
-        response = await response_queue.get()
-        await websocket.send(json.dumps({"response":response}))
+    async def response_producer(self, websocket):
+        while True:
+            response = await self.grlrr.response_queue.get()
+            await websocket.send(json.dumps({"response":response}))
+
+
 
 
 

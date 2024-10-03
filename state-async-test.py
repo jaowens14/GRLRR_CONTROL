@@ -4,7 +4,7 @@ import asyncio
 
 
 
-from grlrr import Grlrr
+from grlrr_object import Grlrr
 
 
 
