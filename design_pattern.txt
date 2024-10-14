@@ -1,0 +1,12 @@
+
+the robot is a real thing that executes functions.
+
+so the robot is a class with attributes that can be shared across functions.
+
+so the image functions can add images to the robot image queue and the image server can also grab those and send them
+
+sets of functions are wrapped in modules 
+
+modules are only sets of functions not classes
+
+the functions can be always running functions as asyncio tasks / coroutines or simple sync functions

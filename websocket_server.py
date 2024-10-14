@@ -1,17 +1,18 @@
 import asyncio
 import json
 from websockets.server import serve
-import datetime
-
-
+    
 class WebsocketServer():
-    def __init__(self, logger):
+    def __init__(self, logger, qs):
         self.logger = logger
+        self.images = qs.images
+        self.commands = qs.commands
+        self.responses = qs.responses
+        
 
     async def run(self):
         async with serve(self.connection_handler, "0.0.0.0", 5000):
             await asyncio.Future() # runs server forever
-
 
     async def connection_handler(self, websocket):
         await asyncio.gather(
@@ -20,8 +21,6 @@ class WebsocketServer():
             self.response_producer(websocket),
         )
 
-
-
     #==============================================================
     # message receiver
     #==============================================================
@@ -29,12 +28,10 @@ class WebsocketServer():
     async def consumer(self, websocket):
         async for message in websocket:
             await self.consumer_handler(message)
-
-
-
     # this json api is designed to work like this:
     # the function assumes the type and sender and receiver
     # data is just labled {"image":image_data}
+
     async def consumer_handler(self, packet):
         packet = json.loads(packet)
         # the server can receive:
@@ -45,24 +42,20 @@ class WebsocketServer():
         parameter =''.join(str(packet.values()))
         print("cmd", cmd)
         print("parameter", parameter)
-        await self.grlrr.response_queue.put(cmd)
+        await self.commands.put(cmd)
+        await self.responses.put(cmd)
 
 
     async def image_producer(self, websocket):
         while True:
-            image = await self.grlrr.image_queue.get()
+            image = await self.images.get()
+            
             await websocket.send(json.dumps({"image": image}))
 
 
     async def response_producer(self, websocket):
         while True:
-            response = await self.grlrr.response_queue.get()
+            response = await self.responses.get()
             await websocket.send(json.dumps({"response":response}))
-
-
-
-
-
-
 
 
