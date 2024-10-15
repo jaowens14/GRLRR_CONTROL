@@ -1,51 +1,53 @@
 import asyncio
+
 from logger import Logger
 from log_server import LogServer
+from queues import Queues
 from websocket_server import WebsocketServer
-from state_machine import StateMachine
 from serial_server import SerialServer
-
-class Queues():
-    def __init__(self):
-        self.images = asyncio.Queue(10)
-        self.angles = asyncio.Queue(10)
-        self.offsets = asyncio(10)
-        self.responses = asyncio.Queue(10)
-        self.commands = asyncio.Queue(10)
-        self.mcu_write = asyncio.Queue(10)
-        self.mcu_read = asyncio.Queue(10)
+from camera_server import CameraServer
+from steering import Steering
 
 class Grlrr():
-    
-    def __init__(self):
-        self.initialize_queues()
-        self.initialize_state()
-        self.initialize_modules()
+    def __init__(self, 
+                 logger: Logger, 
+                 queues: Queues,
+                 log_server: LogServer,
+                 websocket_server: WebsocketServer,
+                 serial_server: SerialServer,
+                 camera_server: CameraServer,
+                 steering: Steering):
+
+        self.images     = queues.images
+        self.angles     = queues.angles
+        self.offsets    = queues.offsets
+        self.responses  = queues.responses
+        self.commands   = queues.commands
+        self.mcu_writes = queues.mcu_writes
+        self.mcu_reads  = queues.mcu_reads
+        #self.queues = queues
+        self.tasks = set() #?
+        self.logger = logger
+        self.log_server = log_server
+        self.websocket_server = websocket_server
+        self.serial_server = serial_server
+        self.camera_server = camera_server
+        self.steering_server = steering
 
 
     def run(self):
-        '''the robot does tasks'''
         self.logger.log.info("GRLRR STARTED")
-        asyncio.run(self.create_tasks(), debug=True)
+        asyncio.run(self.create_tasks(), debug=False)
+
 
     async def create_tasks(self):
         async with asyncio.TaskGroup() as tg:
-            log_server_task = tg.create_task(self.log_server.run())
-            websocket_server_task = tg.create_task(self.websocket_server.run())
-            state_machine_task = tg.create_task(self.state_machine.run())
-            serial_server_task = tg.create_task(self.serial_server.run())
-
-    def initialize_queues(self):
-        self.qs = Queues()
-
-
-    def initialize_state(self):
-        self.state_machine = StateMachine(self.qs)
-
-    def initialize_modules(self):
-        self.logger = Logger()
-        self.log_server = LogServer(self.logger)
-        self.websocket_server = WebsocketServer(self.logger, self.qs)
-        self.serial_server = SerialServer(self.logger, self.qs)
+            
+            self.tasks.add(tg.create_task(self.log_server.run()))
+            self.tasks.add(tg.create_task(self.websocket_server.run()))
+            self.tasks.add(tg.create_task(self.serial_server.run()))
+            self.tasks.add(tg.create_task(self.camera_server.run()))
+            self.tasks.add(tg.create_task(self.steering_server.run()))
+            #self.tasks.add(tg.create_task(self.queues.check_queues()))
 
 

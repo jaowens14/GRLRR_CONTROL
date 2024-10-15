@@ -1,13 +1,17 @@
 import asyncio
 import json
 from websockets.server import serve
+
+from logger import Logger
+from queues import Queues
+
     
 class WebsocketServer():
-    def __init__(self, logger, qs):
+    def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
-        self.images = qs.images
-        self.commands = qs.commands
-        self.responses = qs.responses
+        self.images = queues.images
+        self.commands = queues.commands
+        self.responses = queues.responses
         
 
     async def run(self):

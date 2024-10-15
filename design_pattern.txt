@@ -1,12 +1,20 @@
 
-the robot is a real thing that executes functions.
+the robot is a real thing.
+so the robot should be a class / object
 
-so the robot is a class with attributes that can be shared across functions.
+the log server is a service / function / routine
+so it should have an async function.
+it may be a class.
 
-so the image functions can add images to the robot image queue and the image server can also grab those and send them
+So we have two objects.
 
-sets of functions are wrapped in modules 
+if the log server is created globally
+if the logger is created globally
+if the robot is created globally
 
-modules are only sets of functions not classes
+how can the robot and the log server acccess the logger?
+via a file... - weird
+via a global varibble - messy
+via class attributes - good
 
-the functions can be always running functions as asyncio tasks / coroutines or simple sync functions
+we can pass in the instance, of what is needed.

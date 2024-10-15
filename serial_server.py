@@ -4,13 +4,16 @@ import serial
 import json
 import asyncio
 
+from logger import Logger
+from queues import Queues
+
 class SerialServer():
-    def __init__(self, logger, qs):
+    def __init__(self, logger: Logger, queues:Queues):
         self.logger = logger
-        self.mcu_read =  qs.mcu_read
-        self.mcu_write = qs.mcu_write
-        self.mcu_write.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
-        self.mcu_write.put_nowait({"msgtyp":"set", "motorSpeed0": -1.0 * float(0.0), 
+        self.mcu_reads =  queues.mcu_reads
+        self.mcu_writes = queues.mcu_writes
+        self.mcu_writes.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
+        self.mcu_writes.put_nowait({"msgtyp":"set", "motorSpeed0": -1.0 * float(0.0), 
                                    "motorSpeed1": -1.0 * float(0.0),
                                    "motorSpeed2": float(0.0),
                                    "motorSpeed3": float(0.0)})
@@ -68,7 +71,7 @@ class SerialServer():
         if self.valididate_serial(h7):
             while True:
                 try:
-                    msg = await self.mcu_write.get()
+                    msg = await self.mcu_writes.get()
                     #print("serial get fired")
                     self.logger.log.info("wrote to h7: ")
                     self.logger.log.info((json.dumps(msg)+'\n').encode('ascii'))
@@ -77,7 +80,7 @@ class SerialServer():
                     self.logger.log.info("recv from h7: ")
                     self.logger.log.info(new_msg)
 
-                    self.mcu_read.put_nowait(new_msg)
+                    self.mcu_reads.put_nowait(new_msg)
                     # nothing to consume the results queue yet to this line was blocking
                     #await result_queue.put(json.loads(new_msg))
                     #print("serial put fired")

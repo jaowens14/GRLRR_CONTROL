@@ -5,33 +5,28 @@ import base64
 
 import cv2
 import numpy as np
-
-
-
+from logger import Logger
+from queues import Queues
 
 class Camera:
     def __init__(self, height, width):
         self.height = height
         self.width = width
 
-
-
 class CameraServer():
-    def __init__(self, logger, qs):
     
-        self.images = qs.images
-        self.angles = qs.angles
-        self.offsets = qs.offsets
+    def __init__(self, logger: Logger, queues: Queues):
 
+        self.c0 = Camera(0,0)
         self.red = (0,0,255)
         self.green = (0,255,0)
         self.blue = (255,0,0)
         self.purple = (160, 32, 240)
 
-        self.c0 = Camera(0,0)
-
-
-
+        self.logger = logger
+        self.images = queues.images
+        self.angles = queues.angles
+        self.offsets = queues.offsets
 
 
     def draw_line_with_end_points(self, image, points, color):
@@ -40,9 +35,17 @@ class CameraServer():
         cv2.circle(image, (x1,y1), radius=3, color=self.red, thickness=3)
         cv2.circle(image, (x2,y2), radius=3, color=self.red, thickness=3)
 
-    def draw_a_lot_of_points(self, image, xs, ys, color):
+    def draw_a_lot_of_points(image, xs, ys, color):
         for i in range(len(xs)):
             cv2.circle(image, (xs[i], ys[i]), radius=3, color=color, thickness=3)
+
+
+
+
+        
+
+
+
 
 
     def get_image(self, vidcap):
@@ -51,7 +54,7 @@ class CameraServer():
     def make_gray_image(self, image):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    def define_vertices(image):
+    def define_vertices(self, image):
         offset = 2
         vertices = []
         offset_vertices = []
@@ -78,7 +81,7 @@ class CameraServer():
         return vertices, offset_vertices
 
 
-    def image_to_sections(image, vertices):
+    def image_to_sections(self, image, vertices):
 
         sections = []
 
@@ -122,7 +125,7 @@ class CameraServer():
             #cv2.waitKey(0)
             left_edges, right_edges = self.split_edges_into_left_and_right(detected_edges, section)
             left_edges, right_edges = self.filter_edges_by_slope(left_edges, right_edges)
-            left_edge, right_edge =   self.get_edge_closest_to_center(left_edges, right_edges)
+            left_edge, right_edge   = self.get_edge_closest_to_center(left_edges, right_edges)
             return left_edge, right_edge # detected_edges # vstack the edges to get them all
         else:
             return [[[0,0,0,0]]]
@@ -135,7 +138,7 @@ class CameraServer():
 
 
 
-    def get_slopes(edges):
+    def get_slopes(self, edges):
         # get the vectors    
         x1 = edges[:, :, 0]
         y1 = edges[:, :, 1]
@@ -145,7 +148,7 @@ class CameraServer():
         unit_vectors = (v.T / np.linalg.norm(v, axis=1)).T # had to rework this for vector math
         return unit_vectors[:,1] / unit_vectors[:,0]
 
-    def get_location(edges):
+    def get_location(self, edges):
         x1 = edges[:, :, 0]
         y1 = edges[:, :, 1]
         x2 = edges[:, :, 2]
@@ -158,27 +161,27 @@ class CameraServer():
         return (slopes - np.mean(slopes)) / np.std(slopes)
 
 
-    def split_edges_into_left_and_right(edges, image):
+    def split_edges_into_left_and_right(self, edges, image):
         h, w = image.shape
-        rights = edges[get_location(edges) > w//2] # right edges on the right side of the image
-        lefts = edges[get_location(edges) < w//2] # left edges on the left side of the image
+        rights = edges[self.get_location(edges) > w//2] # right edges on the right side of the image
+        lefts  = edges[self.get_location(edges) < w//2] # left edges on the left side of the image
         return lefts, rights
 
 
-    def filter_edges_by_slope(left_edges, right_edges):
+    def filter_edges_by_slope(self, left_edges, right_edges):
         # the ROI slope is about 2.0. 
         # this comes from the define_vertices function. 
         # these lines are kind of confusing because when you look at the edges you may think that the slope sign is wrong.
         # this is the sign of the slope in image space. So (0,0) is in the upper left instead of lower right.
         roi_s = 2.0
         tol = 1.5
-        right_edges = right_edges[(get_slopes(right_edges) < roi_s+tol) & (get_slopes(right_edges) >= roi_s-tol)] 
+        right_edges = right_edges[(self.get_slopes(right_edges) < roi_s+tol) & (self.get_slopes(right_edges) >= roi_s-tol)] 
         # needs to be less then the roi_slope plus tol and greater than toi_slope minus the tol
-        left_edges = left_edges[(get_slopes(left_edges) > -(roi_s+tol)) & (get_slopes(left_edges) <= -(roi_s-tol))] 
+        left_edges = left_edges[(self.get_slopes(left_edges) > -(roi_s+tol)) & (self.get_slopes(left_edges) <= -(roi_s-tol))] 
         return left_edges, right_edges
 
 
-    def check_fit(xs, ys):
+    def check_fit(self, xs, ys):
         xs = np.reshape(xs, (xs.shape[0],))
         ys = np.reshape(ys, (ys.shape[0],))
         #print(xs.shape)
@@ -187,7 +190,7 @@ class CameraServer():
         y = np.polyval(coefficients, xs)
         return np.abs(y-ys)
 
-    def estimate_edge(edges, image):
+    def estimate_edge(self, edges, image):
         edges = edges[~np.all(edges == 0, axis=(1, 2))] # this removes any zero edges
 
         x1 = edges[:, :, 0]
@@ -202,7 +205,7 @@ class CameraServer():
         edges = edges[np.all(m >= m.mean(axis=0), axis=1)]
         return edges
 
-    def find_vector_intersect(a1, a2, b1, b2):
+    def find_vector_intersect(self, a1, a2, b1, b2):
         """ 
         Returns the point of intersection of the lines passing through a2,a1 and b2,b1.
         a1: [x, y] a point on the first line
@@ -219,12 +222,12 @@ class CameraServer():
         x, y, z = np.cross(l1, l2)          # point of intersection
         #print(int(x//z), int(y//z))
         if z == 0:                          # lines are parallel
-            return [c0.width//2, 0, c0.width//2, c0.height]       # return default
-        return int(x//z), int(y//z), c0.width//2, c0.height
+            return [self.c0.width//2, 0, self.c0.width//2, self.c0.height]       # return default
+        return int(x//z), int(y//z), self.c0.width//2, self.c0.height
 
 
 
-    def filter_edges_by_mean_x(lefts, rights):
+    def filter_edges_by_mean_x(self, lefts, rights):
         right_x1 = rights[:, :, 0]
         right_edges = rights[np.all(right_x1 <= right_x1.mean(axis=0), axis=1)]
 
@@ -232,106 +235,105 @@ class CameraServer():
         left_edges = lefts[np.all(left_x1 >= left_x1.mean(axis=0), axis=1)]
         return left_edges, right_edges
 
-    def remove_null_edges(all_edges):
+    def remove_null_edges(self, all_edges):
         return all_edges[~np.all(all_edges == 0, axis=(1, 2))] # this removes any zero edges
 
 
-    def estimate_robot_angle(left_edge, right_edge):
-        vector = find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], left_edge[ :, 0:2], left_edge[ :, 2:4])
+    def estimate_robot_angle(self, left_edge, right_edge):
+        vector = self.find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], left_edge[ :, 0:2], left_edge[ :, 2:4])
 
-        robot_reference_vector = [0, c0.height]
+        robot_reference_vector = [0, self.c0.height]
         web_vector = [vector[2] - vector[0], vector[3] - vector[1]]
         # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
         return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
 
-    def estimate_offset(left_edge, right_edge):
+    def estimate_offset(self, left_edge, right_edge):
         # the intersect between the bottom right edge and the right detected edges
-            right_offset = find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], [c0.width//2, c0.height], [c0.width, c0.height])
-            left_offset = find_vector_intersect(left_edge[:, 0:2], left_edge[ :, 2:4], [c0.width//2, c0.height], [0, c0.height])
+            right_offset = self.find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], [self.c0.width//2, self.c0.height], [self.c0.width, self.c0.height])
+            left_offset  = self.find_vector_intersect(left_edge[:, 0:2], left_edge[ :, 2:4],    [self.c0.width//2, self.c0.height], [0,        self.c0.height])
             # this returns an error value that is negative on the left and positive on the right.
             # the magnitude is the amount from center. So left of center by 50 pixels is -50
-            return (right_offset[0] - c0.width + left_offset[0])/(c0.width) * 100.0 # coverted to percent
+            return (right_offset[0] - self.c0.width + left_offset[0])/(self.c0.width) * 100.0 # coverted to percent
 
 
-    def estimate_using_mean_of_last_10(l):
+    def estimate_using_mean_of_last_10(self, l):
         l = l[-10:]
         return round(np.mean(l), 2)
 
-    def setup_camera():
+    def setup_camera(self):
         #vidcap = cv2.VideoCapture(0)
         vidcap = cv2.VideoCapture('vid.mp4')
         if vidcap.isOpened():
-            grlrr_log.info("Video Capture Started")
+            self.logger.log.info("Video Capture Started")
             return vidcap
         else:
             exit()
 
 
 
-    async def run_camera_server():
-
+    async def run(self):
         vidcap = self.setup_camera()
         last_robot_angles = []
         last_robot_offsets = []
-        success, initial_image = get_image(vidcap)
-        gray_image = make_gray_image(initial_image)
+        success, initial_image = self.get_image(vidcap)
+        gray_image = self.make_gray_image(initial_image)
 
-        c0.height, c0.width = gray_image.shape
+        self.c0.height, self.c0.width = gray_image.shape
 
 
 
-        print(c0.height, c0.width)
+        print(self.c0.height, self.c0.width)
         while vidcap.isOpened():
             try:
 
                 #main processing here
-                success, initial_image = get_image(vidcap)
+                success, initial_image = self.get_image(vidcap)
 
-                gray_image = make_gray_image(initial_image)
+                gray_image = self.make_gray_image(initial_image)
 
 
-                vertices, offsets = define_vertices(gray_image)
+                vertices, offsets = self.define_vertices(gray_image)
 
-                sections = image_to_sections(gray_image, vertices)
+                sections = self.image_to_sections(gray_image, vertices)
 
-                all_edges = gather_all_edges(sections, offsets)
+                all_edges = self.gather_all_edges(sections, offsets)
 
-                all_edges = remove_null_edges(all_edges)
+                all_edges = self.remove_null_edges(all_edges)
 
-                left_edges, right_edges = split_edges_into_left_and_right(all_edges, gray_image)
-                left_edges, right_edges = filter_edges_by_mean_x(left_edges, right_edges)
+                left_edges, right_edges = self.split_edges_into_left_and_right(all_edges, gray_image)
+                left_edges, right_edges = self.filter_edges_by_mean_x(left_edges, right_edges)
 
                 for n, v in enumerate(left_edges):
-                    draw_line_with_end_points(initial_image, v[0], green)
+                    self.draw_line_with_end_points(initial_image, v[0], self.green)
 
                 for n, v in enumerate(right_edges):
-                    draw_line_with_end_points(initial_image, v[0], red)
+                    self.draw_line_with_end_points(initial_image, v[0], self.red)
 
 
-                draw_line_with_end_points(initial_image, [c0.width//2, 0, c0.width//2, c0.height], green )
+                self.draw_line_with_end_points(initial_image, [self.c0.width//2, 0, self.c0.width//2, self.c0.height], self.green )
 
 
                 for i in range(min(len(left_edges), len(right_edges))):
 
-                    robot_angle = estimate_robot_angle(left_edges[i], right_edges[i])
-                    robot_offset = estimate_offset(left_edges[i], right_edges[i])
+                    robot_angle = self.estimate_robot_angle(left_edges[i], right_edges[i])
+                    robot_offset = self.estimate_offset(left_edges[i], right_edges[i])
 
                     last_robot_angles.append(robot_angle)
                     last_robot_offsets.append(robot_offset)
 
                 if len(last_robot_angles) >= 10:
-                    robot_angle = estimate_using_mean_of_last_10(last_robot_angles)
-                    robot_offset = estimate_using_mean_of_last_10(last_robot_offsets)
+                    robot_angle = self.estimate_using_mean_of_last_10(last_robot_angles)
+                    robot_offset = self.estimate_using_mean_of_last_10(last_robot_offsets)
                 else:
                     robot_angle = 0.0
                     robot_offset = 0.0
 
 
                 cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
-                               1, blue, 2, cv2.LINE_AA)
+                               1, self.blue, 2, cv2.LINE_AA)
 
                 cv2.putText(initial_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
-                               1, blue, 2, cv2.LINE_AA)
+                               1, self.blue, 2, cv2.LINE_AA)
 
 
                 cv2.imshow("processed_section", initial_image)
@@ -343,17 +345,17 @@ class CameraServer():
 
                 data = str(base64.b64encode(encoded))
 
-                await image_queue.put(data[2:len(data)-1])
+                #await self.images.put(data[2:len(data)-1])
                 #image_queue.put("test")
                 #grlrr_log.info("robot angle: "+str(robot_angle))
-                await offset_queue.put(robot_offset)
-                await angle_queue.put(robot_angle)
+                await self.offsets.put(robot_offset)
+                await self.angles.put(robot_angle)
 
 
                 await asyncio.sleep(0.1) # should run about every 1/10 a second
 
             except Exception as e:
-                grlrr_log.info(e)
+                self.logger.log.info(e)
 
 
 

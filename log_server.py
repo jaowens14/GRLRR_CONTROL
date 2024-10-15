@@ -1,8 +1,9 @@
 from aiohttp import web
+from logger import Logger
 
 
 class LogServer():
-    def __init__(self, logger):
+    def __init__(self, logger: Logger):
         self.logger = logger
 
     async def handle(self, request):
@@ -13,7 +14,6 @@ class LogServer():
 
 
     async def run(self):
-        self.logger.log.info("log server started")
         app = web.Application()
         app.add_routes([web.get('/', self.handle)])
         runner = web.AppRunner(app)

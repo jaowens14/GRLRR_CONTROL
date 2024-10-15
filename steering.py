@@ -1,6 +1,10 @@
 import asyncio
 from simple_pid import PID
 
+
+from logger import Logger
+from queues import Queues
+
 # this is designed to map angles and offsets to velocities
 
 # input angles from say -5 deg to 5 deg.
@@ -17,37 +21,46 @@ from simple_pid import PID
 
 # the output should be gotten from the offset PID until it is with a specific range
 
-class Steering():
-    def __init__(self, qs):
-        self.mcu_write = qs.mcu_write
 
+
+
+
+class Steering():
+    def __init__(self, logger:Logger, queues:Queues):
+        self.logger = logger
+        self.mcu_writes = queues.mcu_writes
+        self.angles = queues.angles
+        self.offsets = queues.offsets
+        self.steering = True
         self.p = 0.001
         self.i = 0.0
         self.d = 0.0
         self.set_point = 0.0
         self.process_speed = 0.01
-
+        
+        # angle pid
         self.angle_pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         self.angle_pid.sample_time = 0.1 # seconds
         self.angle_pid.output_limits = (-0.05, 0.05)    # Output value will be between -0.01 and 0.01 m/s
 
-        self.angle_pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
+        # offset pid
+        self.offset_pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         self.offset_pid.sample_time = 0.1
         self.offset_pid.output_limits = (-0.05, 0.05)
         self.offset_deadband = (-10.0, 10.0)
 
 
-    async def run():
+    async def run(self):
         while True:
-            if steering:
-                current_angle = await angle_queue.get()
-                current_offset = await offset_queue.get()
+            if self.steering:
+                current_angle = await self.angles.get()
+                current_offset = await self.offsets.get()
                 # if the offset is within the dead band, switch to use the angle pid
-                if min(offset_deadband) < current_offset <= max(offset_deadband):
-                    u = angle_pid(current_offset)
-                    grlrr_log.debug("using angle pid")
+                if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
+                    u = self.angle_pid(current_offset)
+                    self.logger.log.debug("using angle pid")
                 else:
-                    u = offset_pid(current_angle)
+                    u = self.offset_pid(current_angle)
 
                 #grlrr_log.info("angle: "+str(current_angle))
                 #grlrr_log.info("offset: "+str(current_offset))
@@ -56,18 +69,18 @@ class Steering():
                 #grlrr_log.info("angle u: "+str(angle_pid(current_angle)))
                 #grlrr_log.info("offset u: "+str(offset_pid(current_offset)))
 
-                left_speed = round(process_speed - u/2, 4)
-                right_speed = round(process_speed + u/2, 4)
+                left_speed =  round(self.process_speed - u/2, 4)
+                right_speed = round(self.process_speed + u/2, 4)
                 # m1 is the left side right now, m4 is the right side
                 cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
-                                       "motorSpeed1": -1.0 * float(process_speed),
-                                       "motorSpeed2": float(process_speed),
+                                       "motorSpeed1": -1.0 * float(self.process_speed),
+                                       "motorSpeed2": float(self.process_speed),
                                        "motorSpeed3": float(right_speed)}
 
 
 
 
-                grlrr_log.debug(cmd)
-                #await command_queue.put(cmd)
+                self.logger.log.debug(cmd)
+                await self.mcu_writes.put(cmd)
             else:
                 await asyncio.sleep(0)
