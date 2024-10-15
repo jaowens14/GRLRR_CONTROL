@@ -81,6 +81,6 @@ class Steering():
 
 
                 self.logger.log.debug(cmd)
-                await self.mcu_writes.put(cmd)
+                #await self.mcu_writes.put(cmd)
             else:
                 await asyncio.sleep(0)

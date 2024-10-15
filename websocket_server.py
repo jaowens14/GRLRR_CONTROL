@@ -1,7 +1,6 @@
 import asyncio
 import json
 from websockets.server import serve
-
 from logger import Logger
 from queues import Queues
 
