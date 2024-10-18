@@ -3,10 +3,9 @@ import fnmatch
 import serial
 import json
 import asyncio
-
 from logger import Logger
 from queues import Queues
-
+import traceback
 class SerialServer():
     def __init__(self, logger: Logger, queues:Queues):
         self.logger = logger
@@ -71,22 +70,31 @@ class SerialServer():
         if self.valididate_serial(h7):
             while True:
                 try:
+                    
                     msg = await self.mcu_writes.get()
-                    #print("serial get fired")
+                    
+                    self.logger.log.info("msg")
+                    
                     self.logger.log.info("wrote to h7: ")
+                    
                     self.logger.log.info((json.dumps(msg)+'\n').encode('ascii'))
+                    
                     h7.write((json.dumps(msg)+'\n').encode('ascii'))
-                    new_msg = h7.read_until(expected=b"\n").decode('ascii')
-                    self.logger.log.info("recv from h7: ")
-                    self.logger.log.info(new_msg)
 
-                    self.mcu_reads.put_nowait(new_msg)
-                    # nothing to consume the results queue yet to this line was blocking
-                    #await result_queue.put(json.loads(new_msg))
-                    #print("serial put fired")
+                    new_msg = h7.read_until(expected=b"\n").decode('ascii')
+                    
+                    self.logger.log.info("new _ msg")
+                    
+                    self.logger.log.info("recv from h7: ")
+                    
+                    self.logger.log.info(new_msg)
+                    
+                    #self.mcu_reads.put_nowait(new_msg)
+     
 
                 except Exception as e:
-                    self.logger.log.info(e)
+                    self.logger.log.info(e.__class__.__name__)
+                    traceback.print_exc()
 
                 await asyncio.sleep(0)
         else:

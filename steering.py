@@ -1,7 +1,5 @@
 import asyncio
 from simple_pid import PID
-
-
 from logger import Logger
 from queues import Queues
 
@@ -23,11 +21,10 @@ from queues import Queues
 
 
 
-
-
 class Steering():
     def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
+        self.mode = ''
         self.mcu_writes = queues.mcu_writes
         self.angles = queues.angles
         self.offsets = queues.offsets
@@ -49,10 +46,10 @@ class Steering():
         self.offset_pid.output_limits = (-0.05, 0.05)
         self.offset_deadband = (-10.0, 10.0)
 
-
     async def run(self):
-        while True:
-            if self.steering:
+        try:
+            while True:
+                self.logger.log.info("get stuff")
                 current_angle = await self.angles.get()
                 current_offset = await self.offsets.get()
                 # if the offset is within the dead band, switch to use the angle pid
@@ -61,26 +58,36 @@ class Steering():
                     self.logger.log.debug("using angle pid")
                 else:
                     u = self.offset_pid(current_angle)
-
                 #grlrr_log.info("angle: "+str(current_angle))
                 #grlrr_log.info("offset: "+str(current_offset))
                 ##grlrr_log.info("u = pid(angle) + pid(offset)")
                 #grlrr_log.info("steering inputs: ")
                 #grlrr_log.info("angle u: "+str(angle_pid(current_angle)))
                 #grlrr_log.info("offset u: "+str(offset_pid(current_offset)))
+                match self.mode:
+                    case 'auto':
+                        left_speed =  round(self.process_speed - u/2, 4)
+                        right_speed = round(self.process_speed + u/2, 4)
+                    case 'manual':
+                        left_speed =  self.process_speed
+                        right_speed = self.process_speed      
+                    case _:
+                        left_speed =  0.0
+                        right_speed = 0.0      
 
-                left_speed =  round(self.process_speed - u/2, 4)
-                right_speed = round(self.process_speed + u/2, 4)
                 # m1 is the left side right now, m4 is the right side
                 cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
                                        "motorSpeed1": -1.0 * float(self.process_speed),
                                        "motorSpeed2": float(self.process_speed),
                                        "motorSpeed3": float(right_speed)}
-
-
-
-
                 self.logger.log.debug(cmd)
-                #await self.mcu_writes.put(cmd)
-            else:
-                await asyncio.sleep(0)
+                await self.mcu_writes.put(cmd)
+
+        except Exception as e:
+            self.logger.log.info(e.__class__.__name__)
+        except asyncio.CancelledError:
+            self.logger.log.info("steering cancelled")
+            self.mcu_writes.put_nowait({"msgtyp":"set", "motorSpeed0": -1.0 * float(0.0), 
+                                   "motorSpeed1": -1.0 * float(0.0),
+                                   "motorSpeed2": float(0.0),
+                                   "motorSpeed3": float(0.0)})

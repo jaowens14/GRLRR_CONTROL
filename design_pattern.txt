@@ -1,20 +1,11 @@
+This robot is made of several types of processes.
 
-the robot is a real thing.
-so the robot should be a class / object
+There are mission critical processes (nearer hardware) and there are nice to have processes (database, logs server).
 
-the log server is a service / function / routine
-so it should have an async function.
-it may be a class.
+The nice to have, application type processes will be started from a script and will not depend or interfer with the mission critical proceses.
 
-So we have two objects.
+The mission critical processes will be started from a script and will only depened on other mission critical process.
 
-if the log server is created globally
-if the logger is created globally
-if the robot is created globally
+The mission critical processes will be asyncio so that all the data is in the same thread.
 
-how can the robot and the log server acccess the logger?
-via a file... - weird
-via a global varibble - messy
-via class attributes - good
-
-we can pass in the instance, of what is needed.
+The data will be output to redis from this thread.

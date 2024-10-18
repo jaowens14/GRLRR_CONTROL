@@ -14,7 +14,6 @@ class Camera:
         self.width = width
 
 class CameraServer():
-    
     def __init__(self, logger: Logger, queues: Queues):
 
         self.c0 = Camera(0,0)
@@ -22,12 +21,10 @@ class CameraServer():
         self.green = (0,255,0)
         self.blue = (255,0,0)
         self.purple = (160, 32, 240)
-
         self.logger = logger
         self.images = queues.images
         self.angles = queues.angles
         self.offsets = queues.offsets
-
 
     def draw_line_with_end_points(self, image, points, color):
         x1, y1, x2, y2 = points
@@ -39,16 +36,7 @@ class CameraServer():
         for i in range(len(xs)):
             cv2.circle(image, (xs[i], ys[i]), radius=3, color=color, thickness=3)
 
-
-
-
-        
-
-
-
-
-
-    def get_image(self, vidcap):
+    def get_image(self, vidcap: cv2.VideoCapture):
         return vidcap.read()
 
     def make_gray_image(self, image):
@@ -65,37 +53,26 @@ class CameraServer():
         for y in range(0, h, sh): 
             y1 = y
             y2 = y+sh
-
             x1 = (3 * u) - y1 // 2
             x2 = (5 * u) + y1 // 2
-
             x3 = (3 * u) - y2 // 2
             x4 = (5 * u) + y2 // 2
 
             roi_vertices = [(x1,   y1), (x2,   y1), (x4,   y2), (x3,   y2),]
-
             offset_roi_vertices = [(x1+offset,   y1+offset), (x2-offset,   y1+1), (x4-offset,   y2-offset), (x3+offset,   y2-offset),]
-
             vertices.append(roi_vertices)
             offset_vertices.append(offset_roi_vertices)
         return vertices, offset_vertices
 
 
     def image_to_sections(self, image, vertices):
-
         sections = []
-
         for vertex in vertices:
             mask = np.zeros_like(image) # create a empty matrix
-
             cv2.fillPoly(mask, np.int32([vertex]), 255) # draw roi on empty
-
             roi = cv2.bitwise_and(image, mask) # union with input image and mask
-
             sections.append(roi)
-
         return sections
-
 
 
     def get_edge_closest_to_center(self, lefts, rights):
@@ -112,9 +89,7 @@ class CameraServer():
         edges = cv2.Canny(blurred, 50, 150) # detect edges
 
         cv2.fillPoly(offset_mask, np.int32([vertex]), 255) # draw offset roi on mask
-
         roi = cv2.bitwise_and(edges, offset_mask) # union with offset mask
-
         # detect lines in the real roi
         detected_edges = cv2.HoughLinesP(image=roi, rho=1, theta=np.pi / 180, threshold=25, minLineLength= 2 ** 5, maxLineGap=10) # these parameters need to be updated based on the size of the section
 
@@ -261,101 +236,84 @@ class CameraServer():
         return round(np.mean(l), 2)
 
     def setup_camera(self):
-        #vidcap = cv2.VideoCapture(0)
-        vidcap = cv2.VideoCapture('vid.mp4')
+        vidcap = cv2.VideoCapture(0)
+        #vidcap = cv2.VideoCapture('vid.mp4')
         if vidcap.isOpened():
             self.logger.log.info("Video Capture Started")
             return vidcap
         else:
             exit()
 
-
-
     async def run(self):
-        vidcap = self.setup_camera()
-        last_robot_angles = []
-        last_robot_offsets = []
-        success, initial_image = self.get_image(vidcap)
-        gray_image = self.make_gray_image(initial_image)
-
-        self.c0.height, self.c0.width = gray_image.shape
-
-
-
-        print(self.c0.height, self.c0.width)
-        while vidcap.isOpened():
-            try:
-
-                #main processing here
-                success, initial_image = self.get_image(vidcap)
-
-                gray_image = self.make_gray_image(initial_image)
+        try:
+            vidcap = self.setup_camera()
+            last_robot_angles = []
+            last_robot_offsets = []
+            success, initial_image = self.get_image(vidcap)
+            gray_image = self.make_gray_image(initial_image)
+            self.c0.height, self.c0.width = gray_image.shape
 
 
-                vertices, offsets = self.define_vertices(gray_image)
+            print(self.c0.height, self.c0.width)
+            while vidcap.isOpened():
+                try:
 
-                sections = self.image_to_sections(gray_image, vertices)
+                    #main processing here
+                    success, initial_image = self.get_image(vidcap)
 
-                all_edges = self.gather_all_edges(sections, offsets)
+                    gray_image = self.make_gray_image(initial_image)
+                    vertices, offsets = self.define_vertices(gray_image)
+                    sections = self.image_to_sections(gray_image, vertices)
+                    all_edges = self.gather_all_edges(sections, offsets)
+                    all_edges = self.remove_null_edges(all_edges)
+                    left_edges, right_edges = self.split_edges_into_left_and_right(all_edges, gray_image)
+                    left_edges, right_edges = self.filter_edges_by_mean_x(left_edges, right_edges)
 
-                all_edges = self.remove_null_edges(all_edges)
+                    for n, v in enumerate(left_edges):
+                        self.draw_line_with_end_points(initial_image, v[0], self.green)
 
-                left_edges, right_edges = self.split_edges_into_left_and_right(all_edges, gray_image)
-                left_edges, right_edges = self.filter_edges_by_mean_x(left_edges, right_edges)
-
-                for n, v in enumerate(left_edges):
-                    self.draw_line_with_end_points(initial_image, v[0], self.green)
-
-                for n, v in enumerate(right_edges):
-                    self.draw_line_with_end_points(initial_image, v[0], self.red)
-
-
-                self.draw_line_with_end_points(initial_image, [self.c0.width//2, 0, self.c0.width//2, self.c0.height], self.green )
-
-
-                for i in range(min(len(left_edges), len(right_edges))):
-
-                    robot_angle = self.estimate_robot_angle(left_edges[i], right_edges[i])
-                    robot_offset = self.estimate_offset(left_edges[i], right_edges[i])
-
-                    last_robot_angles.append(robot_angle)
-                    last_robot_offsets.append(robot_offset)
-
-                if len(last_robot_angles) >= 10:
-                    robot_angle = self.estimate_using_mean_of_last_10(last_robot_angles)
-                    robot_offset = self.estimate_using_mean_of_last_10(last_robot_offsets)
-                else:
-                    robot_angle = 0.0
-                    robot_offset = 0.0
+                    for n, v in enumerate(right_edges):
+                        self.draw_line_with_end_points(initial_image, v[0], self.red)
 
 
-                cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
-                               1, self.blue, 2, cv2.LINE_AA)
+                    self.draw_line_with_end_points(initial_image, [self.c0.width//2, 0, self.c0.width//2, self.c0.height], self.green )
 
-                cv2.putText(initial_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
-                               1, self.blue, 2, cv2.LINE_AA)
+                    for i in range(min(len(left_edges), len(right_edges))):
 
+                        robot_angle = self.estimate_robot_angle(left_edges[i], right_edges[i])
+                        robot_offset = self.estimate_offset(left_edges[i], right_edges[i])
+                        last_robot_angles.append(robot_angle)
+                        last_robot_offsets.append(robot_offset)
 
-                cv2.imshow("processed_section", initial_image)
-
-                cv2.waitKey(10)
-
-
-                encoded = cv2.imencode('.jpg', initial_image)[1]
-
-                data = str(base64.b64encode(encoded))
-
-                #await self.images.put(data[2:len(data)-1])
-                #image_queue.put("test")
-                #grlrr_log.info("robot angle: "+str(robot_angle))
-                await self.offsets.put(robot_offset)
-                await self.angles.put(robot_angle)
+                    if len(last_robot_angles) >= 10:
+                        robot_angle = self.estimate_using_mean_of_last_10(last_robot_angles)
+                        robot_offset = self.estimate_using_mean_of_last_10(last_robot_offsets)
+                    else:
+                        robot_angle = 0.0
+                        robot_offset = 0.0
 
 
-                await asyncio.sleep(0.1) # should run about every 1/10 a second
+                    cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
+                                   1, self.blue, 2, cv2.LINE_AA)
 
-            except Exception as e:
-                self.logger.log.info(e)
+                    cv2.putText(initial_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
+                                   1, self.blue, 2, cv2.LINE_AA)
 
+                    #cv2.imshow("processed_section", initial_image)
+                    #cv2.waitKey(10)
 
+                    encoded = cv2.imencode('.jpg', initial_image)[1]
+                    data = str(base64.b64encode(encoded))
 
+                    await self.images.put(data[2:len(data)-1])
+                    await self.offsets.put(robot_offset)
+                    await self.angles.put(robot_angle)
+
+                    await asyncio.sleep(0.1) # should run about every 1/10 a second
+
+                except Exception as e:
+                    self.logger.log.info(e.__class__.__name__)
+
+        except asyncio.CancelledError:
+            self.logger.log.info("camera cancelled")
+            cv2.destroyAllWindows()

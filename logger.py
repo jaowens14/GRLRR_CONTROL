@@ -1,5 +1,4 @@
 # logger.py
-
 import logging
 import os
 from datetime import datetime
@@ -20,7 +19,7 @@ class Logger():
     def configure_logger(self):
         logging.basicConfig(filename = self.lf, 
                             level    = logging.INFO, 
-                            format   = '%(asctime)s %(levelname)-8s %(message)s',
+                            format   = '[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)-8s %(message)s',
                             datefmt  = '%Y-%m-%d %H:%M:%S')
 
     def get_log_name(self):
