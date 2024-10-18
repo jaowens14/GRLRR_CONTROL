@@ -305,6 +305,7 @@ class CameraServer():
                     encoded = cv2.imencode('.jpg', initial_image)[1]
                     data = str(base64.b64encode(encoded))
 
+
                     await self.images.put(data[2:len(data)-1])
                     await self.offsets.put(robot_offset)
                     await self.angles.put(robot_angle)

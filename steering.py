@@ -49,7 +49,6 @@ class Steering():
     async def run(self):
         try:
             while True:
-                self.logger.log.info("get stuff")
                 current_angle = await self.angles.get()
                 current_offset = await self.offsets.get()
                 # if the offset is within the dead band, switch to use the angle pid
@@ -58,22 +57,9 @@ class Steering():
                     self.logger.log.debug("using angle pid")
                 else:
                     u = self.offset_pid(current_angle)
-                #grlrr_log.info("angle: "+str(current_angle))
-                #grlrr_log.info("offset: "+str(current_offset))
-                ##grlrr_log.info("u = pid(angle) + pid(offset)")
-                #grlrr_log.info("steering inputs: ")
-                #grlrr_log.info("angle u: "+str(angle_pid(current_angle)))
-                #grlrr_log.info("offset u: "+str(offset_pid(current_offset)))
-                match self.mode:
-                    case 'auto':
-                        left_speed =  round(self.process_speed - u/2, 4)
-                        right_speed = round(self.process_speed + u/2, 4)
-                    case 'manual':
-                        left_speed =  self.process_speed
-                        right_speed = self.process_speed      
-                    case _:
-                        left_speed =  0.0
-                        right_speed = 0.0      
+                left_speed =  round(self.process_speed - u/2, 4)
+                right_speed = round(self.process_speed + u/2, 4)
+
 
                 # m1 is the left side right now, m4 is the right side
                 cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 

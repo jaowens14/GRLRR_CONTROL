@@ -9,5 +9,9 @@ class Queues():
         self.commands = asyncio.Queue(10)
         self.mcu_writes = asyncio.Queue(10)
         self.mcu_reads = asyncio.Queue(10)
+        self.queues = [self.images, self.angles, self.offsets, self.responses, self.commands, self.mcu_reads, self.mcu_writes]
 
-
+    def show_queue_size(self):  
+        for q in self.queues:
+            print(q.qsize())
+        print()

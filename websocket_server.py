@@ -10,6 +10,8 @@ class WebsocketServer():
         self.logger = logger
         self.images = queues.images
         self.commands = queues.commands
+        self.angles    = queues.angles
+        self.offsets   = queues.offsets
         self.responses = queues.responses
         self.mcu_reads = queues.mcu_reads
         self.connected = False
@@ -53,6 +55,8 @@ class WebsocketServer():
     async def image_producer(self, websocket):
         while True:
             image = await self.images.get()
+            #angle = await self.angles.get()
+            #offset = await self.offsets.get()
             
             await websocket.send(json.dumps({'image': image}))
 
