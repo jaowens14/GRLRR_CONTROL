@@ -73,10 +73,11 @@ class Grlrr():
         while True:
             
             self.update_state()
-            print('main loop')
-            #start = self.event_loop.time()
-            self.qs.show_queue_size()
-            await asyncio.sleep(0)
+            #print('main loop')
+            ##start = self.event_loop.time()
+            #self.qs.show_queue_size()
+            self.logger.log.info('main')
+            await asyncio.sleep(1)
             #print('duration: ', str(self.event_loop.time()-start))
 
 

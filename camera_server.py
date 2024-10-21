@@ -222,13 +222,22 @@ class CameraServer():
         # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
         return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
 
-    def estimate_offset(self, left_edge, right_edge):
+    def estimate_offset(self, image, left_edge, right_edge):
         # the intersect between the bottom right edge and the right detected edges
             right_offset = self.find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], [self.c0.width//2, self.c0.height], [self.c0.width, self.c0.height])
             left_offset  = self.find_vector_intersect(left_edge[:, 0:2], left_edge[ :, 2:4],    [self.c0.width//2, self.c0.height], [0,        self.c0.height])
+            cv2.circle(image, (right_offset[0],right_offset[1]), radius=3, color=self.red, thickness=3)
+            cv2.circle(image, (left_offset[0],left_offset[1]), radius=3, color=self.red, thickness=3)
+
             # this returns an error value that is negative on the left and positive on the right.
             # the magnitude is the amount from center. So left of center by 50 pixels is -50
-            return (right_offset[0] - self.c0.width + left_offset[0])/(self.c0.width) * 100.0 # coverted to percent
+            r = right_offset[0]
+            l = left_offset[0]
+
+            m = (l+r)//2
+            offset = self.c0.width//2.0 - m
+
+            return offset / self.c0.width # coverted to percent
 
 
     def estimate_using_mean_of_last_10(self, l):
@@ -281,7 +290,7 @@ class CameraServer():
                     for i in range(min(len(left_edges), len(right_edges))):
 
                         robot_angle = self.estimate_robot_angle(left_edges[i], right_edges[i])
-                        robot_offset = self.estimate_offset(left_edges[i], right_edges[i])
+                        robot_offset = self.estimate_offset(initial_image, left_edges[i], right_edges[i])
                         last_robot_angles.append(robot_angle)
                         last_robot_offsets.append(robot_offset)
 

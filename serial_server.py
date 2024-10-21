@@ -73,21 +73,21 @@ class SerialServer():
                     
                     msg = await self.mcu_writes.get()
                     
-                    self.logger.log.info("msg")
+                    #self.logger.log.info("msg")
                     
-                    self.logger.log.info("wrote to h7: ")
+                    #self.logger.log.info("wrote to h7: ")
                     
-                    self.logger.log.info((json.dumps(msg)+'\n').encode('ascii'))
+                    #self.logger.log.info((json.dumps(msg)+'\n').encode('ascii'))
                     
                     h7.write((json.dumps(msg)+'\n').encode('ascii'))
 
                     new_msg = h7.read_until(expected=b"\n").decode('ascii')
                     
-                    self.logger.log.info("new _ msg")
+                    #self.logger.log.info("new _ msg")
                     
-                    self.logger.log.info("recv from h7: ")
+                    #self.logger.log.info("recv from h7: ")
                     
-                    self.logger.log.info(new_msg)
+                    #self.logger.log.info(new_msg)
                     
                     #self.mcu_reads.put_nowait(new_msg)
      
