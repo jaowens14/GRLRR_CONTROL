@@ -214,11 +214,12 @@ class CameraServer():
         return all_edges[~np.all(all_edges == 0, axis=(1, 2))] # this removes any zero edges
 
 
-    def estimate_robot_angle(self, left_edge, right_edge):
+    def estimate_robot_angle(self, image, left_edge, right_edge):
         vector = self.find_vector_intersect(right_edge[ :, 0:2], right_edge[ :, 2:4], left_edge[ :, 0:2], left_edge[ :, 2:4])
 
         robot_reference_vector = [0, self.c0.height]
         web_vector = [vector[2] - vector[0], vector[3] - vector[1]]
+        self.draw_line_with_end_points(image, vector, self.blue)
         # atan2(w2​v1​−w1​v2​,w1​v1​+w2​v2​)
         return round(np.degrees(np.arctan2(robot_reference_vector[0]*web_vector[1] - robot_reference_vector[1]*web_vector[0], np.dot(robot_reference_vector, web_vector))), 2)
 
@@ -289,7 +290,7 @@ class CameraServer():
 
                     for i in range(min(len(left_edges), len(right_edges))):
 
-                        robot_angle = self.estimate_robot_angle(left_edges[i], right_edges[i])
+                        robot_angle = self.estimate_robot_angle(initial_image, left_edges[i], right_edges[i])
                         robot_offset = self.estimate_offset(initial_image, left_edges[i], right_edges[i])
                         last_robot_angles.append(robot_angle)
                         last_robot_offsets.append(robot_offset)
@@ -319,7 +320,7 @@ class CameraServer():
                     await self.offsets.put(robot_offset)
                     await self.angles.put(robot_angle)
 
-                    await asyncio.sleep(0.1) # should run about every 1/10 a second
+                    await asyncio.sleep(0.01) # should run about every 1/10 a second
 
                 except Exception as e:
                     self.logger.log.info(e.__class__.__name__)

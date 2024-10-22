@@ -29,7 +29,7 @@ class Steering():
         self.angles = queues.angles
         self.offsets = queues.offsets
         self.steering = True
-        self.p = 0.001
+        self.p = -0.1
         self.i = 0.0
         self.d = 0.0
         self.set_point = 0.0
@@ -44,7 +44,7 @@ class Steering():
         #self.offset_pid = PID(Kp=self.p*5.0, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         #self.offset_pid.sample_time = 0.1
         #self.offset_pid.output_limits = (-0.05, 0.05)
-        self.offset_deadband = (-0.03, 0.03)
+        #self.offset_deadband = (-0.03, 0.03)
 
     async def run(self):
         try:
@@ -54,7 +54,7 @@ class Steering():
                 # if the robot is within the tolerance then just correct for angle
                 #if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
                 self.angle_pid.setpoint = 0.0
-                u = self.angle_pid(current_angle)
+                u = self.angle_pid(current_offset)
                 # if the robot is not within the side to side tolerance then move the angle setpoint to 'steer' in the direction needed
                 #
                 #else:
@@ -70,8 +70,8 @@ class Steering():
                 #    #u = self.offset_pid(current_angle)
                 #    self.logger.log.info("using offset pid")
 
-                left_speed =  round(self.process_speed - u/2, 4)
-                right_speed = round(self.process_speed + u/2, 4)
+                left_speed =  round(self.process_speed - u, 4)
+                right_speed = round(self.process_speed + u, 4)
                 self.logger.log.info('angle: '+str(current_angle)+
                                      ' offset: '+str(current_offset)+
                                      ' left: '+str(left_speed)+
@@ -80,8 +80,8 @@ class Steering():
 
                 # m1 is the left side right now, m4 is the right side
                 cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
-                                       "motorSpeed1": -1.0 * float(self.process_speed),
-                                       "motorSpeed2": float(self.process_speed),
+                                       "motorSpeed1": -1.0 * float(left_speed),
+                                       "motorSpeed2": float(right_speed),
                                        "motorSpeed3": float(right_speed)}
                 self.logger.log.debug(cmd)
                 await self.mcu_writes.put(cmd)
