@@ -1,7 +1,7 @@
 import asyncio
 import json
 import websockets.exceptions
-from websockets.server import serve
+from websockets.server import serve, WebsocketServerProtocol
 from logger import Logger
 from queues import Queues
     
@@ -15,6 +15,8 @@ class WebsocketServer():
         self.responses = queues.responses
         self.mcu_reads = queues.mcu_reads
         self.connected = False
+        self._shutdown_event = asyncio.Event()
+        self._active_connections = set[WebsocketServerProtocol] = set()
     
     async def run(self):
         async with serve(self.connection_handler, "0.0.0.0", 5000):
