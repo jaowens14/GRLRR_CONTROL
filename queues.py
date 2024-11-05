@@ -2,6 +2,7 @@
 import asyncio
 class Queues():
     def __init__(self):
+        self.distances = asyncio.Queue(10)
         self.images = asyncio.Queue(10)
         self.angles = asyncio.Queue(10)
         self.offsets = asyncio.Queue(10)

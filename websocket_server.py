@@ -1,7 +1,7 @@
 import asyncio
 import json
 import websockets.exceptions
-from websockets.server import serve, WebsocketServerProtocol
+from websockets.server import serve
 from logger import Logger
 from queues import Queues
     
@@ -14,13 +14,14 @@ class WebsocketServer():
         self.offsets   = queues.offsets
         self.responses = queues.responses
         self.mcu_reads = queues.mcu_reads
+        self.mcu_writes = queues.mcu_writes
         self.connected = False
-        self._shutdown_event = asyncio.Event()
-        self._active_connections = set[WebsocketServerProtocol] = set()
+        self.shutdown_event = asyncio.Event()
+        #self._active_connections = set[WebsocketServerProtocol] = set()
     
     async def run(self):
         async with serve(self.connection_handler, "0.0.0.0", 5000):
-                await asyncio.Future() # runs server forever
+            await self.shutdown_event.wait()
 
     async def connection_handler(self, websocket):
         await asyncio.gather(
@@ -28,6 +29,7 @@ class WebsocketServer():
             self.image_producer(websocket),
             self.response_producer(websocket),
         )
+        self.shutdown_event.set()
 
 #==============================================================
 # message receiver
@@ -43,13 +45,7 @@ class WebsocketServer():
 
 
     async def consumer_handler(self, packet):
-        packet = json.loads(packet)
-
-        cmd = ''.join(packet.keys())
-        parameter =''.join(str(packet.values()))
-        print("cmd", cmd)
-        print("parameter", parameter)
-        print(self.commands.qsize())
+        cmd = json.loads(packet)
         await self.commands.put(cmd)
         await self.responses.put(cmd)
 

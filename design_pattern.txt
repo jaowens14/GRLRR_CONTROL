@@ -1,11 +1,1 @@
-This robot is made of several types of processes.
 
-There are mission critical processes (nearer hardware) and there are nice to have processes (database, logs server).
-
-The nice to have, application type processes will be started from a script and will not depend or interfer with the mission critical proceses.
-
-The mission critical processes will be started from a script and will only depened on other mission critical process.
-
-The mission critical processes will be asyncio so that all the data is in the same thread.
-
-The data will be output to redis from this thread.

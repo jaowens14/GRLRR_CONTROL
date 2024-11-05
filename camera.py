@@ -247,7 +247,7 @@ class CameraServer():
 
     def setup_camera(self):
         vidcap = cv2.VideoCapture(0)
-        #vidcap = cv2.VideoCapture('vid.mp4')
+        vidcap = cv2.VideoCapture('vid.mp4')
         if vidcap.isOpened():
             self.logger.log.info("Video Capture Started")
             return vidcap

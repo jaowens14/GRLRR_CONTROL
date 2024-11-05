@@ -79,18 +79,16 @@ class Steering():
                                      ' u: '+str(u))
 
                 # m1 is the left side right now, m4 is the right side
-                cmd = {"msgtyp":"set", "motorSpeed0": -1.0 * float(left_speed), 
-                                       "motorSpeed1": -1.0 * float(left_speed),
-                                       "motorSpeed2": float(right_speed),
-                                       "motorSpeed3": float(right_speed)}
-                self.logger.log.debug(cmd)
-                await self.mcu_writes.put(cmd)
+                await self.mcu_writes.put({"speed0": -1.0 * float(left_speed)})
+                await self.mcu_writes.put({"speed1": -1.0 * float(left_speed)})
+                await self.mcu_writes.put({"speed2":        float(right_speed)})
+                await self.mcu_writes.put({"speed3":        float(right_speed)})
 
         except Exception as e:
             self.logger.log.info(e.__class__.__name__)
         except asyncio.CancelledError:
             self.logger.log.info("steering cancelled")
-            self.mcu_writes.put_nowait({"msgtyp":"set", "motorSpeed0": -1.0 * float(0.0), 
-                                   "motorSpeed1": -1.0 * float(0.0),
-                                   "motorSpeed2": float(0.0),
-                                   "motorSpeed3": float(0.0)})
+            self.mcu_writes.put_nowait({"speed0": -1.0 *  float(0.0)})
+            self.mcu_writes.put_nowait({"speed1": -1.0 *  float(0.0)})
+            self.mcu_writes.put_nowait({"speed2":        float(0.0)})
+            self.mcu_writes.put_nowait({"speed3":        float(0.0)})
