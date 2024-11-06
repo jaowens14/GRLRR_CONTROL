@@ -14,7 +14,7 @@ class SerialServer():
         self.logger = logger
         self.mcu_reads = queues.mcu_reads
         self.mcu_writes = queues.mcu_writes
-        self.distances    = queues.distances
+        self.distances = queues.distances
         # self.mcu_writes.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
         self.mcu_writes.put_nowait({"start_serial":      1})
         self.mcu_writes.put_nowait({"speed0": -1.0 * float(0.0)})
@@ -43,10 +43,10 @@ class SerialServer():
     def connect_serial(self, available_ports):
         try:
             connected_device = serial.Serial(
-                available_ports[0], 115200, timeout=0.01)
+                available_ports[0], 115200, timeout=10.00)
+
             if connected_device.isOpen():
-                self.logger.log.info(
-                    "serial connected to "+str(available_ports[0]))
+                self.logger.log.info("serial connected to "+str(available_ports[0]))
                 return connected_device
             else:
                 raise Exception("No serial devices")
@@ -71,16 +71,15 @@ class SerialServer():
             self.logger.log.error(e)
             self.logger.log.error(
                 "no valid device / comm issue / no api endpoint")
-
-
-
-
-
-
+            
+    def clear_serial(self):
+        self.mcu.reset_input_buffer()
+        self.mcu.reset_output_buffer()
 
     async def run(self):
         self.mcu = self.connect_serial(self.detect_serial())
         if self.mcu:
+            self.clear_serial()
             await asyncio.gather(self.send(), self.receive(), self.hb())
         else:
             self.logger.log.info(
@@ -97,24 +96,21 @@ class SerialServer():
             await asyncio.sleep(0.25)
             await self.mcu_writes.put({"hb": 1})
 
+    async def parse_dict(self, msg_dict):
+            if 'distance' in msg_dict.keys():
+                if self.distances.full():
+                    await self.distances.get()
+                await self.distances.put(msg_dict['distance'])
 
     async def receive(self):
         while True:
             try:
+                line = self.mcu.readline().decode('ascii')
+                msg_dict = json.loads(line)
+                await self.parse_dict(msg_dict)
 
-                msg = self.mcu.read_until('\n').decode('ascii')
-                #print('"'+msg+'"')
 
-                if msg:
-                    msg_dict = json.loads(msg)
-                    #print(msg_dict)
-                    if msg_dict:
-                        self.logger.log.debug(msg_dict)
-                        await self.distances.put(msg_dict['distance'])
-                        #test = await self.distances.get()
-            
-            except json.JSONDecodeError as err:
-                # typical string debug
-                self.logger.log.debug(msg)
-                
+            except json.JSONDecodeError:
+                self.logger.log.info('mcu debug: '+str(line))
+
             await asyncio.sleep(0)

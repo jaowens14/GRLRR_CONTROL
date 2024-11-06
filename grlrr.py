@@ -34,8 +34,6 @@ class Grlrr():
         self.event_loop.create_task(self.ss.run())
         self.event_loop.create_task(self.cs.run())
 
-        self.event_loop.create_task(self.ultrasonic.run())
-
 
     def get_command(self):
         try:
@@ -59,6 +57,7 @@ class Grlrr():
             case 'start_process':
                 print('started process')
                 self.steering_task = self.event_loop.create_task(self.steering.run())
+                #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
             case 'stop_process':
                 print('stopped process')
                 self.steering_task.cancel()

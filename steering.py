@@ -29,7 +29,7 @@ class Steering():
         self.angles = queues.angles
         self.offsets = queues.offsets
         self.steering = True
-        self.p = -0.1
+        self.p = -0.5
         self.i = 0.0
         self.d = 0.0
         self.set_point = 0.0
@@ -54,7 +54,7 @@ class Steering():
                 # if the robot is within the tolerance then just correct for angle
                 #if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
                 self.angle_pid.setpoint = 0.0
-                u = self.angle_pid(current_offset)
+                u = round(self.angle_pid(current_offset), 4)
                 # if the robot is not within the side to side tolerance then move the angle setpoint to 'steer' in the direction needed
                 #
                 #else:

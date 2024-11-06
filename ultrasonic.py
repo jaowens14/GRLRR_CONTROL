@@ -52,7 +52,7 @@ class Ultrasonic():
         if 45 <= distance < 200:
             return distance
         else:
-            self.num_bad_measurements += 1
+            #self.num_bad_measurements += 1
             print(self.num_bad_measurements)
             return self.pid.setpoint
         
@@ -63,8 +63,9 @@ class Ultrasonic():
             while True:
 
                 if self.num_bad_measurements > 20:
-
+                    print(self.num_bad_measurements)
                     distance = await self.distances.get()
+                    print(distance)
                     self.current_distance = self.ignore_bad_measurements(distance)
 
                     # if the robot is within the tolerance then don't adjust the speed
@@ -78,17 +79,17 @@ class Ultrasonic():
 
                 else:
                     self.process_speed = 0.0
-                self.logger.log.info('num bad measurements: '+str(self.num_bad_measurements))
+                    raise ValueError('too many bad measurements')
+                #self.logger.log.info('num bad measurements: '+str(self.num_bad_measurements))
 
 
-                self.logger.log.info(str(time.time())+','+str(self.current_distance)+','+str(self.process_speed))
+                # self.logger.log.info(str(time.time())+','+str(self.current_distance)+','+str(self.process_speed))
                 # m1 is the left side right now, m4 is the right side
                 await self.mcu_writes.put({"speed0": -1.0 * float(self.process_speed)})
                 await self.mcu_writes.put({"speed1": -1.0 * float(self.process_speed)})
                 await self.mcu_writes.put({"speed2":        float(self.process_speed)})
                 await self.mcu_writes.put({"speed3":        float(self.process_speed)})
-                
-                await asyncio.sleep(0.250)
+
         except asyncio.CancelledError:
             self.logger.log.info("ultrasonic cancelled")
             self.mcu_writes.put_nowait({"speed0": -1.0 *  float(0.0)})
