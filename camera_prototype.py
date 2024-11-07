@@ -18,7 +18,7 @@ def main():
     newCameraMtx0, roi0 = cv2.getOptimalNewCameraMatrix(mtx0, dist0, (w, h), 1, (w, h))
     newCameraMtx1, roi1 = cv2.getOptimalNewCameraMatrix(mtx1, dist1, (w, h), 1, (w, h))
 
-    leftcv2.stereoRectify(mtx0, dist0, mtx1, dist1, left_image.shape[::-1], R, T)
+    cv2.stereoRectify(mtx0, dist0, mtx1, dist1, left_image.shape[::-1], R, T)
 
     if vidcap0.isOpened() and vidcap1.isOpened():
         success1, success2 = True, True

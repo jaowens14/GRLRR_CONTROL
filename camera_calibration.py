@@ -7,8 +7,8 @@ def setup_camera(c: int):
     return cv2.VideoCapture(c)
 
 def initialize_lists():
-    objp = np.zeros((6*7,3), np.float32)
-    objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
+    objp = np.zeros((6*5,3), np.float32)
+    objp[:,:2] = np.mgrid[0:5,0:6].T.reshape(-1,2)
     objpoints = [] # 3d point in real world space
     imgpoints = [] # 2d points in image plane.
     return objp, objpoints, imgpoints
@@ -27,11 +27,11 @@ def get_30_images(name: str, cam:int):
     while i < 30:
         gray, image = get_gray_and_image(vidcap)
         # Find the chess board corners
-        ret, corners = cv2.findChessboardCorners(gray, (7,6), None)
+        ret, corners = cv2.findChessboardCorners(gray, (5,6), None)
         # If found, add object points, image points (after refining them)
 
         if ret:
-            cv2.drawChessboardCorners(image, (7,6), corners, ret)
+            cv2.drawChessboardCorners(image, (5,6), corners, ret)
             cv2.imshow('img', image)
             myInput = cv2.waitKey(0)
             if myInput == ord('r'):
@@ -56,7 +56,6 @@ def get_30_images(name: str, cam:int):
     np.savetxt(name+'_dist.txt', dist)
     calculate_mean_error_on_image_data(objpoints, imgpoints, rvecs, tvecs, mtx, dist)
 
-    cv2.stereoCalibrate()
 
 def calculate_mean_error_on_image_data(objpoints, imgpoints, rvecs, tvecs, mtx, dist):
     this_mean_error = 0.0
@@ -81,7 +80,7 @@ def test_calibration(name: str, cam: int):
     dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
     # crop the image
     x, y, w, h = roi
-    dst = dst[y:y+h, x:x+w]
+    #dst = dst[y:y+h, x:x+w]
     cv2.imwrite(name+'0_calibrated.jpg', dst)
 
 
@@ -89,15 +88,9 @@ def test_calibration(name: str, cam: int):
 
 def calibrate():
 
-    get_30_images('cam_0', 0)
-    get_30_images('cam_1', 2)
+    #get_30_images('cam_0', 0)
     
     test_calibration('cam_0_', 0)
-
-    test_calibration('cam_1_', 1)
-
-
-
 
 calibrate()
 

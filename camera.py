@@ -2,7 +2,7 @@ import cv2
 import asyncio
 import numpy as np
 import base64
-
+import traceback
 import cv2
 import numpy as np
 from logger import Logger
@@ -25,6 +25,17 @@ class CameraServer():
         self.images = queues.images
         self.angles = queues.angles
         self.offsets = queues.offsets
+        self.name = 'cam_0_'
+        self.mtx = np.loadtxt( self.name+'mtx.txt')
+        self.dist = np.loadtxt(self.name+'dist.txt')
+
+
+
+    def undistort(self, img):
+        dst = cv2.undistort(img, self.mtx, self.dist, None, self.newcameramtx)
+        x, y, w, h = self.undistorted_roi
+        return dst[y:y+h, x:x+w]
+
 
     def draw_line_with_end_points(self, image, points, color):
         x1, y1, x2, y2 = points
@@ -100,8 +111,10 @@ class CameraServer():
             #cv2.waitKey(0)
             left_edges, right_edges = self.split_edges_into_left_and_right(detected_edges, section)
             left_edges, right_edges = self.filter_edges_by_slope(left_edges, right_edges)
-            left_edge, right_edge   = self.get_edge_closest_to_center(left_edges, right_edges)
-            return left_edge, right_edge # detected_edges # vstack the edges to get them all
+            #left_edge, right_edge   = self.get_edge_closest_to_center(left_edges, right_edges)
+            #print(np.vstack([left_edges, right_edges]))
+            #input()
+            return np.vstack([left_edges, right_edges]) # detected_edges # vstack the edges to get them all
         else:
             return [[[0,0,0,0]]]
 
@@ -137,7 +150,7 @@ class CameraServer():
 
 
     def split_edges_into_left_and_right(self, edges, image):
-        h, w = image.shape
+        h, w, _ = image.shape
         rights = edges[self.get_location(edges) > w//2] # right edges on the right side of the image
         lefts  = edges[self.get_location(edges) < w//2] # left edges on the left side of the image
         return lefts, rights
@@ -241,9 +254,9 @@ class CameraServer():
             return offset / self.c0.width # coverted to percent
 
 
-    def estimate_using_mean_of_last_10(self, l):
-        l = l[-10:]
-        return round(np.mean(l), 2)
+    def estimate_using_mean_of_last_20(self, l):
+        l = l[-20:]
+        return round(np.mean(l), 4)
 
     def setup_camera(self):
         vidcap = cv2.VideoCapture(0)
@@ -260,7 +273,19 @@ class CameraServer():
             last_robot_angles = []
             last_robot_offsets = []
             success, initial_image = self.get_image(vidcap)
+
+            # load calibration
+            self.newcameramtx, self.undistorted_roi = cv2.getOptimalNewCameraMatrix(
+            self.mtx, 
+            self.dist, 
+            (480,640), 
+            1, 
+            (480,640),
+            )
+
             gray_image = self.make_gray_image(initial_image)
+            gray_image = self.undistort(gray_image)
+
             self.c0.height, self.c0.width = gray_image.shape
 
 
@@ -272,6 +297,11 @@ class CameraServer():
                     success, initial_image = self.get_image(vidcap)
 
                     gray_image = self.make_gray_image(initial_image)
+
+                    gray_image = self.undistort(gray_image)
+                    
+                    print(gray_image.shape)
+                    #input()
                     vertices, offsets = self.define_vertices(gray_image)
                     sections = self.image_to_sections(gray_image, vertices)
                     all_edges = self.gather_all_edges(sections, offsets)
@@ -279,52 +309,62 @@ class CameraServer():
                     left_edges, right_edges = self.split_edges_into_left_and_right(all_edges, gray_image)
                     left_edges, right_edges = self.filter_edges_by_mean_x(left_edges, right_edges)
 
-                    for n, v in enumerate(left_edges):
-                        self.draw_line_with_end_points(initial_image, v[0], self.green)
-
-                    for n, v in enumerate(right_edges):
-                        self.draw_line_with_end_points(initial_image, v[0], self.red)
+                    for n, v in enumerate(all_edges):
+                        self.draw_line_with_end_points(gray_image, v[0], self.blue)
 
 
-                    self.draw_line_with_end_points(initial_image, [self.c0.width//2, 0, self.c0.width//2, self.c0.height], self.green )
+                    #for n, v in enumerate(left_edges):
+                    #    self.draw_line_with_end_points(gray_image, v[0], self.green)
+#
+                    #for n, v in enumerate(right_edges):
+                    #    self.draw_line_with_end_points(gray_image, v[0], self.red)
+
+
+                    self.draw_line_with_end_points(gray_image, [self.c0.width//2, 0, self.c0.width//2, self.c0.height], self.green )
 
                     for i in range(min(len(left_edges), len(right_edges))):
 
-                        robot_angle = self.estimate_robot_angle(initial_image, left_edges[i], right_edges[i])
-                        robot_offset = self.estimate_offset(initial_image, left_edges[i], right_edges[i])
+                        robot_angle = self.estimate_robot_angle(gray_image, left_edges[i], right_edges[i])
+                        robot_offset = self.estimate_offset(gray_image, left_edges[i], right_edges[i])
                         last_robot_angles.append(robot_angle)
                         last_robot_offsets.append(robot_offset)
 
-                    if len(last_robot_angles) >= 10:
-                        robot_angle = self.estimate_using_mean_of_last_10(last_robot_angles)
-                        robot_offset = self.estimate_using_mean_of_last_10(last_robot_offsets)
+                    if len(last_robot_angles) >= 20:
+                        robot_angle = self.estimate_using_mean_of_last_20(last_robot_angles)
+                        robot_offset = self.estimate_using_mean_of_last_20(last_robot_offsets)
                     else:
                         robot_angle = 0.0
                         robot_offset = 0.0
 
 
-                    cv2.putText(initial_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
+                    cv2.putText(gray_image, str(robot_angle), (40, 40), cv2.FONT_HERSHEY_COMPLEX,  
                                    1, self.blue, 2, cv2.LINE_AA)
 
-                    cv2.putText(initial_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
+                    cv2.putText(gray_image, str(robot_offset), (40, 80), cv2.FONT_HERSHEY_COMPLEX,  
                                    1, self.blue, 2, cv2.LINE_AA)
 
-                    #cv2.imshow("processed_section", initial_image)
+                    #cv2.imshow("processed_section", gray_image)
                     #cv2.waitKey(10)
 
-                    encoded = cv2.imencode('.jpg', initial_image)[1]
+                    encoded = cv2.imencode('.jpg', gray_image)[1]
                     data = str(base64.b64encode(encoded))
 
+                    print('test')
 
                     await self.images.put(data[2:len(data)-1])
                     await self.offsets.put(robot_offset)
                     await self.angles.put(robot_angle)
 
-                    await asyncio.sleep(0.01) # should run about every 1/10 a second
+                    await asyncio.sleep(0.1) # should run about every 1/10 a second
 
                 except Exception as e:
+                    print('issue')
                     self.logger.log.info(e.__class__.__name__)
+                    traceback.print_exc()
+
 
         except asyncio.CancelledError:
+            print('issue')
+
             self.logger.log.info("camera cancelled")
             cv2.destroyAllWindows()

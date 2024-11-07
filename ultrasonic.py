@@ -19,7 +19,7 @@ class Ultrasonic():
     def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
-        self.distances = queues.distances
+        self.distance = queues.distance
         self.num_bad_measurements = 0
         self.p = 1.5
         self.i = 0.0
@@ -64,7 +64,7 @@ class Ultrasonic():
 
                 if self.num_bad_measurements > 20:
                     print(self.num_bad_measurements)
-                    distance = await self.distances.get()
+                    distance = self.distance
                     print(distance)
                     self.current_distance = self.ignore_bad_measurements(distance)
 

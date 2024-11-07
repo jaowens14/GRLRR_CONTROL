@@ -33,7 +33,9 @@ class Grlrr():
         self.event_loop.create_task(self.wss.run())
         self.event_loop.create_task(self.ss.run())
         self.event_loop.create_task(self.cs.run())
+        self.steering_setup = self.event_loop.create_task(self.steering.setup())
 
+        #self.event_loop.create_task(self.ultrasonic.run())
 
     def get_command(self):
         try:
@@ -56,6 +58,7 @@ class Grlrr():
                 print('some init')
             case 'start_process':
                 print('started process')
+                self.steering_setup.cancel()
                 self.steering_task = self.event_loop.create_task(self.steering.run())
                 #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
             case 'stop_process':
@@ -82,14 +85,17 @@ class Grlrr():
 
 
     async def loop(self):
+        start_time = self.event_loop.time()
         while True:
             
             self.update_state()
             #print('main loop')
             ##start = self.event_loop.time()
             #self.qs.show_queue_size()
+            self.logger.log.debug(self.event_loop.time()-start_time)
+
             self.logger.log.debug('main')
-            await asyncio.sleep(1)
+            await asyncio.sleep(0)
             #print('duration: ', str(self.event_loop.time()-start))
 
 

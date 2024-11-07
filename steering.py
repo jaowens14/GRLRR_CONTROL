@@ -29,22 +29,23 @@ class Steering():
         self.angles = queues.angles
         self.offsets = queues.offsets
         self.steering = True
-        self.p = -0.5
+        self.p = 0.1
         self.i = 0.0
         self.d = 0.0
         self.set_point = 0.0
-        self.process_speed = 0.020
+        self.process_speed = 0.02 # m/s
         
-        # angle pid
-        self.angle_pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
-        self.angle_pid.sample_time = 0.1 # seconds
-        self.angle_pid.output_limits = (-0.05, 0.05)    # Output value will be between -0.01 and 0.01 m/s
+        self.pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
+        self.pid.sample_time = 0.1 # seconds
+        self.pid.output_limits = (-0.008, 0.008)    # Output value will be between -0.01 and 0.01 m/s
+        self.pid.setpoint = 0.0
 
-        # offset pid
-        #self.offset_pid = PID(Kp=self.p*5.0, Ki=self.i, Kd=self.d, setpoint=self.set_point)
-        #self.offset_pid.sample_time = 0.1
-        #self.offset_pid.output_limits = (-0.05, 0.05)
-        #self.offset_deadband = (-0.03, 0.03)
+
+
+    async def setup(self):
+        while  True:
+            current_angle = await self.angles.get()
+            current_offset = await self.offsets.get()
 
     async def run(self):
         try:
@@ -53,26 +54,13 @@ class Steering():
                 current_offset = await self.offsets.get()
                 # if the robot is within the tolerance then just correct for angle
                 #if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
-                self.angle_pid.setpoint = 0.0
-                u = round(self.angle_pid(current_offset), 4)
-                # if the robot is not within the side to side tolerance then move the angle setpoint to 'steer' in the direction needed
-                #
-                #else:
-                #    self.angle_pid.setpoint = self.angle_pid.setpoint - current_offset
-                #    u = self.angle_pid(current_angle)
+                u = round(self.pid(current_offset), 8)
 
-                ## if the offset is within the dead band, switch to use the angle pid
-                #if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
-                #    u = self.angle_pid(current_offset)
-                #    self.logger.log.info("using angle pid")
-                #else:
-                ## else move the set point of the angle pid
-                #    #u = self.offset_pid(current_angle)
-                #    self.logger.log.info("using offset pid")
+                left_speed =  max(round(self.process_speed + u/2, 8), self.process_speed)
+                right_speed = max(round(self.process_speed - u/2, 8), self.process_speed)
 
-                left_speed =  round(self.process_speed - u, 4)
-                right_speed = round(self.process_speed + u, 4)
-                self.logger.log.info('angle: '+str(current_angle)+
+                #'angle: '+str(current_angle)+
+                self.logger.log.info(
                                      ' offset: '+str(current_offset)+
                                      ' left: '+str(left_speed)+
                                      ' right: '+str(right_speed)+

@@ -14,7 +14,7 @@ class SerialServer():
         self.logger = logger
         self.mcu_reads = queues.mcu_reads
         self.mcu_writes = queues.mcu_writes
-        self.distances = queues.distances
+        self.distance = queues.distance
         # self.mcu_writes.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
         self.mcu_writes.put_nowait({"start_serial":      1})
         self.mcu_writes.put_nowait({"speed0": -1.0 * float(0.0)})
@@ -82,8 +82,7 @@ class SerialServer():
             self.clear_serial()
             await asyncio.gather(self.send(), self.receive(), self.hb())
         else:
-            self.logger.log.info(
-                "Unable to connect to serial device. Exiting...")
+            self.logger.log.info("Unable to connect to serial device. Exiting...")
             quit()
 
     async def send(self):
@@ -93,24 +92,18 @@ class SerialServer():
 
     async def hb(self):
         while True:
-            await asyncio.sleep(0.25)
             await self.mcu_writes.put({"hb": 1})
+            await asyncio.sleep(0.75)
 
-    async def parse_dict(self, msg_dict):
-            if 'distance' in msg_dict.keys():
-                if self.distances.full():
-                    await self.distances.get()
-                await self.distances.put(msg_dict['distance'])
+    def parse_dict(self, msg_dict):
+        if 'distance' in msg_dict.keys():
+            self.distance = msg_dict['distance']
+
 
     async def receive(self):
         while True:
-            try:
-                line = self.mcu.readline().decode('ascii')
-                msg_dict = json.loads(line)
-                await self.parse_dict(msg_dict)
-
-
-            except json.JSONDecodeError:
-                self.logger.log.info('mcu debug: '+str(line))
-
+            
+            line = self.mcu.readline().decode('ascii')
+            #self.logger.log.info(line.strip('\n'))
+                
             await asyncio.sleep(0)
