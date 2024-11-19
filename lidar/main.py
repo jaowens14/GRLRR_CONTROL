@@ -5,16 +5,17 @@ import matplotlib.pyplot as plt
 import matplotlib 
 import signal
 import traceback
-from scipy.signal import savgol_filter
+import statistics
 np.set_printoptions(suppress=True)
 plt.ion()
 
 
+
 def get_xs(scan):
-    return (np.cos(np.radians(scan[:,0])) * scan[:,1]).reshape(-1,1)
+    return ( np.sin(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
 
 def get_ys(scan):
-    return (np.sin(np.radians(scan[:,0])) * scan[:,1]).reshape(-1,1)
+    return ( np.cos(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
 
 
 def get_abs_diffs(scan):
@@ -22,24 +23,23 @@ def get_abs_diffs(scan):
 
 
 
-def show_me_the_data(scan_array):
+def show_me_the_data(scan):
 
-    x = np.cos(np.radians(scan_array[:, 0]))*scan_array[:,1] # 90 is added to rotate the chart
-    y = np.sin(np.radians(scan_array[:, 0]))*scan_array[:,1]
+    xs = get_xs(scan)
+    ys = get_ys(scan)
 
-
-    ax1.set_xlim(-200.0, 200.0)  # Set a reasonable range for distances
-    ax1.set_ylim(-200.0, 200.0)  # Set a reasonable range for distances
+    ax1.set_xlim(-300.0, 300.0)  # Set a reasonable range for distances
+    ax1.set_ylim(-300.0, 300.0)  # Set a reasonable range for distances
     ax1.scatter(0,0)
 
+    # draw roi
     for angle in [0.0, 30.0, 330.0]:
-        roi_x = np.cos(np.radians(angle)) * 300.0 # 90 is added to rotate the chart
-        roi_y = np.sin(np.radians(angle)) * 300.0
-        print(roi_x)
+        roi_x = np.sin(np.radians(angle)) * 300.0 # 90 is added to rotate the chart
+        roi_y = np.cos(np.radians(angle)) * 300.0
         ax1.plot([0, roi_x], [0, roi_y], '--', linewidth=2)
 
-    ax1.scatter(x,y, marker='x')
-
+    ax1.scatter(xs,ys, marker='.', label='scan')
+    plt.legend()
     plt.pause(0.1)
 
 
@@ -55,12 +55,10 @@ def grab_scan():
             q = float(re.search(r'Q:\s*([\d.]+)', line).group(1))
 
             if sync == 1:
-                return scan
+                return np.array(scan)
             else:
                 scan.append([theta, dist, q])
 
-def scan_to_array(scan):
-    return np.array(scan)
 
 def smooth_scan(scan):
     kernel_size = 30
@@ -72,11 +70,60 @@ def smooth_scan(scan):
 def clear_out_zero_distances(scan):
     return scan[scan[:,1] > 0.0]
 
-def extract_left_and_right_sides(scan):
-    # col 0 is the degs
-    left = scan[scan[:,0] < 30.0]
-    right = scan[scan[:,0] > 330.0]
+
+
+def get_scan_roi(scan):
+
+    return scan[(scan[:,0] < 30.0) | (scan[:,0] > 330.0)] 
+
+def get_x_offset(web_scan):
+    # deg  dist  q   xs  ys  mode
+    left = web_scan[web_scan[:,3] < 0.0]
+    right = web_scan[web_scan[:,3] > 0.0]
+
+    ax1.scatter(right[:,3], right[:,4], s=100, label='right', marker = 'x')
+    ax1.scatter(left[:,3], left[:,4], s=100, label='left', marker = 'x')
+    if len(right) > 0 and len(left) > 0:
+        print('left', left)
+        print('right', right)
+        left_mins.append(min(left[:,3]))
+        right_maxs.append(max(right[:,3]))
+
+        if len(left_mins) == 20:
+            ave_left = np.mean(left_mins)
+            ave_right = np.mean(right_maxs)
+            ax1.text(-150, -150, 'left: '+str(ave_left))
+            ax1.text(-150, -160, 'right: '+str(ave_right))
+            offset = ave_left + ave_right
+            ax1.text(-150, -170, 'offset: '+str(offset))
+
+            ax1.text(-150, -180, 'left len: '+str(len(left)))
+            ax1.text(-150, -190, 'right len: '+str(len(right)))
+
+            left_mins.pop(-1)
+            right_maxs.pop(-1)
+
+
     return left, right
+
+def get_mode(ys):
+    '''get the mode of the last column of the scan, the y values. 
+       Then multiply by a ones array to get an array of the mode'''
+    # the slice [:,0] is to make this compatible with the mode function
+    return statistics.mode( list( ys[:, 0].astype(int) ) )*np.ones(len(ys[:, 0]))
+
+
+def get_scan_within_mode_tolerance(scan):
+    mode = scan[:, -1][0] # first value all of mode should be the same....
+    tolerance = 3.5
+    lower_bound = mode - tolerance
+    upper_bound = mode + tolerance
+
+    # return the part of the scan where the ys are both above the lower and below the upper
+    return scan[(scan[:, -2] > lower_bound) & (scan[:, -2] <= upper_bound)]
+
+def extract_web_from_roi(scan):
+    '''The web is the mode +/- a tolerance'''
 
 def find_edges_of_web(scan):
     '''instead of using an index we will 
@@ -84,36 +131,46 @@ def find_edges_of_web(scan):
     discontinuity in order to keep the data aligned'''
     scan = clear_out_zero_distances(scan)
 
-    #scan = smooth_scan(scan)
+    scan = get_scan_roi(scan)
 
     xs = get_xs(scan)
+
     ys = get_ys(scan)
-    
-    diffs = get_abs_diffs(scan)
 
-    scan = np.column_stack([scan, diffs, xs, ys])
+    mode = get_mode(ys) # mode as an int
 
-    left, right = extract_left_and_right_sides(scan)
-    
-    right_edge = right[np.argmax(right[:, 3])+1] # this plus 1 is added due to how the differences are calculated
-    right_x = right_edge[-2]
-    right_y = right_edge[-1]
+    # deg dist q xs ys mode
+    scan = np.column_stack([scan, xs, ys, mode])
+    print("scan", scan)
+
+    web_scan = get_scan_within_mode_tolerance(scan)
 
 
-    left_edge = left[np.argmax(left[:, 3])]
-    left_x = left_edge[-2]
-    left_y = left_edge[-1]
+    print("web", web_scan)
+    offset = get_x_offset(web_scan)
 
 
-    ax1.scatter(right_x,right_y)
-    ax1.scatter(left_x, left_y)
+    ax1.scatter(web_scan[:, -3], web_scan[:, -2], label='web')
 
-    ax1.plot([0, right_x], [0, right_y], '--', linewidth=2)
-    ax1.plot([0, left_x], [0, left_y], '--', linewidth=2)
-    percent = (left_y+right_y)/left_y-right_y - 50.0
-    print(percent)
-    ax1.text(-150, -150, str(percent))
-    return percent
+    #right_edge = right[np.argmax(right[:, 3])+1] # this plus 1 is added due to how the differences are calculated
+    #right_x = right_edge[-2] # next to last column of row that represents the edge
+    #right_y = right_edge[-1] # last column
+
+
+
+    #left_edge = left[np.argmax(left[:, 3])]
+    #left_x = left_edge[-2]
+    #left_y = left_edge[-1]
+
+
+    #ax1.scatter(right_x,right_y)
+    #ax1.scatter(left_x, left_y)
+    #ax1.plot([0, right_x], [0, right_y], '--', linewidth=2)
+    ##ax1.plot([0, left_x], [0, left_y], '--', linewidth=2)
+    ##percent = (left_y+right_y)/left_y-right_y - 50.0
+    #print(percent)
+    #ax1.text(-150, -150, str(percent))
+    #return percent
 
 
 
@@ -130,20 +187,20 @@ process = subprocess.Popen(
 
 fig1 = plt.figure(figsize=(10, 10))  # Increase figure size
 ax1 = fig1.add_subplot(111)
-
+left_mins = []
+right_maxs = []
 while True:
     try:
         scan = grab_scan()
-        if scan:
-            scan_array = scan_to_array(scan)
+        if len(scan) > 0:
             
-            find_edges_of_web(scan_array)
+            find_edges_of_web(scan)
 
-            show_me_the_data(scan_array)
-            input()            
+            show_me_the_data(scan)
+
+            input()
             ax1.clear()
 
-        #l, r = extract_left_and_right_sides(scan_array)
     except Exception as e:
         traceback.print_exc()
         process.send_signal(signal.SIGINT)
@@ -155,76 +212,3 @@ while True:
         process.wait()
         exit()
 
-try:
-    while True:
-        # Read a line of data from the process's stdout
-        line = process.stdout.readline()
-        line = line.strip()  
-
-        if 'theta' in line:
-            # Try to extract the relevant data (theta, Dist, and Q)
-            try:
-                
-                sync = float(re.search(r'sync:\s*([\d.]+)', line).group(1))
-
-                theta = float(re.search(r'theta:\s*([\d.]+)', line).group(1))
-                dist = float(re.search(r'Dist:\s*([\d.]+)', line).group(1))
-                q = float(re.search(r'Q:\s*([\d.]+)', line).group(1))
-                # it is known that theta = 0 is right in the front middle of the robot
-                # therefore theta 0 to 20 is the left side of the scan
-                # and 340 to 360 is the right side of the scan
-                x = (np.cos(np.radians(theta))*dist) # 90 is added to rotate the chart
-                y = (np.sin(np.radians(theta))*dist)
-                
-
-                ts.append(np.radians(theta))
-                ds.append(dist/1000.0)
-                if theta < 30.0:
-                    leftX.append(x)
-                    leftY.append(y)
-                if theta > 330.0:
-                    rightX.append(x)
-                    rightY.append(y)
-
-            except AttributeError:
-                pass  # In case the regular expression fails (ignores this line)
-
-        if 'S ' in line:
-            
-            ax1.clear()
-            ax1.set_xlim(-200.0, 200.0)  # Set a reasonable range for distances
-            ax1.set_ylim(-200.0, 200.0)  # Set a reasonable range for distances
-
-            ax1.scatter(0,0)
-            ax1.scatter(leftX, leftY)
-            ax1.scatter(rightX, rightY)
-            print(len(rightX))
-            print(len(leftX))
-            ax.clear()  # Clear previous plot
-            ax.set_rlim(0.0, .25)  # Set a reasonable range for distances
-            ax.set_theta_offset(np.pi / 2)  # Set theta = 0 at the top
-
-            ax.scatter(ts, ds)  # Plot the points
-            ax.set_title("Lidar Data (Polar Plot)")
-
-            # Display the plot with non-blocking update
-            plt.pause(0.1)  # Pause briefly to allow the plot to update
-            #plt.show()
-            # Reset the data after plotting
-            #input()
-
-            leftX.clear()
-            leftY.clear()
-            rightX.clear()
-            rightY.clear()
-            ts.clear()
-            ds.clear()
-            xs.clear()
-            ys.clear()
-
-except KeyboardInterrupt:
-    print("Process interrupted by user.")
-
-finally:
-    process.kill()  # Ensure the process is killed when the program ends
-    print("Process terminated.")
