@@ -6,16 +6,18 @@ import matplotlib
 import signal
 import traceback
 import statistics
+
+import time
 np.set_printoptions(suppress=True)
 plt.ion()
 
 
 
 def get_xs(scan):
-    return ( np.sin(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
+    return (np.sin(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
 
 def get_ys(scan):
-    return ( np.cos(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
+    return (np.cos(np.radians( scan[:,0])) * scan[:,1]).reshape(-1,1)
 
 
 def get_abs_diffs(scan):
@@ -24,6 +26,8 @@ def get_abs_diffs(scan):
 
 
 def show_me_the_data(scan):
+    # theta and dist
+    #ax.scatter(np.radians(scan[:,0]), scan[:,1])
 
     xs = get_xs(scan)
     ys = get_ys(scan)
@@ -31,6 +35,8 @@ def show_me_the_data(scan):
     ax1.set_xlim(-300.0, 300.0)  # Set a reasonable range for distances
     ax1.set_ylim(-300.0, 300.0)  # Set a reasonable range for distances
     ax1.scatter(0,0)
+
+    ax2.scatter(scan[:, 3], scan[:, 4],scan[:, 5])
 
     # draw roi
     for angle in [0.0, 30.0, 330.0]:
@@ -60,12 +66,6 @@ def grab_scan():
                 scan.append([theta, dist, q])
 
 
-def smooth_scan(scan):
-    kernel_size = 30
-    kernel = np.ones(kernel_size) / kernel_size
-    scan[:,0] = np.convolve(scan[:,0], kernel, mode='same')
-    scan[:,1] = np.convolve(scan[:,1], kernel, mode='same')
-    return scan
 
 def clear_out_zero_distances(scan):
     return scan[scan[:,1] > 0.0]
@@ -115,17 +115,17 @@ def get_mode(ys):
 
 def get_scan_within_mode_tolerance(scan):
     mode = scan[:, -1][0] # first value all of mode should be the same....
-    tolerance = 3.5
+    tolerance = 10.0
     lower_bound = mode - tolerance
     upper_bound = mode + tolerance
 
     # return the part of the scan where the ys are both above the lower and below the upper
-    return scan[(scan[:, -2] > lower_bound) & (scan[:, -2] <= upper_bound)]
+    return scan[(scan[:, -3] > lower_bound) & (scan[:, -3] <= upper_bound)]
 
 def extract_web_from_roi(scan):
     '''The web is the mode +/- a tolerance'''
 
-def find_edges_of_web(scan):
+def find_edges_of_web(scan, scan_num):
     '''instead of using an index we will 
     get the deg value next to the largest 
     discontinuity in order to keep the data aligned'''
@@ -139,18 +139,22 @@ def find_edges_of_web(scan):
 
     mode = get_mode(ys) # mode as an int
 
-    # deg dist q xs ys mode
-    scan = np.column_stack([scan, xs, ys, mode])
+    ts = np.ones(len(scan))*scan_num
+
+    # deg dist q xs ys ts mode
+    scan = np.column_stack([scan, xs, ys, ts, mode])
     print("scan", scan)
 
     web_scan = get_scan_within_mode_tolerance(scan)
 
 
+
     print("web", web_scan)
     offset = get_x_offset(web_scan)
 
+    return scan
 
-    ax1.scatter(web_scan[:, -3], web_scan[:, -2], label='web')
+    #ax1.scatter(web_scan[:, -3], web_scan[:, -2], label='web')
 
     #right_edge = right[np.argmax(right[:, 3])+1] # this plus 1 is added due to how the differences are calculated
     #right_x = right_edge[-2] # next to last column of row that represents the edge
@@ -184,22 +188,28 @@ process = subprocess.Popen(
     stderr=subprocess.PIPE,
     universal_newlines=True
 )
-
+#fig = plt.figure(figsize=(10,10))
+#ax = fig.add_subplot(projection='polar')
 fig1 = plt.figure(figsize=(10, 10))  # Increase figure size
 ax1 = fig1.add_subplot(111)
+fig2 = plt.figure(figsize=(10, 10))  # Increase figure size
+ax2 = fig2.add_subplot(projection='3d')
 left_mins = []
 right_maxs = []
+scans = []
+scan_num = 0
 while True:
     try:
         scan = grab_scan()
         if len(scan) > 0:
             
-            find_edges_of_web(scan)
+            scan = find_edges_of_web(scan, scan_num)
 
             show_me_the_data(scan)
-
+            time.sleep(0.1)
             input()
             ax1.clear()
+            scan_num += 1
 
     except Exception as e:
         traceback.print_exc()
