@@ -33,7 +33,7 @@ class Steering():
         self.i = 0.0
         self.d = 0.0
         self.set_point = 0.0
-        self.process_speed = 0.02 # m/s
+        self.process_speed = 0.00 # m/s
         
         self.pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         self.pid.sample_time = 0.1 # seconds
@@ -56,8 +56,11 @@ class Steering():
                 #if min(self.offset_deadband) < current_offset <= max(self.offset_deadband):
                 u = round(self.pid(current_offset), 8)
 
-                left_speed =  max(round(self.process_speed + u/2, 8), self.process_speed)
-                right_speed = max(round(self.process_speed - u/2, 8), self.process_speed)
+                ### left_speed =  max(round(self.process_speed + u/2, 8), self.process_speed)
+                ### right_speed = max(round(self.process_speed - u/2, 8), self.process_speed)
+
+                left_speed =  self.process_speed
+                right_speed = self.process_speed
 
                 #'angle: '+str(current_angle)+
                 self.logger.log.info(
@@ -71,6 +74,9 @@ class Steering():
                 await self.mcu_writes.put({"speed1": -1.0 * float(left_speed)})
                 await self.mcu_writes.put({"speed2":        float(right_speed)})
                 await self.mcu_writes.put({"speed3":        float(right_speed)})
+
+
+                
 
         except Exception as e:
             self.logger.log.info(e.__class__.__name__)

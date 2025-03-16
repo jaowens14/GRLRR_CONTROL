@@ -25,16 +25,16 @@ class CameraServer():
         self.images = queues.images
         self.angles = queues.angles
         self.offsets = queues.offsets
-        self.name = 'cam_0_'
-        self.mtx = np.loadtxt( self.name+'mtx.txt')
-        self.dist = np.loadtxt(self.name+'dist.txt')
+        #self.name = 'cam_0_'
+        #self.mtx = np.loadtxt( self.name+'mtx.txt')
+        #self.dist = np.loadtxt(self.name+'dist.txt')
 
 
 
-    def undistort(self, img):
-        dst = cv2.undistort(img, self.mtx, self.dist, None, self.newcameramtx)
-        x, y, w, h = self.undistorted_roi
-        return dst[y:y+h, x:x+w]
+    #def undistort(self, img):
+    #    dst = cv2.undistort(img, self.mtx, self.dist, None, self.newcameramtx)
+    #    x, y, w, h = self.undistorted_roi
+    #    return dst[y:y+h, x:x+w]
 
 
     def draw_line_with_end_points(self, image, points, color):
@@ -150,7 +150,7 @@ class CameraServer():
 
 
     def split_edges_into_left_and_right(self, edges, image):
-        h, w, _ = image.shape
+        h, w  = image.shape
         rights = edges[self.get_location(edges) > w//2] # right edges on the right side of the image
         lefts  = edges[self.get_location(edges) < w//2] # left edges on the left side of the image
         return lefts, rights
@@ -275,16 +275,16 @@ class CameraServer():
             success, initial_image = self.get_image(vidcap)
 
             # load calibration
-            self.newcameramtx, self.undistorted_roi = cv2.getOptimalNewCameraMatrix(
-            self.mtx, 
-            self.dist, 
-            (480,640), 
-            1, 
-            (480,640),
-            )
+            #self.newcameramtx, self.undistorted_roi = cv2.getOptimalNewCameraMatrix(
+            #self.mtx, 
+            #self.dist, 
+            #(480,640), 
+            #1, 
+            #(480,640),
+            #)
 
             gray_image = self.make_gray_image(initial_image)
-            gray_image = self.undistort(gray_image)
+            #gray_image = self.undistort(gray_image)
 
             self.c0.height, self.c0.width = gray_image.shape
 
@@ -298,7 +298,7 @@ class CameraServer():
 
                     gray_image = self.make_gray_image(initial_image)
 
-                    gray_image = self.undistort(gray_image)
+                    #gray_image = self.undistort(gray_image)
                     
                     print(gray_image.shape)
                     #input()

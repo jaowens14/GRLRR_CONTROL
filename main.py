@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     try:
         grlrr = Grlrr()
-        asyncio.run(grlrr.main(), debug=True)
+        asyncio.run(grlrr.main(), debug=False)
 
     except Exception as e:
         print(e.__class__.__name__)

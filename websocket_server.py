@@ -45,6 +45,7 @@ class WebsocketServer():
 
 
     async def consumer_handler(self, packet):
+        self.logger.log.info(packet)
         cmd = json.loads(packet)
         await self.commands.put(cmd)
         await self.responses.put(cmd)

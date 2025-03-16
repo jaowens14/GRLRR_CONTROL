@@ -1,5 +1,6 @@
 import redis
 
-class MyRedis():
-    def __init__(self: redis.Redis):
-        self.r = redis.Redis()
+
+redis_instance = redis.Redis(host='localhost', port=6379, decode_responses=True)
+
+

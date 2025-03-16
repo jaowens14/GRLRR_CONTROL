@@ -5,7 +5,6 @@ import json
 import asyncio
 from logger import Logger
 from queues import Queues
-from my_redis import MyRedis
 import traceback
 
 
@@ -88,6 +87,9 @@ class SerialServer():
     async def send(self):
         while True:
             msg = await self.mcu_writes.get()
+
+            self.logger.log.info(msg)
+
             self.mcu.write(('<'+json.dumps(msg)+'>').encode('ascii'))
 
     async def hb(self):
@@ -104,6 +106,6 @@ class SerialServer():
         while True:
             
             line = self.mcu.readline().decode('ascii')
-            #self.logger.log.info(line.strip('\n'))
+            self.logger.log.info(line.strip('\n'))
                 
             await asyncio.sleep(0)

@@ -62,7 +62,7 @@ class Ultrasonic():
         try:
             while True:
 
-                if self.num_bad_measurements > 20:
+                if self.num_bad_measurements > 20: # Is this correct? Shouldn't it be <?
                     print(self.num_bad_measurements)
                     distance = self.distance
                     print(distance)

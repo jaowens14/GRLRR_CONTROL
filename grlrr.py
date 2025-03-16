@@ -3,10 +3,9 @@ from log_server import LogServer
 from queues import Queues
 from websocket_server import WebsocketServer
 from serial_server import SerialServer
-from camera import CameraServer
+#from camera.camera import CameraServer
 from steering import Steering
 from ultrasonic import Ultrasonic
-from my_redis import MyRedis
 import asyncio 
 
 class Grlrr():
@@ -14,11 +13,10 @@ class Grlrr():
         # varibale and object creation and organization
         self.logger   = Logger()
         self.qs  = Queues()
-        #self.r   = MyRedis()
         self.log_server = LogServer( logger=self.logger)
         self.wss = WebsocketServer(  logger=self.logger, queues=self.qs)
         self.ss = SerialServer(      logger=self.logger, queues=self.qs)
-        self.cs = CameraServer(      logger=self.logger, queues=self.qs)
+        #self.cs = CameraServer(logger=self.logger, queues=self.qs)
         self.steering = Steering(    logger=self.logger, queues=self.qs)
         self.ultrasonic = Ultrasonic(logger=self.logger, queues=self.qs)
         self.logger.log.info("grlrr init")
@@ -56,6 +54,9 @@ class Grlrr():
                 quit()
             case 'initialize_robot':
                 print('some init')
+            case 'set_speed':
+                print('set speed')
+                self.steering.process_speed = param
             case 'start_process':
                 print('started process')
                 self.steering_setup.cancel()
