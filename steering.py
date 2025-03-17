@@ -26,8 +26,8 @@ class Steering():
         self.logger = logger
         self.mode = ''
         self.mcu_writes = queues.mcu_writes
-        self.angles = queues.angles
-        self.offsets = queues.offsets
+        self.angles = 0
+        self.offsets = 0
         self.steering = True
         self.p = 0.1
         self.i = 0.0

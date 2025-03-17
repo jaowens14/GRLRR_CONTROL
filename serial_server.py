@@ -97,15 +97,24 @@ class SerialServer():
             await self.mcu_writes.put({"hb": 1})
             await asyncio.sleep(0.75)
 
-    def parse_dict(self, msg_dict):
-        if 'distance' in msg_dict.keys():
-            self.distance = msg_dict['distance']
+    async def parse_dict(self, msg_dict):
+        if 'distance' in msg_dict:
+            await self.distance.put(msg_dict['distance'])
 
 
     async def receive(self):
         while True:
-            
-            line = self.mcu.readline().decode('ascii')
-            self.logger.log.info(line.strip('\n'))
-                
+
+            line = self.mcu.readline().decode('ascii').strip()
+            try:
+                msg_dict = json.loads(line)
+                # Process the incomingmessagand update distance if available
+
+                if 'distance' in msg_dict:
+                    # Instead of overwriting, push the new distance onto the queue.
+
+                    await self.distance.put(msg_dict['distance'])
+                    self.logger.log.info(f"New sensor distance: {msg_dict['distance']}")
+            except Exception as e:
+                self.logger.log.error(f"Error parsing serial data: {e}")
             await asyncio.sleep(0)

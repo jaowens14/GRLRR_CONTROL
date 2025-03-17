@@ -16,10 +16,10 @@ import time
 
 
 class Ultrasonic():
-    def __init__(self, logger:Logger, queues:Queues):
+    async def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
-        self.distance = queues.distance
+        self.distance = await queues.distance
         self.num_bad_measurements = 0
         self.p = 1.5
         self.i = 0.0
@@ -29,18 +29,14 @@ class Ultrasonic():
         self.current_speed = 0.0
         self.current_distance = 0.0
         self.delta_speed = 0.0
-        self.tolerance = 3; # 2 mm
+        self.tolerance = 3 # 2 mm
         # ultrasonic pid
         self.pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         self.pid.sample_time = 0.1 # seconds
         self.pid.setpoint = 100 # mm
-
         self.lower_limit = self.pid.setpoint - self.tolerance
         self.upper_limit = self.pid.setpoint + self.tolerance
-
         self.correction_deadband = (self.lower_limit, self.upper_limit)
-
-
         self.pid.output_limits = (-0.005, 0.005) # the speed should not increase or decrease more than 0.005 m/s per second
 
 
@@ -52,7 +48,7 @@ class Ultrasonic():
         if 45 <= distance < 200:
             return distance
         else:
-            #self.num_bad_measurements += 1
+            self.num_bad_measurements += 1
             print(self.num_bad_measurements)
             return self.pid.setpoint
         
@@ -62,10 +58,10 @@ class Ultrasonic():
         try:
             while True:
 
-                if self.num_bad_measurements > 20: # Is this correct? Shouldn't it be <?
-                    print(self.num_bad_measurements)
+                if self.num_bad_measurements < 20: 
+                    print(f"Bad Measurments = {self.num_bad_measurements}")
                     distance = self.distance
-                    print(distance)
+                    print(f"Distance = {distance}")
                     self.current_distance = self.ignore_bad_measurements(distance)
 
                     # if the robot is within the tolerance then don't adjust the speed

@@ -8,10 +8,10 @@ from queues import Queues
 class WebsocketServer():
     def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
-        self.images = queues.images
+        #self.images = queues.images
         self.commands = queues.commands
-        self.angles    = queues.angles
-        self.offsets   = queues.offsets
+        #self.angles    = queues.angles
+        #self.offsets   = queues.offsets
         self.responses = queues.responses
         self.mcu_reads = queues.mcu_reads
         self.mcu_writes = queues.mcu_writes
@@ -26,7 +26,7 @@ class WebsocketServer():
     async def connection_handler(self, websocket):
         await asyncio.gather(
             self.consumer(websocket),
-            self.image_producer(websocket),
+            #self.image_producer(websocket),
             self.response_producer(websocket),
         )
         self.shutdown_event.set()
@@ -51,13 +51,13 @@ class WebsocketServer():
         await self.responses.put(cmd)
 
 
-    async def image_producer(self, websocket):
-        while True:
-            image = await self.images.get()
+    #async def image_producer(self, websocket):
+        #while True:
+            #image = await self.images.get()
             #angle = await self.angles.get()
             #offset = await self.offsets.get()
             
-            await websocket.send(json.dumps({'image': image}))
+            #await websocket.send(json.dumps({'image': image}))
 
 
     async def response_producer(self, websocket):
