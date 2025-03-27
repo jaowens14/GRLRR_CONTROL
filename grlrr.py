@@ -74,6 +74,7 @@ class Grlrr():
                 print('stopped process')
                 #self.steering_task.cancel()
                 #self.ultrasonic_task.cancel()
+                self.motor_test_task.cancel()
 
             case None:
                 return
