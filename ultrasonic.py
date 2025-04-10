@@ -16,10 +16,10 @@ import time
 
 
 class Ultrasonic():
-    async def __init__(self, logger:Logger, queues:Queues):
+    def __init__(self, logger:Logger, queues:Queues):
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
-        self.distance = await queues.distance
+        self.distance_queue = queues.distance
         self.num_bad_measurements = 0
         self.p = 1.5
         self.i = 0.0
@@ -30,10 +30,11 @@ class Ultrasonic():
         self.current_distance = 0.0
         self.delta_speed = 0.0
         self.tolerance = 3 # 2 mm
+
         # ultrasonic pid
         self.pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
         self.pid.sample_time = 0.1 # seconds
-        self.pid.setpoint = 100 # mm
+        self.pid.setpoint = 59 # mm
         self.lower_limit = self.pid.setpoint - self.tolerance
         self.upper_limit = self.pid.setpoint + self.tolerance
         self.correction_deadband = (self.lower_limit, self.upper_limit)
@@ -45,7 +46,7 @@ class Ultrasonic():
 
     def ignore_bad_measurements(self, distance):
         # since the sensor can only read between 40 and 300 we need to account for that.
-        if 45 <= distance < 200:
+        if 45 < distance < 200:
             return distance
         else:
             self.num_bad_measurements += 1
@@ -60,7 +61,7 @@ class Ultrasonic():
 
                 if self.num_bad_measurements < 20: 
                     print(f"Bad Measurments = {self.num_bad_measurements}")
-                    distance = self.distance
+                    distance = await self.distance_queue.get()
                     print(f"Distance = {distance}")
                     self.current_distance = self.ignore_bad_measurements(distance)
 
@@ -86,9 +87,14 @@ class Ultrasonic():
                 await self.mcu_writes.put({"speed2":        float(self.process_speed)})
                 await self.mcu_writes.put({"speed3":        float(self.process_speed)})
 
+                await asyncio.sleep(0.1)
+
         except asyncio.CancelledError:
             self.logger.log.info("ultrasonic cancelled")
             self.mcu_writes.put_nowait({"speed0": -1.0 *  float(0.0)})
             self.mcu_writes.put_nowait({"speed1": -1.0 *  float(0.0)})
             self.mcu_writes.put_nowait({"speed2":        float(0.0)})
             self.mcu_writes.put_nowait({"speed3":        float(0.0)})
+
+        except Exception as e:
+            self.logger.log.error(f"Error to ultrasonic run: {e}")

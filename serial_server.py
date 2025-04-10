@@ -108,13 +108,17 @@ class SerialServer():
             line = self.mcu.readline().decode('ascii').strip()
             try:
                 msg_dict = json.loads(line)
-                # Process the incomingmessagand update distance if available
+                # Process the incoming message and update distance if available
 
                 if 'distance' in msg_dict:
                     # Instead of overwriting, push the new distance onto the queue.
-
                     await self.distance.put(msg_dict['distance'])
                     self.logger.log.info(f"New sensor distance: {msg_dict['distance']}")
+            
+            except json.JSONDecodeError as e:
+                self.logger.log.error(f"JSON decode error: {e} - Raw data: {line}")
+            
             except Exception as e:
-                self.logger.log.error(f"Error parsing serial data: {e}")
+                self.logger.log.error(f"Error parsing serial data: {e} - Raw data: {line}")
+            
             await asyncio.sleep(0)
