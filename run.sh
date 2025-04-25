@@ -1,4 +1,3 @@
-
 source .venv/bin/activate
 
 connection_name=$(nmcli -g name connection show | head -1)
@@ -11,4 +10,4 @@ else
 fi
 
 echo "Starting..."
-python main.py
+sudo -E env "PATH=$PATH" python main.py

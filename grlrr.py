@@ -3,11 +3,9 @@ from log_server import LogServer
 from queues import Queues
 from websocket_server import WebsocketServer
 from serial_server import SerialServer
-#from camera.camera import CameraServer
-#from steering import Steering
 #from ultrasonic import Ultrasonic
 #from motor_test import MotorTest
-from actuator_test import ActuatorTest
+from actuator import Actuator
 import asyncio 
 
 class Grlrr():
@@ -18,11 +16,9 @@ class Grlrr():
         self.log_server = LogServer(logger=self.logger)
         self.wss = WebsocketServer(logger=self.logger, queues=self.qs)
         self.ss = SerialServer(logger=self.logger, queues=self.qs)
-        #self.cs = CameraServer(logger=self.logger, queues=self.qs)
-        #self.steering = Steering(logger=self.logger, queues=self.qs)
         #self.ultrasonic = Ultrasonic(logger=self.logger, queues=self.qs)
         #self.motor_test = MotorTest(logger=self.logger, queues=self.qs)
-        self.actuator_test = ActuatorTest(logger=self.logger, queues=self.qs)
+        self.actuator = Actuator(logger=self.logger, queues=self.qs)
 
         self.logger.log.info("grlrr init")
         self.cmd = 'initialize_robot'
@@ -36,7 +32,6 @@ class Grlrr():
         self.event_loop.create_task(self.wss.run())
         self.event_loop.create_task(self.ss.run())
         #self.event_loop.create_task(self.cs.run())
-        #self.steering_setup = self.event_loop.create_task(self.steering.setup())
         #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
 
     def get_command(self):
@@ -62,21 +57,17 @@ class Grlrr():
           
             case 'set_speed':
                 print('set speed')
-                #self.steering.process_speed = param
-                self.ultrasonic.process_speed = param
+                #self.ultrasonic.process_speed = param
          
             case 'start_process':
                 print('started process')
-                #self.steering_setup.cancel()
-                #self.steering_task = self.event_loop.create_task(self.steering.run())
                 #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
                 #self.motor_test_task = self.event_loop.create_task(self.motor_test.test_motors())
-                self.actuator_test_task = self.event_loop.create_task(self.actuator_test.test_actuators())
+                self.actuator_test_task = self.event_loop.create_task(self.actuator.test_actuators())
 
             case 'stop_process':
                 print('stopped process')
-                #self.steering_task.cancel()
-                #elf.ultrasonic_task.cancel()
+                #self.ultrasonic_task.cancel()
                 #self.motor_test_task.cancel()
                 self.actuator_test_task.cancel()
 

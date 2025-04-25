@@ -104,21 +104,27 @@ class SerialServer():
 
     async def receive(self):
         while True:
-
-            line = self.mcu.readline().decode('ascii').strip()
             try:
+                line = self.mcu.readline().decode('ascii').strip()
                 msg_dict = json.loads(line)
-                # Process the incoming message and update distance if available
+                # Debug log the received message
+                self.logger.log.info(f"Received: {msg_dict}")
 
                 if 'distance' in msg_dict:
-                    # Instead of overwriting, push the new distance onto the queue.
                     await self.distance.put(msg_dict['distance'])
                     self.logger.log.info(f"New sensor distance: {msg_dict['distance']}")
-            
+
+                """
+                # Check for actuator feedback or status messages
+                if 'feedback' in msg_dict or 'status' in msg_dict:
+                    # You might do additional filtering here if needed
+                    await self.mcu_reads.put(msg_dict)  # Or put it in feedback_reads if that’s intended
+                    # For clarity, if feedback responses should go to a dedicated queue:
+                    # await self.feedback_reads.put(msg_dict)
+                """
+
             except json.JSONDecodeError as e:
                 self.logger.log.error(f"JSON decode error: {e} - Raw data: {line}")
-            
             except Exception as e:
                 self.logger.log.error(f"Error parsing serial data: {e} - Raw data: {line}")
-            
             await asyncio.sleep(0)
