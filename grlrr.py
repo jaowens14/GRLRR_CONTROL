@@ -3,9 +3,10 @@ from log_server import LogServer
 from queues import Queues
 from websocket_server import WebsocketServer
 from serial_server import SerialServer
-#from ultrasonic import Ultrasonic
+from ultrasonic import Ultrasonic
 #from motor_test import MotorTest
-from actuator import Actuator
+#from actuator import Actuator
+#from ultrasonic_actuator_test import ultrasonic_controller, actuator_sequence_controller
 import asyncio 
 
 class Grlrr():
@@ -16,12 +17,15 @@ class Grlrr():
         self.log_server = LogServer(logger=self.logger)
         self.wss = WebsocketServer(logger=self.logger, queues=self.qs)
         self.ss = SerialServer(logger=self.logger, queues=self.qs)
-        #self.ultrasonic = Ultrasonic(logger=self.logger, queues=self.qs)
+        self.ultrasonic = Ultrasonic(logger=self.logger, queues=self.qs)
         #self.motor_test = MotorTest(logger=self.logger, queues=self.qs)
-        self.actuator = Actuator(logger=self.logger, queues=self.qs)
+        #self.actuator = Actuator(logger=self.logger, queues=self.qs)
 
         self.logger.log.info("grlrr init")
         self.cmd = 'initialize_robot'
+
+        self.integration_tasks = []
+        self.first_valid_event = asyncio.Event()
 
     def setup(self):
         
@@ -32,7 +36,10 @@ class Grlrr():
         self.event_loop.create_task(self.wss.run())
         self.event_loop.create_task(self.ss.run())
         #self.event_loop.create_task(self.cs.run())
-        #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
+        self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
+
+        #Immediately deploy actuator 0 to 5v
+        #self.event_loop.create_task(self.actuator.set_actuator_voltage(0,5))
 
     def get_command(self):
         try:
@@ -57,19 +64,30 @@ class Grlrr():
           
             case 'set_speed':
                 print('set speed')
-                #self.ultrasonic.process_speed = param
+                self.ultrasonic.process_speed = param
          
             case 'start_process':
                 print('started process')
-                #self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
+                self.ultrasonic_task = self.event_loop.create_task(self.ultrasonic.run())
                 #self.motor_test_task = self.event_loop.create_task(self.motor_test.test_motors())
-                self.actuator_test_task = self.event_loop.create_task(self.actuator.test_actuators())
+                #self.actuator_test_task = self.event_loop.create_task(self.actuator.test_actuators())
+                
+                #self.integration_tasks.append(
+                #    self.event_loop.create_task(ultrasonic_controller(self.ultrasonic, self.first_valid_event))
+                #)
+                #self.integration_tasks.append(
+                #    self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.first_valid_event, self.logger))
+                #)
 
             case 'stop_process':
                 print('stopped process')
-                #self.ultrasonic_task.cancel()
+                self.ultrasonic_task.cancel()
                 #self.motor_test_task.cancel()
-                self.actuator_test_task.cancel()
+                #self.actuator_test_task.cancel()
+                
+                #for task in self.integration_tasks:
+                #    task.cancel()
+                #self.integration_tasks.clear()
 
             case None:
                 return

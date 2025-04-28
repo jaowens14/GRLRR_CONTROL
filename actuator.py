@@ -62,15 +62,20 @@ class Actuator:
         """A test routine that sets each actuator to a voltage, waits, then resets it to 0."""
         try:
             #Use the number of actuators you want to support in range(n), where n = # of actuators
-            for actuator_index in range(2):
+            for actuator_index in range(3):
                 self.logger.log.info(f"Testing actuator {actuator_index}")
-                response = await self.set_actuator_voltage(actuator_index, 2.5)
+
+                #Set actuator to 5V
+                response = await self.set_actuator_voltage(actuator_index, 5.0)
+                #response = await self.set_actuator_voltage(actuator_index, 5.0)
                 self.logger.log.info(f"Response after sending actuator {actuator_index} to 2.5V: {response}")
+                await asyncio.sleep(2) #Allow time for the actuator to respond.
 
-                await asyncio.sleep(5) #Allow time for the actuator to respond.
-
+                #Set actuator to 0v
                 response = await self.set_actuator_voltage(actuator_index, 0.0)
                 self.logger.log.info(f"Response after resetting actuator {actuator_index} to 0.0V: {response}")
+                await asyncio.sleep(2) #Allow time for the actuator to respond.
+
             self.logger.log.info("All actuators tested successfully")
         except Exception as e:
             self.logger.log.error(f"Error during actuator testing: {e}")

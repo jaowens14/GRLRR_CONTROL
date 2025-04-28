@@ -79,7 +79,11 @@ class SerialServer():
         self.mcu = self.connect_serial(self.detect_serial())
         if self.mcu:
             self.clear_serial()
-            await asyncio.gather(self.send(), self.receive(), self.hb())
+
+            #Temporarily removed the heartbeat message.
+            await asyncio.gather(self.send(), self.receive())
+
+            #await asyncio.gather(self.send(), self.receive(), self.hb())
         else:
             self.logger.log.info("Unable to connect to serial device. Exiting...")
             quit()
