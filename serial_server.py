@@ -14,12 +14,22 @@ class SerialServer():
         self.mcu_reads = queues.mcu_reads
         self.mcu_writes = queues.mcu_writes
         self.distance = queues.distance
+        self.feedback_reads = queues.feedbackSignals
+
+
         # self.mcu_writes.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
         self.mcu_writes.put_nowait({"start_serial":      1})
         self.mcu_writes.put_nowait({"speed0": -1.0 * float(0.0)})
         self.mcu_writes.put_nowait({"speed1": -1.0 * float(0.0)})
         self.mcu_writes.put_nowait({"speed2":        float(0.0)})
         self.mcu_writes.put_nowait({"speed3":        float(0.0)})
+
+        # Initializat actuators
+        self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 0, 'voltage': 0})
+        self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 1, 'voltage': 0})
+        self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 2, 'voltage': 0})
+
+
         self.mcu = None
 
     def detect_serial(self, preferred_list=['*']):
@@ -92,9 +102,12 @@ class SerialServer():
         while True:
             msg = await self.mcu_writes.get()
 
-            self.logger.log.info(msg)
+            self.logger.log.info(f"Sending: {msg}")
 
-            self.mcu.write(('<'+json.dumps(msg)+'>').encode('ascii'))
+            try:
+                self.mcu.write(('<'+json.dumps(msg)+'>').encode('ascii'))
+            except Exception as e:
+                self.logger.log.error(f"Error sending data: {e}")
 
     async def hb(self):
         while True:
@@ -111,12 +124,19 @@ class SerialServer():
             try:
                 line = self.mcu.readline().decode('ascii').strip()
                 msg_dict = json.loads(line)
+
                 # Debug log the received message
                 self.logger.log.info(f"Received: {msg_dict}")
-
+                
+                # Handle distance sensor updates
                 if 'distance' in msg_dict:
                     await self.distance.put(msg_dict['distance'])
                     self.logger.log.info(f"New sensor distance: {msg_dict['distance']}")
+
+                # Handle actuator feedback updates
+                if 'feedback' in msg_dict:
+                    await self.feedback_reads.put(msg_dict)
+                    self.logger.log.info(f"Actuator {msg_dict['channel']} feedback: {msg_dict['feedback']}")
 
                 """
                 # Check for actuator feedback or status messages

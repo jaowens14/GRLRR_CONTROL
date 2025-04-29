@@ -21,20 +21,20 @@ class Ultrasonic():
         self.mcu_writes = queues.mcu_writes
         self.distance_queue = queues.distance
         self.num_bad_measurements = 0
-        self.p = 1.5
-        self.i = 0.0
-        self.d = 0.0
+        self.p = 3.5
+        self.i = 0.3
+        self.d = 0.08
         self.set_point = 0.0
         self.process_speed = 0.02
         self.current_speed = 0.0
         self.current_distance = 0.0
         self.delta_speed = 0.0
-        self.tolerance = 3 # 2 mm
+        self.tolerance = 2 # 2 mm
 
         # ultrasonic pid
         self.pid = PID(Kp=self.p, Ki=self.i, Kd=self.d, setpoint=self.set_point)
-        self.pid.sample_time = 0.1 # seconds
-        self.pid.setpoint = 65 # mm
+        self.pid.sample_time = 0.05 # seconds
+        self.pid.setpoint = 70 # mm
         self.lower_limit = self.pid.setpoint - self.tolerance
         self.upper_limit = self.pid.setpoint + self.tolerance
         self.correction_deadband = (self.lower_limit, self.upper_limit)
@@ -46,7 +46,7 @@ class Ultrasonic():
 
     def ignore_bad_measurements(self, distance):
         # since the sensor can only read between 40 and 300 we need to account for that.
-        if 45 < distance < 200:
+        if 45 < distance < 250:
             return distance
         else:
             self.num_bad_measurements += 1
@@ -59,7 +59,7 @@ class Ultrasonic():
         try:
             while True:
 
-                if self.num_bad_measurements < 20: 
+                if self.num_bad_measurements < 50: 
                     print(f"Bad Measurments = {self.num_bad_measurements}")
                     distance = await self.distance_queue.get()
                     print(f"Distance = {distance}")
@@ -87,7 +87,7 @@ class Ultrasonic():
                 await self.mcu_writes.put({"speed2":        float(self.process_speed)})
                 await self.mcu_writes.put({"speed3":        float(self.process_speed)})
 
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)
 
         except asyncio.CancelledError:
             self.logger.log.info("ultrasonic cancelled")

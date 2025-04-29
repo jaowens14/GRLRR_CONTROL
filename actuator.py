@@ -45,7 +45,7 @@ class Actuator:
 
     async def set_actuator_voltage(self, actuator_index: int, voltage: float) -> str:
         """Send a command to set the specified actuator voltage and return the response"""
-        command = f"set {actuator_index} {voltage}"
+        command = f"set {actuator_index} {voltage}\n"
         return await self.send_command(command)
     
     async def get_actuator_state(self) -> str:

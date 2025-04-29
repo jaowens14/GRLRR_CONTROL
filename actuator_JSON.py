@@ -4,7 +4,7 @@ from logger import Logger
 from queues import Queues
 
 class Actuator:
-    def __init__(self, logger: Logger, queues: Queues, i2c_bus=1, dac_address=0x60, adc_address=0x48):
+    def __init__(self, logger: Logger, queues: Queues):
         """Initialize Actuator wrapper with I2C bus, logger, and queues."""
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
@@ -32,7 +32,7 @@ class Actuator:
         feedback_voltage = None
         try:
             while feedback_voltage is None:
-                msg = await asyncio.wait_for(self.feedback_reads.get(), timeout=1.0)
+                msg = await asyncio.wait_for(self.feedback_reads.get(), timeout=2.0)
                 if msg.get("channel") == actuator_index:
                     feedback_voltage = msg.get("feedback")
         except asyncio.TimeoutError:
