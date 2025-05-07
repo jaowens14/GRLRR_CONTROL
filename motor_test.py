@@ -8,7 +8,7 @@ class MotorTest():
     def __init__(self, logger: Logger, queues: Queues):
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
-        self.test_speed = 0.5 # Set a reasonable test speed
+        self.test_speed = 1.0 # Set a reasonable test speed
 
     async def test_motors(self):
         try:
@@ -20,7 +20,7 @@ class MotorTest():
                 await self.mcu_writes.put(speed_command)
                 
                 #Wait to observe motor behavior
-                await asyncio.sleep(2) #Two seconds
+                await asyncio.sleep(8) #Two seconds
 
                 #Stop the motor
                 stop_command = {f"speed{motor_index}": 0.0}

@@ -1,6 +1,7 @@
 import asyncio
 from actuator_JSON import Actuator
 from ultrasonic import Ultrasonic
+from encoder import Encoder
 from logger import Logger
 from queues import Queues
 
@@ -18,7 +19,7 @@ async def ultrasonic_controller(ultrasonic: Ultrasonic, first_valid_event: async
                 distance = await ultrasonic.distance_queue.get()
 
             #Check if this measurment is valid (range 45 to 200mm)
-            if not first_valid_event.is_set() and 50 < distance < 100:
+            if not first_valid_event.is_set() and distance < 105:
                 first_valid_event.set()
                 ultrasonic.logger.log.info(f"First valid ultrasonic measurement received: {distance} mm")
 
@@ -55,7 +56,7 @@ async def ultrasonic_controller(ultrasonic: Ultrasonic, first_valid_event: async
     except Exception as e:
         ultrasonic.logger.log.error(f"Error in ultrasonic controller: {e}")
 
-async def actuator_sequence_controller(actuator: Actuator, first_valid_event: asyncio.Event, logger: Logger):
+async def actuator_sequence_controller(actuator: Actuator, encoder: Encoder, first_valid_event: asyncio.Event, logger: Logger):
     """
     Waits for the first valid ultrasonic measurment and then starts a timer:
         - After 25s, it sets actuator 0 to 0V and immediately sets actuator 1 to 5v
@@ -63,25 +64,35 @@ async def actuator_sequence_controller(actuator: Actuator, first_valid_event: as
     """
     try:
         #Set actuator 0 to 5.0v immediately 
-        await actuator.set_actuator_voltage(0, 5.0)
+        await actuator.set_actuator_voltage(0, 4.0)
 
-        #Wait for the ultrasonic sensor to capture its first valid measurment
-        await asyncio.wait_for(first_valid_event.wait(), timeout=120)
-        logger.log.info("First valid measurement detected. Starting actuator sequence timer")
+        #Flags to ensure each stage is triggered only once.
+        stage1_triggered = False
+        stage2_triggered = False
 
-        #Wait 25 seconds
-        await asyncio.sleep(10)
-        logger.log.info("25s elapsed: Switching actuator 1 on and actuator 0 off.")
-        await actuator.set_actuator_voltage(1, 5.0)
-        await asyncio.sleep(10)
-        await actuator.set_actuator_voltage(0, 0.0)
+        while True:
+            #Continously poll the encoder for its current position.
+            pos = await encoder.read_encoder()
+            logger.log.info(F"Current encoder position: {pos}")
 
-        #Wait 25 seconds
-        await asyncio.sleep(10)
-        logger.log.info("50s elapsed: Switching actuator 1 off and actuator 2 on.")
-        await actuator.set_actuator_voltage(2, 5.0)
-        await asyncio.sleep(10)
-        await actuator.set_actuator_voltage(1, 0.0)
+            #When the encoder surpasses 100, trigger stage 1. 
+            if not stage1_triggered and pos >=100:
+                stage1_triggered = True
+                logger.log.info("Encoder threshold 100 reached: Activating actuator 1 and deactivating actuator 0.")
+                await actuator.set_actuator_voltage(1, 4.0)
+                await asyncio.sleep(9)
+                await actuator.set_actuator_voltage(0, 0.0)
+
+            #When the encoder surpasses 1000, trigger stage 2.
+            if not stage2_triggered and pos >= 1000:
+                stage2_triggered = True
+                logger.log.info("Encoder threshold 1000 reached: Activating actuator 2 and deactivating actuator 1.")
+                await actuator.set_actuator_voltage(2, 4.0)
+                await asyncio.sleep(9)
+                await actuator.set_actuator_voltage(1, 0.0)
+
+            #Short pause before polling again
+            await asyncio.sleep(0.1)
 
     except asyncio.CancelledError:
         logger.log.info("actuation cancelled")

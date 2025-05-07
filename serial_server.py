@@ -15,6 +15,7 @@ class SerialServer():
         self.mcu_writes = queues.mcu_writes
         self.distance = queues.distance
         self.feedback_reads = queues.feedbackSignals
+        self.encoder_distance = queues.encoder_distance
 
 
         # self.mcu_writes.put_nowait({"msgtyp": "get", "device":"?", "motorSpeed":0})
@@ -24,7 +25,7 @@ class SerialServer():
         self.mcu_writes.put_nowait({"speed2":        float(0.0)})
         self.mcu_writes.put_nowait({"speed3":        float(0.0)})
 
-        # Initializat actuators
+        # Initialize actuators
         self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 0, 'voltage': 0})
         self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 1, 'voltage': 0})
         self.mcu_writes.put_nowait({'action': 'set_voltage', 'channel': 2, 'voltage': 0})
@@ -123,6 +124,7 @@ class SerialServer():
         while True:
             try:
                 line = self.mcu.readline().decode('ascii').strip()
+                self.logger.log.info(f"Raw serial line: {line}")
                 msg_dict = json.loads(line)
 
                 # Debug log the received message
@@ -135,18 +137,19 @@ class SerialServer():
 
                 # Handle actuator feedback updates
                 if 'feedback' in msg_dict:
-                    await self.feedback_reads.put(msg_dict)
+                    await self.feedback_reads.put(msg_dict['feedback'])
                     self.logger.log.info(f"Actuator {msg_dict['channel']} feedback: {msg_dict['feedback']}")
 
-                """
-                # Check for actuator feedback or status messages
-                if 'feedback' in msg_dict or 'status' in msg_dict:
-                    # You might do additional filtering here if needed
-                    await self.mcu_reads.put(msg_dict)  # Or put it in feedback_reads if that’s intended
-                    # For clarity, if feedback responses should go to a dedicated queue:
-                    # await self.feedback_reads.put(msg_dict)
-                """
+                # Handle encoder position updates
+                if 'encoder_distance' in msg_dict:
+                    await self.encoder_distance.put(msg_dict['encoder_distance'])
+                    self.logger.log.info(f"Encoder Position: {msg_dict['encoder_distance']}")
 
+                # Handle encoder reset confirmation
+                if 'status' in msg_dict and msg_dict['status'] == "Encoder Reset":
+                    await self.encoder_distance.put(msg_dict)
+                    self.logger.log.info("Encoder successfully reset.")
+                    
             except json.JSONDecodeError as e:
                 self.logger.log.error(f"JSON decode error: {e} - Raw data: {line}")
             except Exception as e:

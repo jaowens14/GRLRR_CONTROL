@@ -4,6 +4,7 @@ from queues import Queues
 from websocket_server import WebsocketServer
 from serial_server import SerialServer
 from ultrasonic import Ultrasonic
+#from encoder import Encoder
 #from motor_test import MotorTest
 from actuator_JSON import Actuator
 from ultrasonic_actuator_test import ultrasonic_controller, actuator_sequence_controller
@@ -20,6 +21,8 @@ class Grlrr():
         self.ultrasonic = Ultrasonic(logger=self.logger, queues=self.qs)
         #self.motor_test = MotorTest(logger=self.logger, queues=self.qs)
         self.actuator = Actuator(logger=self.logger, queues=self.qs)
+        #self.encoder = Encoder(logger=self.logger, queues=self.qs)
+
 
         self.logger.log.info("grlrr init")
         self.cmd = 'initialize_robot'
@@ -64,7 +67,7 @@ class Grlrr():
           
             case 'set_speed':
                 print('set speed')
-                self.ultrasonic.process_speed = param
+                #self.ultrasonic.process_speed = param
          
             case 'start_process':
                 print('started process')
@@ -76,6 +79,7 @@ class Grlrr():
                     self.event_loop.create_task(ultrasonic_controller(self.ultrasonic, self.first_valid_event))
                 )
                 self.integration_tasks.append(
+                    #self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.encoder, self.first_valid_event, self.logger))
                     self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.first_valid_event, self.logger))
                 )
 
