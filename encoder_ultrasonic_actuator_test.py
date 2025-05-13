@@ -41,6 +41,10 @@ async def ultrasonic_controller(ultrasonic: Ultrasonic):
 
     except asyncio.CancelledError:
         ultrasonic.logger.log.info("Ultrasonic controller cancelled")
+
+        #Send STOP command to the MCU
+        ultrasonic.mcu_writes.put_nowait({"action": "STOP"})
+
         #On cancellation, send zero speed commands to all drive motors.
         ultrasonic.mcu_writes.put_nowait({"speed0": -1.0 *  float(0.0)})
         ultrasonic.mcu_writes.put_nowait({"speed1": -1.0 *  float(0.0)})
@@ -90,9 +94,6 @@ async def actuator_sequence_controller(actuator: Actuator, encoder: Encoder, log
 
     except asyncio.CancelledError:
         logger.log.info("actuation cancelled")
-        await actuator.set_actuator_voltage(0, 0.0)
-        await actuator.set_actuator_voltage(1, 0.0)
-        await actuator.set_actuator_voltage(2, 0.0)
 
     except asyncio.TimeoutError:
         logger.log.warning("Ultrasonic validation timed out-actuatore sequence aborted.")
