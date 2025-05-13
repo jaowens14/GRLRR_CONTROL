@@ -27,9 +27,6 @@ class Grlrr():
         self.logger.log.info("grlrr init")
         self.cmd = 'initialize_robot'
 
-        #Event for first ultrasonic validation
-        self.first_valid_event = asyncio.Event()
-
         #Task tracking
         self.integration_tasks = []
 
@@ -75,11 +72,15 @@ class Grlrr():
                 #self.motor_test_task = self.event_loop.create_task(self.motor_test.test_motors())
                 #self.actuator_test_task = self.event_loop.create_task(self.actuator.test_actuators())
                 
+                #Reset the speed to 0.0 before starting
+                self.ultrasonic.process_speed = 0.0
+                self.ultrasonic.current_speed = 0.0
+
                 self.integration_tasks.append(
-                    self.event_loop.create_task(ultrasonic_controller(self.ultrasonic, self.first_valid_event))
+                    self.event_loop.create_task(ultrasonic_controller(self.ultrasonic))
                 )
                 self.integration_tasks.append(
-                    self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.encoder, self.first_valid_event, self.logger))
+                    self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.encoder, self.logger))
                     #self.event_loop.create_task(actuator_sequence_controller(self.actuator, self.first_valid_event, self.logger))
                 )
 

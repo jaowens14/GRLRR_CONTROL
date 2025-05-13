@@ -42,6 +42,10 @@ class Actuator:
         self.logger.log.info(f"Actuator {actuator_index} feedback: {feedback_voltage} V")
         return feedback_voltage
 
+    async def delayed_actuator_voltage(self, actuator_index, voltage, delay):
+        """Set actuator voltage after a delay."""
+        await asyncio.sleep(delay)
+        await self.set_actuator_voltage(actuator_index, voltage)
     
     async def test_actuators(self):
         """Test each actuator."""

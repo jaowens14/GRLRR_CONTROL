@@ -57,6 +57,10 @@ class Ultrasonic():
 
     async def run(self):
         try:
+            #Ensure motor speed is set to 0.0 before starting.
+            self.process_speed = 0.0
+            self.current_speed = 0.0
+            
             while True:
 
                 if self.num_bad_measurements < 50: 
