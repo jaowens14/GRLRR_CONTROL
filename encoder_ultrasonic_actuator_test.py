@@ -71,6 +71,7 @@ async def actuator_sequence_controller(actuator: Actuator, encoder: Encoder, fir
         stage2_triggered = False
 
         while True:
+
             #Continously poll the encoder for its current position.
             pos = await encoder.read_encoder()
             logger.log.info(F"Current encoder position: {pos}")
@@ -83,10 +84,10 @@ async def actuator_sequence_controller(actuator: Actuator, encoder: Encoder, fir
                 await asyncio.sleep(9)
                 await actuator.set_actuator_voltage(0, 0.0)
 
-            #When the encoder surpasses 1000, trigger stage 2.
-            if not stage2_triggered and pos >= 1000:
+            #When the encoder surpasses 500, trigger stage 2.
+            if not stage2_triggered and pos >= 500:
                 stage2_triggered = True
-                logger.log.info("Encoder threshold 1000 reached: Activating actuator 2 and deactivating actuator 1.")
+                logger.log.info("Encoder threshold 500 reached: Activating actuator 2 and deactivating actuator 1.")
                 await actuator.set_actuator_voltage(2, 4.0)
                 await asyncio.sleep(9)
                 await actuator.set_actuator_voltage(1, 0.0)

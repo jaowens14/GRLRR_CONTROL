@@ -12,27 +12,21 @@ class Encoder:
         """Initialize the Encoder wrapper with a logger and relevant queues."""
         self.logger = logger
         self.mcu_writes = queues.mcu_writes
-        self.encoder_queue = queues.encoder_reads
+        self.encoder_queue = queues.encoder_distance
+        self.current_encoder_value = 0
 
     async def read_encoder(self):
-        """Send a command to request the current encoder position and await the response"""
-        command = {"action": "read_encoder"}
-        await self.mcu_writes.put(command)
-        self.logger.log.info("Sent encoder read request.")
-
-        encoder_value = None
+        """Return the most recent encoder reading"""
         try:
-            #Wait for a numeric value response
-            while encoder_value is None:
-                msg = await asyncio.wait_for(self.encoder_queue.get(), timeout=2.0)
-                if isinstance(msg, (int, float)):
-                    encoder_value = msg
+            self.current_encoder_value = await asyncio.wait_for(self.encoder_queue.get(), timeout=2.0)
+            if self.current_encoder_value is None:
+                self.current_encoder_value = 0
         except asyncio.TimeoutError:
-            self.logger.log.error("Timeout waiting for encoder position")
-            return None
+            self.logger.log.error("Timeout waiting for encoder reading.")
+            self.current_encoder_value = 0
         
-        self.logger.log.info(f"Recieved encoder position: {encoder_value}")
-        return encoder_value
+        return self.current_encoder_value
+
     
     async def reset_encoder(self):
         """Send a command to reset the encoder and await for confirmation."""

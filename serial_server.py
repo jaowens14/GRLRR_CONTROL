@@ -115,20 +115,20 @@ class SerialServer():
             await self.mcu_writes.put({"hb": 1})
             await asyncio.sleep(0.75)
 
-    async def parse_dict(self, msg_dict):
-        if 'distance' in msg_dict:
-            await self.distance.put(msg_dict['distance'])
+    #async def parse_dict(self, msg_dict):
+    #    if 'distance' in msg_dict:
+    #        await self.distance.put(msg_dict['distance'])
 
 
     async def receive(self):
         while True:
             try:
                 line = self.mcu.readline().decode('ascii').strip()
-                self.logger.log.info(f"Raw serial line: {line}")
+                #self.logger.log.info(f"Raw serial line: {line}")
                 msg_dict = json.loads(line)
 
                 # Debug log the received message
-                self.logger.log.info(f"Received: {msg_dict}")
+                #self.logger.log.info(f"Received: {msg_dict}")
                 
                 # Handle distance sensor updates
                 if 'distance' in msg_dict:
